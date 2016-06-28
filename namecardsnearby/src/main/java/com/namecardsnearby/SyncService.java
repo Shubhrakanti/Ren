@@ -123,6 +123,19 @@ public class SyncService extends Service {
         updateRecyclerView();
     }
 
+    /** Remove card from uNameCardPairs
+     *
+     * @param c is card to remove
+     * @author Alvin Truong
+     * @date 6/27/2016
+     */
+    public static void removeReceivedCard( Card c ) {
+        if( uNameCardPairs.containsKey( c.getUname() ) ) {
+            uNameCardPairs.remove(c.getUname());
+            updateRecyclerView();
+        }
+    }
+
     private void requestServer() {
         //depends on the implementation of the server
         //Log.e("GPS", "final gps value is " + currentLocation.toString());
@@ -157,12 +170,19 @@ public class SyncService extends Service {
         c.setmSaved(true);
         savedUnameCardPairs.put(c.getUname(), c);
         addStar(c);
+
+        // Remove card from received data structure
+        removeReceivedCard( c );
     }
 
     public static void removeSaved(Card c) {
         if (savedUnameCardPairs.containsKey(c.getUname())) {
             savedUnameCardPairs.remove(c.getUname());
-            removeStar(c);
+            //removeStar(c);
+
+            // Add card back into received data structure
+            c.setmSaved( false );
+            addNewCard( c );
         }
     }
 
