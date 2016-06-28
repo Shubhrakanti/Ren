@@ -45,6 +45,7 @@ public class SyncService extends Service {
     // User name and card pairs
     private static HashMap<String, Card> uNameCardPairs = new HashMap<>();
     private static HashMap<String, Card> savedUnameCardPairs = new HashMap<>();
+    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
     // Instance of LocalBinder
     private final IBinder myBinder = new LocalBinder();
     private PendingIntent pendingOff;
@@ -101,6 +102,10 @@ public class SyncService extends Service {
     public static List<Card> getReceivedCards() {
         return new ArrayList<>(uNameCardPairs.values());
     }
+
+    /** Returns a list of Cards used to setup CardAdapter for ignored cards.
+     */
+    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {

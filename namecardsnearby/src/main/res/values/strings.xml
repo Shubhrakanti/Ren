@@ -19,6 +19,7 @@
     <string-array name="tabs">
         <item>Received</item>
         <item>SAVED</item>
+        <item>Ignored</item>
     </string-array>
     <!-- On Off -->
     <string name="on_off_button">On/Off</string>

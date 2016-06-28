@@ -18,18 +18,38 @@ import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
     private List<Card> cards = Collections.emptyList();
+
+    // Adapter's row layout style
+    private final int layoutStyle;
     private LayoutInflater layoutInflater;
 
     private CardAdapter.ClickListener clickListener; // Implement the interface
 
-    public CardAdapter(Context context) {
+    public CardAdapter(Context context, int layoutStyle) {
         layoutInflater = LayoutInflater.from(context);
+        this.layoutStyle = layoutStyle;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // The root the custom layout
-        View view = layoutInflater.inflate(R.layout.custom_row, parent, false);
+        // Decide which custom row layout to use
+        View view;
+        switch( layoutStyle ) {
+            case TabFragment.RECEIVED_TAB_INT:
+                // The root the custom layout
+                view = layoutInflater.inflate(R.layout.custom_row, parent, false);
+                break;
+            case TabFragment.SAVED_TAB_INT:
+                // The root the custom layout
+                view = layoutInflater.inflate(R.layout.custom_row, parent, false);
+                break;
+            case TabFragment.IGNORED_TAB_INT:
+                view = layoutInflater.inflate(R.layout.ignored_row, parent, false );
+                break;
+            default:
+                // Guarantees we atleast have some layout to inflate.
+                view = layoutInflater.inflate(R.layout.custom_row, parent, false);
+        }
         // Inflate, then pass
         return new MyViewHolder(view);
         //return holder;

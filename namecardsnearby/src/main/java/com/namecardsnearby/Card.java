@@ -22,6 +22,7 @@ public class Card implements Serializable {
     private String mOther;
     private String mGender;
     private boolean mSaved = false;
+    private boolean mIgnored = false;
 
     public Card() {
         uName = "";
@@ -114,4 +115,9 @@ public class Card implements Serializable {
         this.mSaved = mSaved;
     }
 
+    public boolean ismIgnored() { return mIgnored; }
+
+    public void setmIgnored(boolean mIgnored) {
+        this.mIgnored = mIgnored;
+    }
 }
