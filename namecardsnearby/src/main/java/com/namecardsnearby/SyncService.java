@@ -45,7 +45,7 @@ public class SyncService extends Service {
     // User name and card pairs
     private static HashMap<String, Card> uNameCardPairs = new HashMap<>();
     private static HashMap<String, Card> savedUnameCardPairs = new HashMap<>();
-    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
+//    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
     // Instance of LocalBinder
     private final IBinder myBinder = new LocalBinder();
     private PendingIntent pendingOff;
@@ -105,7 +105,7 @@ public class SyncService extends Service {
 
     /** Returns a list of Cards used to setup CardAdapter for ignored cards.
      */
-    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
+//    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -124,9 +124,11 @@ public class SyncService extends Service {
     };
 
     public static void addNewCard(Card c) {
-        uNameCardPairs.put(c.getUname(), c);
-        removeStar( c );
-        updateRecyclerView();
+        if( !savedUnameCardPairs.containsKey( c.getUname() ) ) {
+            uNameCardPairs.put(c.getUname(), c);
+            removeStar( c );
+            updateRecyclerView();
+        }
     }
 
     /** Remove card from uNameCardPairs
@@ -142,30 +144,30 @@ public class SyncService extends Service {
         }
     }
 
-    /** Add card into ignoreUNameCardPairs
+   /* /** Add card into ignoreUNameCardPairs
      *
      * @param c is a card to add
      * @author Alvin Truong
      * @date   6/28/2016
-     */
     public static void addIgnoredCard( Card c ) {
         c.setmIgnored( true );
         ignoredUNameCardPairs.put( c.getUname(), c );
         updateRecyclerView();
     }
+     */
 
-    /** Remove card from ignored tab
+    /*/** Remove card from ignored tab
      *
      * @param c card to remove
      * @author Alvin Truong
      * @date 6/28/2016
-     */
     public static void removeIgnoredCard( Card c ) {
         if( ignoredUNameCardPairs.containsKey( c.getUname() ) ){
             ignoredUNameCardPairs.remove( c.getUname() );
             updateRecyclerView();
         }
     }
+     */
     private void requestServer() {
         //depends on the implementation of the server
         //Log.e("GPS", "final gps value is " + currentLocation.toString());
@@ -406,6 +408,10 @@ public class SyncService extends Service {
         }
     };
 
+    /** Generate a dialog fragment to confirm the ignoring of a user
+     *
+     */
+
     /**
      * Determines whether one Location reading is better than the current Location fix
      *
@@ -469,6 +475,6 @@ public class SyncService extends Service {
         List<Card> receivedCards = new ArrayList<>(uNameCardPairs.values());
         TabFragment.newReceivedCardAdapter.setCardList(receivedCards);
 
-        TabFragment.ignoredCardAdapter.setCardList( getIgnoredCards() );
+//        TabFragment.ignoredCardAdapter.setCardList( getIgnoredCards() );
     }
 }

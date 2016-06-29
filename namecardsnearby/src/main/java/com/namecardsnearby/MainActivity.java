@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
         mTabs.get().setDistributeEvenly(true);
         mTabs.get().setViewPager(mPager);
         mTabs.get().setBackgroundColor(getResources().getColor(R.color.primaryColor));
+        mPager.setCurrentItem( 1 );
 
         // Navigation
         // Pass toolbar to navigation drawer

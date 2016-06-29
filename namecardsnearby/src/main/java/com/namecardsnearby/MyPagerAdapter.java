@@ -3,10 +3,12 @@ package com.namecardsnearby;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 // Insert child to ViewPager
 public class MyPagerAdapter extends FragmentPagerAdapter {
     private final String tabText[];
+    private static int NUM_PAGER_ITEMS = 4;
 
     public MyPagerAdapter(android.support.v4.app.FragmentManager fm, Context c) {
         super(fm);
@@ -15,7 +17,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // Log.e("PagerAdapter", position + "");
+         Log.e("PagerAdapter", position + "");
         // Only called once
         return TabFragment.getInstance(position);
     }
@@ -27,6 +29,6 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return NUM_PAGER_ITEMS;
     }
 }

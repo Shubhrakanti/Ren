@@ -275,7 +275,8 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         String[] gps = myLocationStr.split(",");
         if( gps[0]!=null &&  gps[1]!=null) {
             myLocation.setLatitude(Double.parseDouble(gps[0]));
-            myLocation.setLatitude(Double.parseDouble(gps[1]));
+//            myLocation.setLatitude(Double.parseDouble(gps[1]));
+            myLocation.setLongitude(Double.parseDouble(gps[1]));
         }
 
         for (String s : rows) {

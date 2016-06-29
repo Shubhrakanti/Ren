@@ -43,9 +43,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                 // The root the custom layout
                 view = layoutInflater.inflate(R.layout.custom_row, parent, false);
                 break;
-            case TabFragment.IGNORED_TAB_INT:
+            /*case TabFragment.IGNORED_TAB_INT:
                 view = layoutInflater.inflate(R.layout.ignored_row, parent, false );
-                break;
+                break;*/
             default:
                 // Guarantees we atleast have some layout to inflate.
                 view = layoutInflater.inflate(R.layout.custom_row, parent, false);
@@ -89,10 +89,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         }
         //Log.e("For Card", currentCard.mName);
         //Log.e("For Card", holder.about.getText().toString());
-        if (currentCard.ismSaved()) {
-            holder.starButton.setImageResource(R.drawable.star_filled);
-        } else {
-            holder.starButton.setImageResource(R.drawable.star_outline);
+        if( holder.starButton != null ) {
+            if (currentCard.ismSaved()) {
+                holder.starButton.setImageResource(R.drawable.star_filled);
+            } else {
+                holder.starButton.setImageResource(R.drawable.star_outline);
+            }
         }
     }
 
@@ -111,7 +113,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         ImageView photo;
         ImageView gender;
         TextView about;
-        ImageButton starButton;
+        ImageButton starButton,
+                    ignoreButton;
+//                    unignoreButton;
         View itemFrame;
         Card clickedCard;
 
@@ -123,28 +127,45 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
             about = (TextView) itemView.findViewById(R.id.itemAboutMeOrEmailOrPhone);
             starButton = (ImageButton) itemView.findViewById(R.id.starButton);
+            ignoreButton = (ImageButton) itemView.findViewById(R.id.ignoreButton);
             itemFrame = itemView.findViewById(R.id.item_frame);
-            starButton.setOnClickListener(this);
+            if( starButton != null ) { starButton.setOnClickListener(this); }
+            if( ignoreButton != null ) { ignoreButton.setOnClickListener(this); }
+//            if( unignoreButton != null ) { unignoreButton.setOnClickListener(this); }
             itemFrame.setOnClickListener(this);
             about.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (view.getId() == starButton.getId()) {
+            if (starButton != null && view.getId() == starButton.getId()) {
                 clickedCard = cards.get(getAdapterPosition());
                 if (!clickedCard.ismSaved()) {
                     SyncService.addSaved(clickedCard);
+                    SyncService.removeReceivedCard(clickedCard);
                     //Toast.makeText(view.getContext(), view.getResources().getString(R.string.card_saved), Toast.LENGTH_SHORT).show();
                 } else {
                     SyncService.removeSaved(clickedCard);
+                    SyncService.addNewCard( clickedCard );
+
                     new UndoBar.Builder((Activity) view.getContext())
                             .setMessage(view.getContext().getResources().getString(R.string.card_removed))
                             .setListener(this)
                             .show();
                 }
 
-            } else {
+            } else if( ignoreButton != null && view.getId() == ignoreButton.getId() ) {
+                clickedCard = cards.get(getAdapterPosition());
+                SyncService.removeSaved(clickedCard);
+                SyncService.removeReceivedCard(clickedCard);
+//                SyncService.addIgnoredCard( clickedCard );
+            }
+//             else if( unignoreButton != null && view.getId() == unignoreButton.getId() ) {
+//                clickedCard = cards.get( getAdapterPosition() );
+//                SyncService.removeIgnoredCard( clickedCard );
+//                SyncService.addNewCard( clickedCard );
+//            }
+            else {
                 if (clickListener != null) {
                     Card clickedCard = cards.get(getAdapterPosition());
                     clickListener.itemClicked(view, clickedCard);
