@@ -125,6 +125,7 @@ public class SyncService extends Service {
 
     public static void addNewCard(Card c) {
         uNameCardPairs.put(c.getUname(), c);
+        removeStar( c );
         updateRecyclerView();
     }
 
@@ -141,6 +142,30 @@ public class SyncService extends Service {
         }
     }
 
+    /** Add card into ignoreUNameCardPairs
+     *
+     * @param c is a card to add
+     * @author Alvin Truong
+     * @date   6/28/2016
+     */
+    public static void addIgnoredCard( Card c ) {
+        c.setmIgnored( true );
+        ignoredUNameCardPairs.put( c.getUname(), c );
+        updateRecyclerView();
+    }
+
+    /** Remove card from ignored tab
+     *
+     * @param c card to remove
+     * @author Alvin Truong
+     * @date 6/28/2016
+     */
+    public static void removeIgnoredCard( Card c ) {
+        if( ignoredUNameCardPairs.containsKey( c.getUname() ) ){
+            ignoredUNameCardPairs.remove( c.getUname() );
+            updateRecyclerView();
+        }
+    }
     private void requestServer() {
         //depends on the implementation of the server
         //Log.e("GPS", "final gps value is " + currentLocation.toString());
@@ -175,19 +200,21 @@ public class SyncService extends Service {
         c.setmSaved(true);
         savedUnameCardPairs.put(c.getUname(), c);
         addStar(c);
+        updateRecyclerView();
 
         // Remove card from received data structure
-        removeReceivedCard( c );
+//        removeReceivedCard( c );
     }
 
     public static void removeSaved(Card c) {
         if (savedUnameCardPairs.containsKey(c.getUname())) {
             savedUnameCardPairs.remove(c.getUname());
-            //removeStar(c);
+//            removeStar(c);
 
             // Add card back into received data structure
-            c.setmSaved( false );
-            addNewCard( c );
+//            c.setmSaved( false );
+//            addNewCard( c );
+            updateRecyclerView();
         }
     }
 
@@ -441,5 +468,7 @@ public class SyncService extends Service {
         TabFragment.savedCardAdapter.setCardList(savedCards);
         List<Card> receivedCards = new ArrayList<>(uNameCardPairs.values());
         TabFragment.newReceivedCardAdapter.setCardList(receivedCards);
+
+        TabFragment.ignoredCardAdapter.setCardList( getIgnoredCards() );
     }
 }
