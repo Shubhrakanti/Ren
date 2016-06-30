@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean isBound = false;
     // Custom photo?
     private String userPhotoStr = "Default";
+
+    public static final AtomicReference<SlidingTabLayout> mTabs = new AtomicReference<>();
 
     // Gender
     private enum Gender {
@@ -100,10 +103,17 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(com.namecardsnearby.R.menu.menu_main, menu);
         // Bind is finished at this time
         MenuItem mi = menu.getItem(0);
+//        if (SyncService.serviceRunning) {
+//            mi.setIcon(R.drawable.onoff_green);
+//        } else {
+//            mi.setIcon(R.drawable.onoff_gray);
+//        }
+
+        // New Ren Icon for connect
         if (SyncService.serviceRunning) {
-            mi.setIcon(R.drawable.onoff_green);
+            mi.setIcon(R.drawable.ren_green);
         } else {
-            mi.setIcon(R.drawable.onoff_gray);
+            mi.setIcon(R.drawable.ren_white);
         }
         return true;
     }
@@ -299,16 +309,19 @@ public class MainActivity extends AppCompatActivity {
         //getSupportActionBar().setHomeButtonEnabled(true); // Show the return button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Return only one level.
         // tabs and pager
-        ViewPager mPager;
+        final ViewPager mPager;
+        MyPagerAdapter myPagerAdapter = new MyPagerAdapter( getSupportFragmentManager(), this );
         mPager = (ViewPager) findViewById(R.id.pager); // Pager is the area where recyclerview shows
-        mPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), this));
+        mPager.setAdapter(myPagerAdapter);
+        mPager.setCurrentItem( 0 );
 
-        AtomicReference<SlidingTabLayout> mTabs = new AtomicReference<>();
+
+
+//        final AtomicReference<SlidingTabLayout> mTabs = new AtomicReference<>();
         mTabs.set((SlidingTabLayout) findViewById(R.id.tabs));
         mTabs.get().setDistributeEvenly(true);
         mTabs.get().setViewPager(mPager);
         mTabs.get().setBackgroundColor(getResources().getColor(R.color.primaryColor));
-        mPager.setCurrentItem( 1 );
 
         // Navigation
         // Pass toolbar to navigation drawer
@@ -389,6 +402,15 @@ public class MainActivity extends AppCompatActivity {
 
                 spEditor.apply();
 
+                // On logout clear received and saved cards
+                SyncService.clearReceivedCards();
+                SyncService.clearSavedCards();
+
+                // Workaround for refreshing fragment and clearing tabs.
+//                mPager.setCurrentItem(0);
+//                mTabs.get().setViewPager( mPager );
+//                ((MyPagerAdapter)mTabs.get().getViewPager().getAdapter()).refreshTabs();
+
                 if ( SyncService.serviceRunning )
                     syncService.stopService();
                 Intent i = new Intent(getApplicationContext(), LogInActivity.class);
@@ -421,6 +443,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Card getMyCard() {
+        recoverNavigationDrawer();
         EditText editText = (EditText) findViewById(R.id.user_name);
         String name = editText.getText().toString();
 

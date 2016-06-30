@@ -55,4 +55,8 @@
     <!-- Location -->
     <string name="location_disabled">Enable location service</string>
     <string name="location_updating">Requesting location...</string>
+
+    <!-- Ignore Dialog -->
+    <string name="ignore_dialog_title"> Ignore User </string>
+    <string name="ignore_dialog_message"> Are you sure you want to ignore?</string>
 </resources>

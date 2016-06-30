@@ -2,7 +2,9 @@ package com.namecardsnearby;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Parcelable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +48,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             /*case TabFragment.IGNORED_TAB_INT:
                 view = layoutInflater.inflate(R.layout.ignored_row, parent, false );
                 break;*/
+            case TabFragment.HOME_TAB_INT:
+                // The root the custom layout
+                view = layoutInflater.inflate(R.layout.custom_row, parent, false);
+                break;
+            case TabFragment.MY_CARD_TAB_INT:
+                // The root the custom layout
+                view = layoutInflater.inflate(R.layout.custom_row, parent, false);
+                break;
             default:
                 // Guarantees we atleast have some layout to inflate.
                 view = layoutInflater.inflate(R.layout.custom_row, parent, false);
@@ -156,8 +166,27 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
             } else if( ignoreButton != null && view.getId() == ignoreButton.getId() ) {
                 clickedCard = cards.get(getAdapterPosition());
-                SyncService.removeSaved(clickedCard);
-                SyncService.removeReceivedCard(clickedCard);
+
+                // Ignore confirmation
+                AlertDialog.Builder ignoreConfirmationBuilder = new AlertDialog.Builder( view.getContext() );
+                ignoreConfirmationBuilder.setTitle(R.string.ignore_dialog_title );
+                ignoreConfirmationBuilder.setMessage( R.string.ignore_dialog_message );
+                ignoreConfirmationBuilder.setPositiveButton( "Yes", new DialogInterface.OnClickListener() {
+                   @Override
+                    public void onClick( DialogInterface dialog, int id ) {
+                       SyncService.removeSaved(clickedCard);
+                       SyncService.removeReceivedCard(clickedCard);
+                   }
+                });
+                ignoreConfirmationBuilder.setNegativeButton( "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick( DialogInterface dialog, int id ) {
+                        // Do nothing
+                    }
+                });
+
+                AlertDialog ignoreConfirmationDialog = ignoreConfirmationBuilder.create();
+                ignoreConfirmationDialog.show();
 //                SyncService.addIgnoredCard( clickedCard );
             }
 //             else if( unignoreButton != null && view.getId() == unignoreButton.getId() ) {

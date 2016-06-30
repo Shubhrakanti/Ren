@@ -108,8 +108,10 @@ public class LogInActivity extends AppCompatActivity {
     public void onBackPressed() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String is_logged_in = sp.getString( "Login uname", "" );
-        if( is_logged_in != null && !is_logged_in.equals("") )
+        if( is_logged_in != null && !is_logged_in.equals("") ) {
             super.onBackPressed();
+            ((MyPagerAdapter)MainActivity.mTabs.get().getViewPager().getAdapter()).refreshTabs();
+        }
     }
 
     @Override

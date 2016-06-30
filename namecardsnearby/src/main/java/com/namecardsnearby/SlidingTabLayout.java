@@ -144,6 +144,14 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     /**
+     * Returns ViewPager in order.
+     * @author Alvin Truong
+     */
+    public ViewPager getViewPager() {
+        return mViewPager;
+    }
+
+    /**
      * Create a default view to be used for tabs. This is called if a custom tab view is not set via
      * {@link #setCustomTabView(int, int)}.
      */

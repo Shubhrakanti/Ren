@@ -7,5 +7,6 @@
         android:orderInCategory="100"
         android:title="@string/on_off_button"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/onoff_gray"/>
+        android:icon="@drawable/ren_green"/>
+
 </menu>

@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -106,6 +107,13 @@ public class SyncService extends Service {
     /** Returns a list of Cards used to setup CardAdapter for ignored cards.
      */
 //    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
+
+    /** Static functions to clear HashMap data structures
+     *
+     */
+    public static void clearReceivedCards() { uNameCardPairs.clear(); }
+    public static void clearSavedCards() { savedUnameCardPairs.clear(); }
+//    public static void clearIgnoredCards() { ignoredUNameCardPairs.clear(); }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -291,12 +299,14 @@ public class SyncService extends Service {
     }
 
     private void buttonOn() {
-        menuItem.setIcon(R.drawable.onoff_green);
+//        menuItem.setIcon(R.drawable.onoff_green);
+        menuItem.setIcon(R.drawable.ren_green);
     }
 
     private void buttonOff() {
         if (menuItem != null)
-            menuItem.setIcon(R.drawable.onoff_gray);
+//            menuItem.setIcon(R.drawable.onoff_gray);
+            menuItem.setIcon(R.drawable.ren_white);
     }
 
     private void notificationOn() {
@@ -407,10 +417,6 @@ public class SyncService extends Service {
             // TODO Auto-generated method stub
         }
     };
-
-    /** Generate a dialog fragment to confirm the ignoring of a user
-     *
-     */
 
     /**
      * Determines whether one Location reading is better than the current Location fix
