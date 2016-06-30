@@ -1,4 +1,3 @@
-// Testing Merge
 package com.namecardsnearby;
 
 import android.content.Context;
