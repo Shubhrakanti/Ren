@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             syncService.menuItem = item;
             // current not sending/serviceRunning
             if (!SyncService.serviceRunning) {
-                Card c = getMyCard();
+                Card c = getMyCard( false );
                 if (c.getUname() == null || c.getUname().equals("")) {
                     return true;
                 }
@@ -381,11 +381,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BackgroundConn bckConn = new BackgroundConn(getApplicationContext());
                 // Register process needs modification
-                Card myCard = getMyCard();
+                Card myCard = getMyCard( true );
                 //String uName = BackgroundConn.USERNAME;
                 bckConn.execute("update_profile", myCard.getmName(), myCard.getmPhone(), myCard.getmEmail(), myCard.getmGender(),
                         myCard.getmFacebook(), myCard.getmInstagram(),
                         myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
+
+
+                // Updates My Card profile
+                ((MyPagerAdapter)MainActivity.mTabs.get().getViewPager().getAdapter()).refreshTabs();
                 Toast.makeText(getApplicationContext(), "Profile updated..", Toast.LENGTH_SHORT).show();
             }
         });
@@ -442,8 +446,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, PICK_CROP);
     }
 
-    public Card getMyCard() {
-        recoverNavigationDrawer();
+    public Card getMyCard(boolean toUpdate) {
+        if( !toUpdate )
+            recoverNavigationDrawer();
         EditText editText = (EditText) findViewById(R.id.user_name);
         String name = editText.getText().toString();
 

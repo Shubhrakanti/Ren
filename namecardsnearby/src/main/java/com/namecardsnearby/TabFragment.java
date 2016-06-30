@@ -30,6 +30,7 @@ public class TabFragment extends Fragment implements CardAdapter.ClickListener {
 
     public static CardAdapter newReceivedCardAdapter;
     public static CardAdapter savedCardAdapter;
+    private static Card myCard;
     //public static CardAdapter ignoredCardAdapter;
 
     public static TabFragment getInstance(int position) {
@@ -76,7 +77,7 @@ public class TabFragment extends Fragment implements CardAdapter.ClickListener {
                     Log.e("TabFragment", "Recreating MYCARDTAB");
                     layout = inflater.inflate( R.layout.my_card_details, container, false );
 
-                    final Card myCard = ((MainActivity)getActivity()).getMyCard();
+                    final Card myCard = ((MainActivity)getActivity()).getMyCard( true );
 
 
                     ImageView im = (ImageView) layout.findViewById(R.id.my_detail_photo);
@@ -186,4 +187,7 @@ public class TabFragment extends Fragment implements CardAdapter.ClickListener {
         i.putExtra("Card", card);
         startActivity(i);
     }
+
+    public void setMyCard( Card c ) { myCard = c; }
+
 }
