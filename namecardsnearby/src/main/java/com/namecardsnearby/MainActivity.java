@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private final String HOME_TAB_TAG = "HOME_TAB_TAG";
     private final String CONTACT_TAB_TAG = "CONTACT_TAB_TAG";
     private final String MYCARD_TAB_TAG = "MYCARD_TAB_TAG";
+    private int current_tab_position = 0;
 
     // Gender
     private enum Gender {
@@ -326,9 +328,21 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Return only one level.
 
         // Setup Fragment Tabhost
-        FragmentTabHost mainFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
+        final FragmentTabHost mainFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
         mainFragmentTabHost.setup( this, getSupportFragmentManager(), R.id.fragmentMainTabContent );
 
+        mainFragmentTabHost.setBackgroundColor(getResources().getColor(R.color.primaryColor) );
+
+        mainFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String s) {
+                for( int i = 0; i < mainFragmentTabHost.getTabWidget().getChildCount(); ++i ) {
+                    mainFragmentTabHost.getTabWidget().getChildAt(i).setBackgroundColor( getResources().getColor(R.color.primaryColor) );
+                }
+
+                mainFragmentTabHost.getCurrentTabView().setBackgroundColor( getResources().getColor( R.color.colorPrimaryDark ) );
+            }
+        });
         TabHost.TabSpec homeTab = mainFragmentTabHost.newTabSpec( HOME_TAB_TAG );
         TabHost.TabSpec contactTab= mainFragmentTabHost.newTabSpec( CONTACT_TAB_TAG );
         TabHost.TabSpec mycardTab= mainFragmentTabHost.newTabSpec( MYCARD_TAB_TAG );
