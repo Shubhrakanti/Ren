@@ -443,6 +443,9 @@ public class MainActivity extends AppCompatActivity {
                 // Clear Received Cards and Tab
                 SyncService.clearReceivedCards();
 
+                //Fixing saved contacts view with refresh issue by setting tab to home page
+                // 0 = home page
+                mainFragmentTabHost.setCurrentTab( 0 );
                 if ( SyncService.serviceRunning )
                     syncService.stopService();
                 Intent i = new Intent(getApplicationContext(), LogInActivity.class);

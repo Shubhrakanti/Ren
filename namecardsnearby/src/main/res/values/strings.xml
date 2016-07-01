@@ -1,6 +1,6 @@
 <resources>
     <!-- Android Manifest Strings -->
-    <string name="app_name">Name Cards Nearby</string>
+    <string name="app_name">Ren</string>
 
     <!-- NavigationDrawer Strings -->
     <string name="draw_open">Navigation Open</string>

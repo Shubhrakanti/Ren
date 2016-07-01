@@ -116,7 +116,10 @@ public class LogInActivity extends AppCompatActivity {
         String is_logged_in = sp.getString( "Login uname", "" );
         if( is_logged_in != null && !is_logged_in.equals("") ) {
             restoreSavedCardsForUser( is_logged_in );
-            ((MyPagerAdapter)ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
+            if( ContactsFragment.mTabs.get() != null && ContactsFragment.mTabs.get().getViewPager() != null && ContactsFragment.mTabs.get().getViewPager().getAdapter() != null ) {
+                ((MyPagerAdapter) ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
+                Log.d( "LoginActivity", "Inside refresh on login");
+            }
             super.onBackPressed();
         }
     }
