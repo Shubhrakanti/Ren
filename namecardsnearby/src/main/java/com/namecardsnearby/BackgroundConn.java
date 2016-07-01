@@ -41,10 +41,17 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         String type = params[0];
-        String login_url = "http://senteapps.x10host.com/login.php";
-        String register_url = "http://senteapps.x10host.com/register.php";
-        String updateGPS_url = "http://senteapps.x10host.com/update.php";
-        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
+        // Own database similar to previous
+        String login_url = "http://hero.x10host.com/login.php";
+        String register_url = "http://hero.x10host.com/register.php";
+        String updateGPS_url = "http://hero.x10host.com/update.php";
+        String profile_update_url = "http://hero.x10host.com/profile_update.php";
+
+//        String login_url = "http://senteapps.x10host.com/login.php";
+//        String register_url = "http://senteapps.x10host.com/register.php";
+//        String updateGPS_url = "http://senteapps.x10host.com/update.php";
+//        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
+
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
         switch (type) {
@@ -363,7 +370,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 
         editor.putString("Name", cardData[0]);
 
-        editor.putString("Photo", cardData[8]);
+        if( cardData[8].equals( "" ) )
+            editor.putString("Photo", "Default");
+        else
+            editor.putString("Photo", cardData[8] );
 
         editor.putString("Phone", cardData[1]);
 

@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null) {
                     Bundle extras = data.getExtras();
                     if (extras == null) {
+                        Log.d("MainActivity", "ActivityResult::PICK_CROP");
                         break;
                     }
                     Bitmap selectedBitmap = extras.getParcelable("data");
@@ -365,6 +367,7 @@ public class MainActivity extends AppCompatActivity {
         userPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("MainActivity", "User photo clicked" );
                 doCrop();
             }
         });
@@ -474,6 +477,7 @@ public class MainActivity extends AppCompatActivity {
         photoPickerIntent.putExtra("outputX", 200);
         photoPickerIntent.putExtra("outputY", 200);
         photoPickerIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+        Log.d("MainActivity:doCrop", "Starting cropper" );
         startActivityForResult(photoPickerIntent, PICK_CROP);
     }
 
@@ -515,6 +519,7 @@ public class MainActivity extends AppCompatActivity {
             // User has custom photo
             ImageButton ib = (ImageButton) findViewById(R.id.user_photo_button);
             Bitmap customPhoto = ((BitmapDrawable) ib.getDrawable()).getBitmap();
+            Log.d("MainActivity", (customPhoto == null ? "true" : "false") );
             userPhotoStr = Card.encodeTobase64(customPhoto);
         }
 
