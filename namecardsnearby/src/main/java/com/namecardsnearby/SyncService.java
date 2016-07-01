@@ -92,7 +92,7 @@ public class SyncService extends Service {
         return savedUnameCardPairs;
     }
 
-    public void setSavedUnameCardPairs(HashMap<String, Card> savedOnes) {
+    public static void setSavedUnameCardPairs(HashMap<String, Card> savedOnes) {
         savedUnameCardPairs = savedOnes;
     }
 

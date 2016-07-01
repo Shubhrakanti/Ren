@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -44,7 +46,10 @@ public class MainActivity extends AppCompatActivity {
     // Custom photo?
     private String userPhotoStr = "Default";
 
-    public static final AtomicReference<SlidingTabLayout> mTabs = new AtomicReference<>();
+    // For fragment tabs
+    private final String HOME_TAB_TAG = "HOME_TAB_TAG";
+    private final String CONTACT_TAB_TAG = "CONTACT_TAB_TAG";
+    private final String MYCARD_TAB_TAG = "MYCARD_TAB_TAG";
 
     // Gender
     private enum Gender {
@@ -103,11 +108,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(com.namecardsnearby.R.menu.menu_main, menu);
         // Bind is finished at this time
         MenuItem mi = menu.getItem(0);
-//        if (SyncService.serviceRunning) {
-//            mi.setIcon(R.drawable.onoff_green);
-//        } else {
-//            mi.setIcon(R.drawable.onoff_gray);
-//        }
 
         // New Ren Icon for connect
         if (SyncService.serviceRunning) {
@@ -181,6 +181,22 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * Method to save a logged in user and their saved cards locally for a specific user.
+     * @author Alvin Truong
+     * @daate 7/1/2016
+     */
+    private void saveCardsIntoSharedPrefForUser() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Gson gson = new Gson();
+
+        String savedCardsInJson = gson.toJson( syncService.getSavedUnameCardPairs() );
+        editor.putString( prefs.getString("Login uname", "") + "->SavedCards", savedCardsInJson);
+        editor.apply();
+    }
+
     private void saveNavigationDrawer() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
@@ -212,9 +228,9 @@ public class MainActivity extends AppCompatActivity {
 
         editor.putString("Gender", userGender.toString());
 
-        Gson gson = new Gson();
-        String json = gson.toJson(syncService.getSavedUnameCardPairs());
-        editor.putString("SavedCardJson", json);
+//        Gson gson = new Gson();
+//        String json = gson.toJson(syncService.getSavedUnameCardPairs());
+//        editor.putString("SavedCardJson " , json);
 
         editor.apply();
     }
@@ -222,14 +238,14 @@ public class MainActivity extends AppCompatActivity {
     private void recoverNavigationDrawer() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        String json = prefs.getString("SavedCardJson", null);
-        if (json != null) {
-            Type type = new TypeToken<HashMap<String, Card>>() {
-            }.getType();
-            Gson gson = new Gson();
-            HashMap<String, Card> savedOnes = gson.fromJson(json, type);
-            syncService.setSavedUnameCardPairs(savedOnes);
-        }
+//        String json = prefs.getString("SavedCardJson", null);
+//        if (json != null) {
+//            Type type = new TypeToken<HashMap<String, Card>>() {
+//            }.getType();
+//            Gson gson = new Gson();
+//            HashMap<String, Card> savedOnes = gson.fromJson(json, type);
+//            syncService.setSavedUnameCardPairs(savedOnes);
+//        }
 
         EditText editText = (EditText) findViewById(R.id.user_name);
         String name = prefs.getString("Name", null);
@@ -303,32 +319,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI() {
         // toolbar
-        Toolbar toolbar = (Toolbar) findViewById(com.namecardsnearby.R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         assert getSupportActionBar() != null; // This solves the warning
         setSupportActionBar(toolbar);
         //getSupportActionBar().setHomeButtonEnabled(true); // Show the return button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Return only one level.
-        // tabs and pager
-        final ViewPager mPager;
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter( getSupportFragmentManager(), this );
-        mPager = (ViewPager) findViewById(R.id.pager); // Pager is the area where recyclerview shows
-        mPager.setAdapter(myPagerAdapter);
-        mPager.setCurrentItem( 0 );
 
+        // Setup Fragment Tabhost
+        FragmentTabHost mainFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
+        mainFragmentTabHost.setup( this, getSupportFragmentManager(), R.id.fragmentMainTabContent );
 
-
-//        final AtomicReference<SlidingTabLayout> mTabs = new AtomicReference<>();
-        mTabs.set((SlidingTabLayout) findViewById(R.id.tabs));
-        mTabs.get().setDistributeEvenly(true);
-        mTabs.get().setViewPager(mPager);
-        mTabs.get().setBackgroundColor(getResources().getColor(R.color.primaryColor));
+        TabHost.TabSpec homeTab = mainFragmentTabHost.newTabSpec( HOME_TAB_TAG );
+        TabHost.TabSpec contactTab= mainFragmentTabHost.newTabSpec( CONTACT_TAB_TAG );
+        TabHost.TabSpec mycardTab= mainFragmentTabHost.newTabSpec( MYCARD_TAB_TAG );
+        homeTab.setIndicator( "HOME" );
+        contactTab.setIndicator( "CONTACT" );
+        mycardTab.setIndicator( "MY CARD" );
+        mainFragmentTabHost.addTab( homeTab, HomeFragment.class, null );
+        mainFragmentTabHost.addTab( contactTab, ContactsFragment.class, null );
+        mainFragmentTabHost.addTab( mycardTab, MyCardFragment.class, null );
 
         // Navigation
         // Pass toolbar to navigation drawer
         // com.namecardsnearby.R.id.fragment_navigation_drawer is the id of the root layout in activity_main.xml
         drawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(com.namecardsnearby.R.id.fragment_navigation_drawer);
-        drawerFragment.setUp(com.namecardsnearby.R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(com.namecardsnearby.R.id.drawer_layout), toolbar);
+                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
         // ImageButton
         ImageButton userPhotoButton = (ImageButton) findViewById(R.id.user_photo_button);
@@ -389,7 +405,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // Updates My Card profile
-                ((MyPagerAdapter)MainActivity.mTabs.get().getViewPager().getAdapter()).refreshTabs();
+//                ((MyPagerAdapter)MainActivity.mTabs.get().getViewPager().getAdapter()).refreshTabs();
+                ((MyPagerAdapter)ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
                 Toast.makeText(getApplicationContext(), "Profile updated..", Toast.LENGTH_SHORT).show();
             }
         });
@@ -399,6 +416,9 @@ public class MainActivity extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Save cards for the user before clearing login name
+                saveCardsIntoSharedPrefForUser();
+
                 // Removed saved username
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor spEditor = sp.edit();
@@ -406,14 +426,8 @@ public class MainActivity extends AppCompatActivity {
 
                 spEditor.apply();
 
-                // On logout clear received and saved cards
+                // Clear Received Cards and Tab
                 SyncService.clearReceivedCards();
-                SyncService.clearSavedCards();
-
-                // Workaround for refreshing fragment and clearing tabs.
-//                mPager.setCurrentItem(0);
-//                mTabs.get().setViewPager( mPager );
-//                ((MyPagerAdapter)mTabs.get().getViewPager().getAdapter()).refreshTabs();
 
                 if ( SyncService.serviceRunning )
                     syncService.stopService();
@@ -446,9 +460,13 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, PICK_CROP);
     }
 
-    public Card getMyCard(boolean toUpdate) {
-        if( !toUpdate )
+    public Card getMyCard(boolean toServerUpdate) {
+        if( toServerUpdate ) {
+            // Possible Fix
+            saveNavigationDrawer();
+
             recoverNavigationDrawer();
+        }
         EditText editText = (EditText) findViewById(R.id.user_name);
         String name = editText.getText().toString();
 
@@ -490,64 +508,6 @@ public class MainActivity extends AppCompatActivity {
         return new Card(uName,
                 name, userGender.toString(), userPhotoStr, phone, email, fb, ig, website, aboutMe);
     }
-
-    /** Populates navigation drawer with "successful login" data.
-     *
-     * @param myCard contains the card with the details associated with person logging in.
-     * @author Alvin Truong
-     * @date   6/25/2016
-     */
-    /*public void setMyCard( Card myCard ) {
-
-        EditText editTextView = (EditText) findViewById( R.id.user_name );
-        editTextView.setText( myCard.getmName() );
-
-        IconEditText iconEditTextView = (IconEditText) findViewById( R.id.user_phone );
-        iconEditTextView.getEditText().setText( myCard.getmPhone() );
-
-        iconEditTextView = (IconEditText) findViewById( R.id.email_address );
-        iconEditTextView.getEditText().setText( myCard.getmEmail() );
-
-        iconEditTextView = (IconEditText) findViewById( R.id.facebook_account );
-        iconEditTextView.getEditText().setText( myCard.getmFacebook() );
-
-        iconEditTextView = (IconEditText) findViewById( R.id.instagram );
-        iconEditTextView.getEditText().setText( myCard.getmInstagram() );
-
-        iconEditTextView = (IconEditText) findViewById( R.id.website );
-        iconEditTextView.getEditText().setText( myCard.getmWebsite() );
-
-        editTextView = (EditText) findViewById( R.id.about_me );
-        editTextView.setText( myCard.getmOther() );
-
-        // Set gender image
-        ImageView imageView = (ImageView) findViewById(R.id.genderIcon);
-        switch( myCard.getmGender() ) {
-            case "MALE":
-                imageView.setImageResource( R.drawable.male );
-                break;
-
-            case "FEMALE":
-                imageView.setImageResource( R.drawable.female );
-                break;
-
-            default:
-                imageView.setImageResource( 0 );
-                break;
-        }
-
-        // Set profile image
-        ImageButton ib = (ImageButton) findViewById(R.id.user_photo_button);
-        if (!myCard.getmPhotoEncoded().equals("Default")) {
-            // User has custom photo
-            Bitmap customPhoto = myCard.decodeBase64();
-            ib.setImageBitmap( customPhoto );
-        }
-        else {
-            ib.setImageResource( R.drawable.usericon );
-        }
-    }
-    */
 
     // ServiceConnection monitors the connection with the service
     private ServiceConnection serviceConnection = new ServiceConnection() {

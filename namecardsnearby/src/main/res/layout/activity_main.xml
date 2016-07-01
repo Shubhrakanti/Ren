@@ -17,18 +17,17 @@
             android:id="@+id/app_bar"
             layout="@layout/app_bar" />
 
-        <!-- The sliding tab itself -->
-        <com.namecardsnearby.SlidingTabLayout
-            android:id="@+id/tabs"
+        <FrameLayout
+            android:id="@+id/fragmentMainTabContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- ViewPager is where recyclerview shows -->
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"/>
+        <android.support.v4.app.FragmentTabHost
+            android:id="@+id/mainFragmentTabHost"
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
