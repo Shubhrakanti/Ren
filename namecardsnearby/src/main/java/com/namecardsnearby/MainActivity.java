@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
     private final String HOME_TAB_TAG = "HOME_TAB_TAG";
     private final String CONTACT_TAB_TAG = "CONTACT_TAB_TAG";
     private final String MYCARD_TAB_TAG = "MYCARD_TAB_TAG";
-    private int current_tab_position = 0;
+
+    private final int   HOME_TAB_INDEX = 0,
+                        CONTACT_TAB_INDEX = 1,
+                        MY_CARD_TAB_INDEX = 2;
 
     // Gender
     private enum Gender {
@@ -421,9 +424,12 @@ public class MainActivity extends AppCompatActivity {
                         myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
 
 
-                // Updates My Card profile
-//                ((MyPagerAdapter)MainActivity.mTabs.get().getViewPager().getAdapter()).refreshTabs();
-                ((MyPagerAdapter)ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
+                // Updates My Card profile using  technique
+                if( mainFragmentTabHost.getCurrentTab() == MY_CARD_TAB_INDEX ) {
+                    mainFragmentTabHost.setCurrentTab( HOME_TAB_INDEX );
+                    mainFragmentTabHost.setCurrentTab( MY_CARD_TAB_INDEX );
+                }
+
                 Toast.makeText(getApplicationContext(), "Profile updated..", Toast.LENGTH_SHORT).show();
             }
         });
