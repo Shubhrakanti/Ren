@@ -30,6 +30,7 @@ import java.util.List;
 
 public class SyncService extends Service {
 
+    private String max_dist = "100";
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;
@@ -186,7 +187,7 @@ public class SyncService extends Service {
         if( currentLocation != null ) {
             BackgroundConn bckConn = new BackgroundConn(getApplicationContext());
             String gps = Double.toString(currentLocation.getLatitude()) + "," + Double.toString(currentLocation.getLongitude());
-            bckConn.execute("update_GPS", myCard.getUname(), gps);
+            bckConn.execute("update_GPS_and_connect", myCard.getUname(), gps, max_dist);
             Log.e(TAG, "Requested server, GPS is:" + gps);
             scheduleNextRequest();
         }

@@ -44,7 +44,8 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         // Own database similar to previous
         String login_url = "http://hero.x10host.com/login.php";
         String register_url = "http://hero.x10host.com/register.php";
-        String updateGPS_url = "http://hero.x10host.com/update.php";
+        String updateGPS_and_connt_url = "http://hero.x10host.com/updateAndConnect.php";
+        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
         String profile_update_url = "http://hero.x10host.com/profile_update.php";
 
 //        String login_url = "http://senteapps.x10host.com/login.php";
@@ -168,7 +169,50 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     inputStream.close();
                     httpURLConnection.disconnect();
                     //USERNAME = username;
-                    Log.d("BackgroundConn", "Updating database location with " + myLocationStr );
+//                    Log.d("BackgroundConn", "Updating database location with " + myLocationStr );
+                    return result;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "update_GPS_and_connect":
+                try {
+                    String gps = params[2];
+                    myLocationStr = gps;
+                    String username = params[1];
+                    String distance_limit = params[3];
+                    USERNAME = username;
+
+                    URL url = new URL(updateGPS_and_connt_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") +
+                            "&" + URLEncoder.encode("gps", "UTF-8") + "=" + URLEncoder.encode(gps, "UTF-8") +
+                            "&" + URLEncoder.encode("range_limit", "UTF-8") + "=" + URLEncoder.encode( distance_limit, "UTF-8");
+                    bufferedWriter.write(post_data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    ///////////////reading/////////////
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                    String result = "";
+                    String line;
+//                    while ((line = bufferedReader.readLine()) != null) {
+                    while ((line = bufferedReader.readLine()) != null) {
+                        result += line;
+                    }
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+                    //USERNAME = username;
+//                    Log.d("BackgroundConn", "Updating database location with " + myLocationStr );
+                    Log.d( "BackgroundConn", "Result->" + result );
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
