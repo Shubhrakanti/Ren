@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
                     mainFragmentTabHost.getTabWidget().getChildAt(i).setBackgroundColor( getResources().getColor(R.color.primaryColor) );
                 }
 
-                mainFragmentTabHost.getCurrentTabView().setBackgroundColor( getResources().getColor( R.color.colorPrimaryDark ) );
+                mainFragmentTabHost.getCurrentTabView().setBackgroundColor( getResources().getColor( R.color.primaryColorDark ) );
             }
         });
         TabHost.TabSpec homeTab = mainFragmentTabHost.newTabSpec( HOME_TAB_TAG );
