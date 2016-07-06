@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private String userPhotoStr = "Default";
 
     // For fragment tabs
+    private FragmentTabHost mainFragmentTabHost;
     private final String HOME_TAB_TAG = "HOME_TAB_TAG";
     private final String CONTACT_TAB_TAG = "CONTACT_TAB_TAG";
     private final String MYCARD_TAB_TAG = "MYCARD_TAB_TAG";
@@ -145,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
 
+                // Set the tab to "Contacts"
+                mainFragmentTabHost.setCurrentTab( CONTACT_TAB_INDEX );
                 // Everything OK, request cards
                 syncService.setMyCard(c);
                 syncService.startService();
@@ -164,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null) {
                     Bundle extras = data.getExtras();
                     if (extras == null) {
-                        Log.d("MainActivity", "ActivityResult::PICK_CROP");
+                        //Log.d("MainActivity", "ActivityResult::PICK_CROP");
                         break;
                     }
                     Bitmap selectedBitmap = extras.getParcelable("data");
@@ -333,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Return only one level.
 
         // Setup Fragment Tabhost
-        final FragmentTabHost mainFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
+        mainFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
         mainFragmentTabHost.setup( this, getSupportFragmentManager(), R.id.fragmentMainTabContent );
 
         mainFragmentTabHost.setBackgroundColor(getResources().getColor(R.color.primaryColor) );
@@ -370,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
         userPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("MainActivity", "User photo clicked" );
+                //Log.d("MainActivity", "User photo clicked" );
                 doCrop();
             }
         });
@@ -483,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
         photoPickerIntent.putExtra("outputX", 200);
         photoPickerIntent.putExtra("outputY", 200);
         photoPickerIntent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
-        Log.d("MainActivity:doCrop", "Starting cropper" );
+        //Log.d("MainActivity:doCrop", "Starting cropper" );
         startActivityForResult(photoPickerIntent, PICK_CROP);
     }
 
@@ -525,7 +528,7 @@ public class MainActivity extends AppCompatActivity {
             // User has custom photo
             ImageButton ib = (ImageButton) findViewById(R.id.user_photo_button);
             Bitmap customPhoto = ((BitmapDrawable) ib.getDrawable()).getBitmap();
-            Log.d("MainActivity", (customPhoto == null ? "true" : "false") );
+            //Log.d("MainActivity", (customPhoto == null ? "true" : "false") );
             userPhotoStr = Card.encodeTobase64(customPhoto);
         }
 

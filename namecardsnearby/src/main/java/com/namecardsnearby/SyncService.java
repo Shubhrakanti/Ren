@@ -30,7 +30,7 @@ import java.util.List;
 
 public class SyncService extends Service {
 
-    private String max_dist = "100";
+    private String max_dist = "1000";
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;
@@ -71,7 +71,7 @@ public class SyncService extends Service {
 
     public void setContext(Context c) {
         context = c;
-        Log.e("SyncService", c.toString());
+        //Log.e("SyncService", c.toString());
     }
 
     private void addDummy() {
@@ -231,7 +231,7 @@ public class SyncService extends Service {
 
     public void startService() {
         // Location stuff
-        Log.d("SyncService", "Start service called");
+        //Log.d("SyncService", "Start service called");
         buttonOn();
         notificationOn();
         schedulePowerOff();
@@ -253,11 +253,11 @@ public class SyncService extends Service {
                     e.printStackTrace();
                 }
             } else {
-                Log.e("context", context.toString());
+                //Log.e("context", context.toString());
                 Toast.makeText(context, context.getResources().getString(R.string.location_disabled), Toast.LENGTH_LONG).show();
             }
             if (currentLocation == null) {
-                Log.e("context", context.toString());
+                //Log.e("context", context.toString());
                 Toast.makeText(context, context.getResources().getString(R.string.location_updating), Toast.LENGTH_LONG).show();
             }
         }

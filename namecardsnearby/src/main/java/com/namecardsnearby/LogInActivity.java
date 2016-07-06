@@ -118,7 +118,7 @@ public class LogInActivity extends AppCompatActivity {
             restoreSavedCardsForUser( is_logged_in );
             if( ContactsFragment.mTabs.get() != null && ContactsFragment.mTabs.get().getViewPager() != null && ContactsFragment.mTabs.get().getViewPager().getAdapter() != null ) {
                 ((MyPagerAdapter) ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
-                Log.d( "LoginActivity", "Inside refresh on login");
+                //Log.d( "LoginActivity", "Inside refresh on login");
             }
             super.onBackPressed();
         }

@@ -18,7 +18,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-         Log.e("PagerAdapter", position + "");
+         //Log.e("PagerAdapter", position + "");
         // Only called once
         return TabFragment.getInstance(position);
     }

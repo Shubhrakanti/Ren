@@ -212,7 +212,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     httpURLConnection.disconnect();
                     //USERNAME = username;
 //                    Log.d("BackgroundConn", "Updating database location with " + myLocationStr );
-                    Log.d( "BackgroundConn", "Result->" + result );
+                    //Log.d( "BackgroundConn", "Result->" + result );
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -331,41 +331,46 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         }
 
         for (String s : rows) {
-            List<String> fields = new ArrayList<>();
-            while (s.contains("<li>")) {
-                String currentField = s.substring(0, s.indexOf("<li>"));
-                s = s.substring(currentField.length() + 4);
-                fields.add(currentField);
-                //Log.e("AddingField", currentField);
-            }
-            if (fields.get(1).replaceFirst(" ", "").equals(USERNAME)) {
-                continue;
-            }
-            Location usrLocation = new Location("UsrLocation");
-            gps = fields.get(0).split(",");
             try {
-                usrLocation.setLatitude(Double.parseDouble(gps[0]));
+                //Log.d("Background", "getUsers string: " + s);
+                List<String> fields = new ArrayList<>();
+                while (s.contains("<li>")) {
+                    String currentField = s.substring(0, s.indexOf("<li>"));
+                    s = s.substring(currentField.length() + 4);
+                    fields.add(currentField);
+                    //Log.e("AddingField", currentField);
+                }
+                if (fields.get(1).replaceFirst(" ", "").equals(USERNAME)) {
+                    continue;
+                }
+                Location usrLocation = new Location("UsrLocation");
+                gps = fields.get(0).split(",");
+                try {
+                    usrLocation.setLatitude(Double.parseDouble(gps[0]));
 //                usrLocation.setLatitude(Double.parseDouble(gps[1]));
-                usrLocation.setLongitude(Double.parseDouble(gps[1]));
-            } catch (NumberFormatException e) {
-                continue;
-            }
+                    usrLocation.setLongitude(Double.parseDouble(gps[1]));
+                } catch (NumberFormatException e) {
+                    continue;
+                }
             /*if(usrLocation.distanceTo(myLocation)>DISTANCE) {
                 continue;
             }*/
-            Card receivedCard = new Card(
-                    fields.get(1).replaceFirst(" ", ""),
-                    fields.get(2).replaceFirst(" ", ""),
-                    fields.get(3).replaceFirst(" ", ""),
-                    fields.get(4).replaceFirst(" ", ""),
-                    fields.get(5).replaceFirst(" ", ""),
-                    fields.get(6).replaceFirst(" ", ""),
-                    fields.get(7).replaceFirst(" ", ""),
-                    fields.get(8).replaceFirst(" ", ""),
-                    fields.get(9).replaceFirst(" ", ""),
-                    fields.get(10).replaceFirst(" ", "")
-            );
-            SyncService.addNewCard(receivedCard);
+                Card receivedCard = new Card(
+                        fields.get(1).replaceFirst(" ", ""),
+                        fields.get(2).replaceFirst(" ", ""),
+                        fields.get(3).replaceFirst(" ", ""),
+                        fields.get(4).replaceFirst(" ", ""),
+                        fields.get(5).replaceFirst(" ", ""),
+                        fields.get(6).replaceFirst(" ", ""),
+                        fields.get(7).replaceFirst(" ", ""),
+                        fields.get(8).replaceFirst(" ", ""),
+                        fields.get(9).replaceFirst(" ", ""),
+                        fields.get(10).replaceFirst(" ", "")
+                );
+                SyncService.addNewCard(receivedCard);
+            } catch( IndexOutOfBoundsException e ) {
+                Log.d( "BackgroundConn", "Out of bound" );
+            }
         }
     }
 
