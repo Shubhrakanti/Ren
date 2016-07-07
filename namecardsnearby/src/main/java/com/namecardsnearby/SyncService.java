@@ -314,6 +314,7 @@ public class SyncService extends Service {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ren_white)
+                        .setColor( getResources().getColor( R.color.primaryColor ) )
                         .setContentTitle(getString(R.string.app_name))
                         .setContentText(getString(R.string.currently_exchanging));
 
