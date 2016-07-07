@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         // New Ren Icon for connect
         if (SyncService.serviceRunning) {
-            mi.setIcon(R.drawable.ren_green);
+            mi.setIcon(R.drawable.ren_red);
         } else {
             mi.setIcon(R.drawable.ren_white);
         }
@@ -334,11 +336,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //getSupportActionBar().setHomeButtonEnabled(true); // Show the return button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Return only one level.
+        toolbar.setTitleTextColor( Color.WHITE );
 
         // Setup Fragment Tabhost
         mainFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
         mainFragmentTabHost.setup( this, getSupportFragmentManager(), R.id.fragmentMainTabContent );
 
+        // Fragment Tabhost Colors
         mainFragmentTabHost.setBackgroundColor(getResources().getColor(R.color.primaryColor) );
 
         mainFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -351,15 +355,45 @@ public class MainActivity extends AppCompatActivity {
                 mainFragmentTabHost.getCurrentTabView().setBackgroundColor( getResources().getColor( R.color.primaryColorDark ) );
             }
         });
+
         TabHost.TabSpec homeTab = mainFragmentTabHost.newTabSpec( HOME_TAB_TAG );
         TabHost.TabSpec contactTab= mainFragmentTabHost.newTabSpec( CONTACT_TAB_TAG );
         TabHost.TabSpec mycardTab= mainFragmentTabHost.newTabSpec( MYCARD_TAB_TAG );
-        homeTab.setIndicator( "HOME" );
-        contactTab.setIndicator( "CONTACT" );
-        mycardTab.setIndicator( "MY CARD" );
+
+//        homeTab.setIndicator( "HOME" );
+//        contactTab.setIndicator( "CONTACT" );
+//        mycardTab.setIndicator( "MY CARD" );
+
+        View tabWithHomeIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,mainFragmentTabHost.getTabWidget(), false );
+        TextView tabText = ((TextView)tabWithHomeIconView.findViewById( R.id.title ));
+        ImageView tabIcon = ((ImageView)tabWithHomeIconView.findViewById( R.id.icon) );
+        tabText.setText( "HOME" );
+        tabIcon.setImageResource( R.drawable.home_tab_icon );
+        homeTab.setIndicator( tabWithHomeIconView );
+
+        View tabWithContactIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,mainFragmentTabHost.getTabWidget(), false );
+        tabText = ((TextView)tabWithContactIconView.findViewById( R.id.title ));
+        tabIcon = ((ImageView)tabWithContactIconView.findViewById( R.id.icon) );
+        tabText.setText( "CONTACTS" );
+        tabIcon.setImageResource( R.drawable.contacts_tab_icon );
+        contactTab.setIndicator( tabWithContactIconView );
+
+        View tabWithMyCardIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,mainFragmentTabHost.getTabWidget(), false );
+        tabText = ((TextView)tabWithMyCardIconView.findViewById( R.id.title ));
+        tabIcon = ((ImageView)tabWithMyCardIconView.findViewById( R.id.icon) );
+        tabText.setText( "MY CARD" );
+        tabIcon.setImageResource( R.drawable.my_card_tab_icon );
+        mycardTab.setIndicator( tabWithMyCardIconView );
+
         mainFragmentTabHost.addTab( homeTab, HomeFragment.class, null );
         mainFragmentTabHost.addTab( contactTab, ContactsFragment.class, null );
         mainFragmentTabHost.addTab( mycardTab, MyCardFragment.class, null );
+
+        // Initialize all tabs with selector that sets up color for selected and unselected text
+//        for( int i = 0; i < mainFragmentTabHost.getTabWidget().getTabCount(); ++i ){
+//            TextView tv = (TextView)mainFragmentTabHost.getTabWidget().getChildAt( i ).findViewById( android.R.id.title);
+//            tv.setTextColor( getResources().getColorStateList( R.color.tab_color_selector ));
+//        }
 
         // Navigation
         // Pass toolbar to navigation drawer

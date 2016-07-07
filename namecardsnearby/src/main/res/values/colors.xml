@@ -7,5 +7,10 @@
     <color name="colorAccent">#93c756</color>
     <color name="colorFragment">#303033</color>
     <color name="colorText">#989899</color>
+    <color name="colorDottedBorder">#989899</color>
     <color name="colorPrimaryText">#FFFFFF</color>
+    <color name="appbarPrimaryTextColor">#FFFFFF</color>
+    <color name="appbarSecondaryTextColor">#555</color>
+    <color name="appbarSliderColor">#FFFFFFFF</color>
+    <color name="black">#000</color>
 </resources>

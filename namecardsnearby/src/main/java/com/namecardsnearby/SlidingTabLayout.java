@@ -16,6 +16,7 @@ package com.namecardsnearby;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -82,6 +83,10 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         mTabStrip = new SlidingTabStrip(context);
         addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+
+        // Affects the slider color
+        // Modified by Alvin Truong
+        setSelectedIndicatorColors( getResources().getColor(R.color.appbarSliderColor));
     }
 
     /**
@@ -215,6 +220,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
+
+            tabTitleView.setTextColor(getResources().getColorStateList(R.color.tab_color_selector) );
         }
     }
 

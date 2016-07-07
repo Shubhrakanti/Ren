@@ -301,7 +301,7 @@ public class SyncService extends Service {
 
     private void buttonOn() {
 //        menuItem.setIcon(R.drawable.onoff_green);
-        menuItem.setIcon(R.drawable.ren_green);
+        menuItem.setIcon(R.drawable.ren_red);
     }
 
     private void buttonOff() {
@@ -313,7 +313,7 @@ public class SyncService extends Service {
     private void notificationOn() {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.notification)
+                        .setSmallIcon(R.drawable.ren_white)
                         .setContentTitle(getString(R.string.app_name))
                         .setContentText(getString(R.string.currently_exchanging));
 
