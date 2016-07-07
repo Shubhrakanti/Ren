@@ -121,7 +121,7 @@ public class SyncService extends Service {
             // Create a BroadcastReceiver for Bluetooth discovery ACTION_FOUND
             String action = intent.getAction();
             if (action.equals("Pending Off")) {
-                Log.e(TAG, "Pending power off executed.");
+//                Log.e(TAG, "Pending power off executed.");
                 stopService();
             } else if (action.equals("Pending Request Server")) {
                 requestServer();
@@ -188,7 +188,7 @@ public class SyncService extends Service {
             BackgroundConn bckConn = new BackgroundConn(getApplicationContext());
             String gps = Double.toString(currentLocation.getLatitude()) + "," + Double.toString(currentLocation.getLongitude());
             bckConn.execute("update_GPS_and_connect", myCard.getUname(), gps, max_dist);
-            Log.e(TAG, "Requested server, GPS is:" + gps);
+//            Log.e(TAG, "Requested server, GPS is:" + gps);
             scheduleNextRequest();
         }
     }
@@ -369,7 +369,7 @@ public class SyncService extends Service {
         } else {
             alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + REQUESTINTERVAL, pendingRequestServer);
         }
-        Log.e(TAG, "The next request scheduled.");
+//        Log.e(TAG, "The next request scheduled.");
     }
 
     // Sets an alarm to turn off the GPS update in BackgroundConn. Currently we leave it on for 10 mins.

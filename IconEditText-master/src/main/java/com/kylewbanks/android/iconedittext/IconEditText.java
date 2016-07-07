@@ -87,7 +87,7 @@ public class IconEditText extends LinearLayout {
      * @param attrs
      */
     private void parseAttributes(Context context, AttributeSet attrs) {
-        Log.d(TAG, "parseAttributes()");
+//        Log.d(TAG, "parseAttributes()");
         if (attrs == null) {
             return;
         }
@@ -100,9 +100,9 @@ public class IconEditText extends LinearLayout {
             _hint = a.getString(R.styleable.IconEditText_hint);
             _isPassword = a.getBoolean(R.styleable.IconEditText_isPassword, false);
 
-            Log.d(TAG, "{ _iconResource: " + _iconResource + ", _hint: " + _hint + ", _isPassword: " + _isPassword + "}");
+//            Log.d(TAG, "{ _iconResource: " + _iconResource + ", _hint: " + _hint + ", _isPassword: " + _isPassword + "}");
         } catch (Exception ex) {
-            Log.e(TAG, "Unable to parse attributes due to: " + ex.getMessage());
+//            Log.e(TAG, "Unable to parse attributes due to: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
             a.recycle();
@@ -113,7 +113,7 @@ public class IconEditText extends LinearLayout {
      * Initializes the Icon and TextEdit.
      */
     private void initialize() {
-        Log.d(TAG, "initialize()");
+//        Log.d(TAG, "initialize()");
 
         // Mandatory parameters
         this.setOrientation(LinearLayout.HORIZONTAL);

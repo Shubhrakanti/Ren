@@ -62,7 +62,7 @@ public class Card implements Serializable {
         if (mPhotoEncoded != null && mPhotoEncoded.equals("Default")) {
             return (BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.usericon));
         }
-        Log.e("length of this pic", ""+mPhotoEncoded.length());
+//        Log.e("length of this pic", ""+mPhotoEncoded.length());
         byte[] decodedByte = Base64.decode(mPhotoEncoded, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }

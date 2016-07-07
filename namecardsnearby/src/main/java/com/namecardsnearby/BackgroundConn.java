@@ -305,7 +305,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         } else if (result.contains("Username already in use")) {
             Toast.makeText(context, context.getString(R.string.usr_name_in_use), Toast.LENGTH_SHORT).show();
         } else if (result.contains("gps updated")) {
-            Log.e("ServerResponse", "GPS updated.");
+//            Log.e("ServerResponse", "GPS updated.");
             //Log.e(TAG, "Parse cards here:");
             //Log.e(TAG, result);
             getUsers(result);
@@ -369,7 +369,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                 );
                 SyncService.addNewCard(receivedCard);
             } catch( IndexOutOfBoundsException e ) {
-                Log.d( "BackgroundConn", "Out of bound" );
+//                Log.d( "BackgroundConn", "Out of bound" );
             }
         }
     }

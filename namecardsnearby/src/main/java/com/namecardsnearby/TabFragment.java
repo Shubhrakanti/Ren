@@ -50,7 +50,7 @@ public class TabFragment extends Fragment implements CardAdapter.ClickListener {
         if (bundle != null) {
             switch (bundle.getInt("position")) {
                 case RECEIVED_TAB_INT:
-                    Log.e("TabFragment", "Recreating received tab");
+//                    Log.e("TabFragment", "Recreating received tab");
                     layout = inflater.inflate(R.layout.recyclerview_layout, container, false);
                     RecyclerView newReceivedRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
                     newReceivedCardAdapter = new CardAdapter(getActivity(), RECEIVED_TAB_INT);
@@ -61,7 +61,7 @@ public class TabFragment extends Fragment implements CardAdapter.ClickListener {
                     newReceivedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     break;
                 case SAVED_TAB_INT:
-                    Log.e("TabFragment", "Recreating saved tab");
+//                    Log.e("TabFragment", "Recreating saved tab");
                     layout = inflater.inflate(R.layout.recyclerview_layout, container, false);
                     RecyclerView savedRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
                     savedCardAdapter = new CardAdapter(getActivity(), SAVED_TAB_INT);
