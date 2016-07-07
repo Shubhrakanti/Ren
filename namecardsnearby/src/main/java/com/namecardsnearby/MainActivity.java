@@ -7,25 +7,21 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -33,13 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kylewbanks.android.iconedittext.IconEditText;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
     // Crop
@@ -51,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private String userPhotoStr = "Default";
 
     // For fragment tabs
-    private FragmentTabHost mainFragmentTabHost;
+    private FragmentTabHost bottomFragmentTabHost;
     private final String HOME_TAB_TAG = "HOME_TAB_TAG";
     private final String CONTACT_TAB_TAG = "CONTACT_TAB_TAG";
     private final String MYCARD_TAB_TAG = "MYCARD_TAB_TAG";
@@ -120,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         // New Ren Icon for connect
         if (SyncService.serviceRunning) {
-            mi.setIcon(R.drawable.ren_red);
+            mi.setIcon(R.drawable.ren_orange);
         } else {
             mi.setIcon(R.drawable.ren_white);
         }
@@ -149,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Set the tab to "Contacts"
-                mainFragmentTabHost.setCurrentTab( CONTACT_TAB_INDEX );
+                bottomFragmentTabHost.setCurrentTab( CONTACT_TAB_INDEX );
                 // Everything OK, request cards
                 syncService.setMyCard(c);
                 syncService.startService();
@@ -336,58 +328,84 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //getSupportActionBar().setHomeButtonEnabled(true); // Show the return button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Return only one level.
-        toolbar.setTitleTextColor( Color.WHITE );
 
         // Setup Fragment Tabhost
-        mainFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
-        mainFragmentTabHost.setup( this, getSupportFragmentManager(), R.id.fragmentMainTabContent );
+        bottomFragmentTabHost = (FragmentTabHost)findViewById( R.id.mainFragmentTabHost );
+        bottomFragmentTabHost.setup( this, getSupportFragmentManager(), R.id.fragmentMainTabContent );
 
         // Fragment Tabhost Colors
-        mainFragmentTabHost.setBackgroundColor(getResources().getColor(R.color.primaryColor) );
+        bottomFragmentTabHost.setBackgroundColor(getResources().getColor(R.color.bottomBarBGColor) );
 
-        mainFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+        bottomFragmentTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String s) {
-                for( int i = 0; i < mainFragmentTabHost.getTabWidget().getChildCount(); ++i ) {
-                    mainFragmentTabHost.getTabWidget().getChildAt(i).setBackgroundColor( getResources().getColor(R.color.primaryColor) );
+                for( int i = 0; i < bottomFragmentTabHost.getTabWidget().getChildCount(); ++i ) {
+                    bottomFragmentTabHost.getTabWidget().getChildAt(i).setBackgroundColor( getResources().getColor(R.color.bottomBarBGColor) );
+                    ((TextView)bottomFragmentTabHost.getTabWidget().getChildAt(i).findViewById( R.id.title )).setTextColor( getResources().getColor( R.color.appbarPrimaryTextColor ) );
+                    ImageView currentTabImageView = (ImageView)bottomFragmentTabHost.getTabWidget().getChildAt(i).findViewById( R.id.icon );
+                    switch( i ) {
+                        case 0:
+                           currentTabImageView.setImageResource( R.drawable.home_tab_icon_white );
+                            break;
+                        case 1:
+                            currentTabImageView.setImageResource( R.drawable.contacts_tab_icon_white);
+                            break;
+                        case 2:
+                            currentTabImageView.setImageResource( R.drawable.my_card_tab_icon_white );
+                    }
                 }
 
-                mainFragmentTabHost.getCurrentTabView().setBackgroundColor( getResources().getColor( R.color.primaryColorDark ) );
+                View currentTabView = bottomFragmentTabHost.getCurrentTabView();
+//                currentTabView.setBackgroundColor( getResources().getColor( R.color.primaryColor ) );
+                TextView currentTabTextView = (TextView)currentTabView.findViewById( R.id.title );
+                currentTabTextView.setTextColor( getResources().getColor( R.color.greenAccentColor ) );
+                ImageView currentTabImageView = (ImageView)currentTabView.findViewById( R.id.icon );
+                switch(bottomFragmentTabHost.getCurrentTab()) {
+                    case 0:
+                        currentTabImageView.setImageResource( R.drawable.home_tab_icon_orange );
+                        break;
+                    case 1:
+                        currentTabImageView.setImageResource( R.drawable.contacts_tab_icon_orange );
+                        break;
+                    case 2:
+                        currentTabImageView.setImageResource( R.drawable.my_card_tab_icon_orange );
+                        break;
+                }
             }
         });
 
-        TabHost.TabSpec homeTab = mainFragmentTabHost.newTabSpec( HOME_TAB_TAG );
-        TabHost.TabSpec contactTab= mainFragmentTabHost.newTabSpec( CONTACT_TAB_TAG );
-        TabHost.TabSpec mycardTab= mainFragmentTabHost.newTabSpec( MYCARD_TAB_TAG );
+        TabHost.TabSpec homeTab = bottomFragmentTabHost.newTabSpec( HOME_TAB_TAG );
+        TabHost.TabSpec contactTab= bottomFragmentTabHost.newTabSpec( CONTACT_TAB_TAG );
+        TabHost.TabSpec mycardTab= bottomFragmentTabHost.newTabSpec( MYCARD_TAB_TAG );
 
 //        homeTab.setIndicator( "HOME" );
 //        contactTab.setIndicator( "CONTACT" );
 //        mycardTab.setIndicator( "MY CARD" );
 
-        View tabWithHomeIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,mainFragmentTabHost.getTabWidget(), false );
+        View tabWithHomeIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,bottomFragmentTabHost.getTabWidget(), false );
         TextView tabText = ((TextView)tabWithHomeIconView.findViewById( R.id.title ));
         ImageView tabIcon = ((ImageView)tabWithHomeIconView.findViewById( R.id.icon) );
         tabText.setText( "HOME" );
-        tabIcon.setImageResource( R.drawable.home_tab_icon );
+        tabIcon.setImageResource( R.drawable.home_tab_icon_white);
         homeTab.setIndicator( tabWithHomeIconView );
 
-        View tabWithContactIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,mainFragmentTabHost.getTabWidget(), false );
+        View tabWithContactIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,bottomFragmentTabHost.getTabWidget(), false );
         tabText = ((TextView)tabWithContactIconView.findViewById( R.id.title ));
         tabIcon = ((ImageView)tabWithContactIconView.findViewById( R.id.icon) );
         tabText.setText( "CONTACTS" );
-        tabIcon.setImageResource( R.drawable.contacts_tab_icon );
+        tabIcon.setImageResource( R.drawable.contacts_tab_icon_white);
         contactTab.setIndicator( tabWithContactIconView );
 
-        View tabWithMyCardIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,mainFragmentTabHost.getTabWidget(), false );
+        View tabWithMyCardIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,bottomFragmentTabHost.getTabWidget(), false );
         tabText = ((TextView)tabWithMyCardIconView.findViewById( R.id.title ));
         tabIcon = ((ImageView)tabWithMyCardIconView.findViewById( R.id.icon) );
         tabText.setText( "MY CARD" );
-        tabIcon.setImageResource( R.drawable.my_card_tab_icon );
+        tabIcon.setImageResource( R.drawable.my_card_tab_icon_white);
         mycardTab.setIndicator( tabWithMyCardIconView );
 
-        mainFragmentTabHost.addTab( homeTab, HomeFragment.class, null );
-        mainFragmentTabHost.addTab( contactTab, ContactsFragment.class, null );
-        mainFragmentTabHost.addTab( mycardTab, MyCardFragment.class, null );
+        bottomFragmentTabHost.addTab( homeTab, HomeFragment.class, null );
+        bottomFragmentTabHost.addTab( contactTab, ContactsFragment.class, null );
+        bottomFragmentTabHost.addTab( mycardTab, MyCardFragment.class, null );
 
         // Initialize all tabs with selector that sets up color for selected and unselected text
 //        for( int i = 0; i < mainFragmentTabHost.getTabWidget().getTabCount(); ++i ){
@@ -462,9 +480,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                 // Updates My Card profile using  technique
-                if( mainFragmentTabHost.getCurrentTab() == MY_CARD_TAB_INDEX ) {
-                    mainFragmentTabHost.setCurrentTab( HOME_TAB_INDEX );
-                    mainFragmentTabHost.setCurrentTab( MY_CARD_TAB_INDEX );
+                if( bottomFragmentTabHost.getCurrentTab() == MY_CARD_TAB_INDEX ) {
+                    bottomFragmentTabHost.setCurrentTab( HOME_TAB_INDEX );
+                    bottomFragmentTabHost.setCurrentTab( MY_CARD_TAB_INDEX );
                 }
 
                 Toast.makeText(getApplicationContext(), "Profile updated..", Toast.LENGTH_SHORT).show();
@@ -491,7 +509,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Fixing saved contacts view with refresh issue by setting tab to home page
                 // 0 = home page
-                mainFragmentTabHost.setCurrentTab( 0 );
+                bottomFragmentTabHost.setCurrentTab( 0 );
                 if ( SyncService.serviceRunning )
                     syncService.stopService();
                 Intent i = new Intent(getApplicationContext(), LogInActivity.class);

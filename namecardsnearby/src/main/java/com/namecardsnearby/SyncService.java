@@ -301,7 +301,7 @@ public class SyncService extends Service {
 
     private void buttonOn() {
 //        menuItem.setIcon(R.drawable.onoff_green);
-        menuItem.setIcon(R.drawable.ren_red);
+        menuItem.setIcon(R.drawable.ren_orange);
     }
 
     private void buttonOff() {
