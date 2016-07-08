@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="previousPrimaryColor">#3F51B5</color>-->
+    <!--<color name="previousPrimaryDark">#303F9F</color>-->
+    <!-- Colors used by David's Initial design -->
+    <color name="colorAccent">#93c756</color>
+    <color name="colorFragment">#303033</color>
+    <color name="colorText">#989899</color>
+    <color name="colorDottedBorder">#989899</color>
+    <color name="colorPrimaryText">#FFFFFF</color>
+
+    <!-- Accent to the primary green color -->
+    <color name="greenAccentColor">#ffb25b</color>
+    <!-- Upper Bar Colors -->
+    <color name="primaryColor">#5fd3bc</color>
+    <color name="primaryColorDark">#54BAA6</color>
+    <color name="appbarPrimaryTextColor">#FFFFFF</color>
+    <color name="appbarSecondaryTextColor">#555</color>
+    <color name="appbarSliderColor">#FFFFFFFF</color>
+    <color name="black">#000</color>
+
+    <!-- Bottom App Bar Color -->
+    <color name="bottomBarBGColor">#4a4a4a</color>
+</resources>

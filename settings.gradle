@@ -1,1 +1,1 @@
-include ':namecardsnearby', ':IconEditText-master'
+include ':ren', ':IconEditText-master'

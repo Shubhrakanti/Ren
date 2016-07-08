@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ren.LogInActivity">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <EditText
+        android:id="@+id/login_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/log_in_uname"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/login_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/log_in_password"
+        android:inputType="textPassword" />
+
+    <CheckBox
+        android:id="@+id/new_user_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_password"
+        android:layout_alignStart="@+id/login_password"
+        android:layout_below="@id/login_password"
+        android:layout_marginTop="10dp"
+        android:text="@string/log_in_new_user" />
+
+    <Button
+        android:id="@+id/log_in_register"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/login_password"
+        android:layout_alignLeft="@id/login_password"
+        android:layout_alignRight="@id/login_password"
+        android:layout_alignStart="@id/login_password"
+        android:layout_below="@id/new_user_checkBox"
+        android:layout_marginTop="10dp"
+        android:text="@string/log_in" />
+
+</RelativeLayout>

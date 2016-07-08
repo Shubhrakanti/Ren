@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.ren.CardDetailActivity">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+
+    <ImageView
+        android:id="@+id/detail_photo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/app_bar"
+        android:padding="20dp" />
+
+    <TextView
+        android:id="@+id/detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/detail_photo"
+        android:layout_below="@id/app_bar"
+        android:layout_toEndOf="@+id/detail_photo"
+        android:layout_toRightOf="@+id/detail_photo"
+        android:padding="2dp"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/detail_gender"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@id/app_bar"
+        android:layout_toEndOf="@id/detail_name"
+        android:layout_toRightOf="@id/detail_name"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/detail_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/detail_name"
+        android:layout_alignStart="@id/detail_name"
+        android:layout_below="@id/detail_name"
+        android:layout_toEndOf="@+id/detail_photo"
+        android:layout_toRightOf="@+id/detail_photo"
+        android:autoLink="phone"
+        android:padding="2dp"
+        android:textColor="@color/colorText"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/detail_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/detail_name"
+        android:layout_alignStart="@id/detail_name"
+        android:layout_below="@id/detail_phone"
+        android:layout_toEndOf="@+id/detail_photo"
+        android:layout_toRightOf="@+id/detail_photo"
+        android:autoLink="email"
+        android:padding="2dp"
+        android:textColor="@color/colorText"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/detail_website"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/detail_name"
+        android:layout_alignStart="@id/detail_name"
+        android:layout_below="@id/detail_email"
+        android:layout_toEndOf="@+id/detail_photo"
+        android:layout_toRightOf="@+id/detail_photo"
+        android:autoLink="web"
+        android:padding="2dp"
+        android:textColor="@color/colorText"
+        android:textSize="13sp" />
+
+    <ImageButton
+        android:id="@+id/detail_facebook"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@id/detail_name"
+        android:layout_alignStart="@id/detail_name"
+        android:layout_below="@id/detail_website"
+        android:layout_margin="3dp"
+        android:layout_toEndOf="@+id/detail_photo"
+        android:layout_toRightOf="@+id/detail_photo"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/facebook_color"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/detail_instagram"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/detail_website"
+        android:layout_margin="3dp"
+        android:layout_toEndOf="@+id/detail_facebook"
+        android:layout_toRightOf="@+id/detail_facebook"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/instagram_color"
+        android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/detail_wechat"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/detail_website"
+        android:layout_margin="3dp"
+        android:layout_toEndOf="@+id/detail_instagram"
+        android:layout_toRightOf="@+id/detail_instagram"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/wechatcolor"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/detail_aboutme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/detail_photo"
+        android:layout_alignStart="@id/detail_photo"
+        android:layout_below="@id/detail_photo"
+        android:padding="10dp"
+        android:paddingBottom="10dp"
+        android:text="@string/about_me_detail"
+        android:textColor="@color/colorText"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/detail_aboutme"
+        android:layout_alignStart="@id/detail_aboutme"
+        android:layout_below="@id/detail_aboutme"
+        android:layout_marginBottom="100dp">
+
+        <TextView
+            android:id="@+id/detail_aboutme_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/colorText"
+            android:textSize="13sp" />
+    </ScrollView>
+
+
+
+</RelativeLayout>
