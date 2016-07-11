@@ -26,7 +26,7 @@ import java.util.List;
 
 public class SyncService extends Service {
 
-    private String max_dist = "1000";
+    private String max_dist = "2";
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;
@@ -34,7 +34,7 @@ public class SyncService extends Service {
     private Context context;
     private static final int NOTIFICATION = 638;
 //    private static final int TEN_SECS = 10 * 1000 * 1; // Stop requesting
-    private static final int TEN_MINS = 30 * 1000 * 1; // Stop requesting
+    private static final int TEN_MINS = 60 * 1000 * 10; // Stop requesting
     private static final int REQUESTINTERVAL = 1000 * 10; // Request server
     // Location significantly newer
     private static final int TWO_MINUTES = 1000 * 60 * 2;

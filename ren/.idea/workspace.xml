@@ -1,7 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="11fe5070-d259-4deb-a9f3-33ebe58276c5" name="Default" comment="" />
+    <list default="true" id="11fe5070-d259-4deb-a9f3-33ebe58276c5" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/build.gradle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/class_files.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/mapping.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/namecardsnearby.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/proguard-rules.pro" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/seeds.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/androidTest/java/com/namecardsnearby/ApplicationTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/AndroidManifest.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/BackgroundConn.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/Card.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/CardAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/CardDetailActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/ContactsFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/HomeFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/LogInActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/MainActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/MyCardFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/MyPagerAdapter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/NavigationDrawerFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/SlidingTabLayout.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/SlidingTabStrip.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/SyncService.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/java/com/namecardsnearby/TabFragment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/color/tab_color_selector.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/about_me.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/contacts_tab_icon_orange.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/contacts_tab_icon_white.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/dotted_border.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/emailicon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/facebook_color.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/facebookicon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/female.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/home_tab_icon_orange.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/home_tab_icon_white.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/ignore.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/instagram.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/instagram_color.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/key.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/link.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/male.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/my_card_tab_icon_orange.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/my_card_tab_icon_white.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/phone.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/ren_orange.PNG" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/ren_white.PNG" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/star_filled.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/star_outline.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/unignore.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/usericon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/wechatcolor.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/drawable/wechatgray.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/activity_card_detail.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/activity_main.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/app_bar.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/contacts_fragment_swipe_layout.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/custom_row.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/fragment_navigation_drawer.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/fragment_tab_host_with_img.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/home_fragment_layout.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/ignored_row.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/log_in_layout.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/my_card_details.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/layout/recyclerview_layout.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/menu/menu_main.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/mipmap-hdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/mipmap-mdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/mipmap-xhdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/values-v21/styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/values-v22/styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/values-w820dp/dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/values/colors.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/values/dimens.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/values/strings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/src/main/res/values/styles.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../namecardsnearby/unused.txt" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_22_2_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_22_2_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/design_22_2_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/design_22_2_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/library_1_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/library_1_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_22_2_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_22_2_1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ren.iml" afterPath="$PROJECT_DIR$/ren.iml" />
+    </list>
     <ignored path="ren.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,6 +114,37 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="ren" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="BuildConfig.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build/generated/source/buildConfig/debug/com/ren/BuildConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-1.8888888">
+              <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Card.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/ren/Card.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.33275262">
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="C:\Users\Alvin\Google Drive\Programming_Project\herokeystore.jks" />
+    <option name="KEY_ALIAS" value="ren" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GradleLocalSettings">
     <option name="availableProjects">
@@ -2070,11 +2197,6 @@
         </entry>
       </map>
     </option>
-    <option name="modificationStamps">
-      <map>
-        <entry key="$PROJECT_DIR$" value="5862216812338" />
-      </map>
-    </option>
     <option name="projectBuildClasspath">
       <map>
         <entry key="$PROJECT_DIR$">
@@ -2518,7 +2640,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2537,43 +2662,8 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ren" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ren" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ren" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ren" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ren" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2586,6 +2676,10 @@
     <property name="settings.editor.selected.configurable" value="configurable.group.other" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="device.picker.selection" value="5cfd4cf5" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Google Drive/AndroidStudioProjects/HerosRoomLightBT" />
+    <property name="ExportApk.ApkPath" value="C:\Users\Alvin\Documents\Teamed\ren" />
+    <property name="ExportApk.Flavors" value="" />
+    <property name="ExportApk.BuildType" value="release" />
   </component>
   <component name="RunManager" selected="Android Application.ren">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -2697,7 +2791,7 @@
       <listeners />
       <method />
     </configuration>
-    <configuration default="false" name="ren" type="AndroidRunConfigurationType" factoryName="Android Application">
+    <configuration default="false" name="ren" type="AndroidRunConfigurationType" factoryName="Android Application" activateToolWindowBeforeRun="false">
       <module name="ren" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
@@ -2762,36 +2856,44 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962137" sideWeight="0.5063966" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32962137" sideWeight="0.4936034" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -2799,5 +2901,23 @@
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/build/generated/source/buildConfig/debug/com/ren/BuildConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.8888888">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/ren/Card.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33275262">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>

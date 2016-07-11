@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -35,16 +36,18 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String type = params[0];
         // Own database similar to previous
-        String login_url = "http://hero.x10host.com/login.php";
-        String register_url = "http://hero.x10host.com/register.php";
-        String updateGPS_and_connt_url = "http://hero.x10host.com/updateAndConnect.php";
-        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
-        String profile_update_url = "http://hero.x10host.com/profile_update.php";
+        Log.d("BackgroundConn", "BackgroundConn executed" );
+//        String login_url = "http://hero.x10host.com/login.php";
+//        String register_url = "http://hero.x10host.com/register.php";
+//        String updateGPS_and_connt_url = "http://hero.x10host.com/updateAndConnect.php";
+//        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
+//        String profile_update_url = "http://hero.x10host.com/profile_update.php";
 
-//        String login_url = "http://senteapps.x10host.com/login.php";
-//        String register_url = "http://senteapps.x10host.com/register.php";
-//        String updateGPS_url = "http://senteapps.x10host.com/update.php";
-//        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
+        String login_url = "http://senteapps.x10host.com/login.php";
+        String register_url = "http://senteapps.x10host.com/register.php";
+        String updateGPS_and_connect_url = "http://senteapps.x10host.com/updateAndConnect.php";
+        String updateGPS_url = "http://senteapps.x10host.com/updateGPS.php";
+        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
 
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
@@ -54,7 +57,6 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     String user_name = params[1];
                     String password = params[2];
                     USERNAME = user_name;
-                    //Log.d("Sente", "inside try");
                     //Log.d("Sente", "username is " + user_name + " password is " + password);
                     URL url = new URL(login_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -77,11 +79,12 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     String line;
                     while ((line = bufferedReader.readLine()) != null) {
                         result += line;
+//                        Log.e("BackgroundConn", line);
                     }
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
-                    //Log.d("Sente", "result is " + result);
+//                    Log.e("BackgroundConn", "result is " + result);
                     //this is global username for next intent
                     return result;
                 } catch (IOException e) {
@@ -176,7 +179,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     String distance_limit = params[3];
                     USERNAME = username;
 
-                    URL url = new URL(updateGPS_and_connt_url);
+                    URL url = new URL(updateGPS_and_connect_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
                     httpURLConnection.setDoOutput(true);

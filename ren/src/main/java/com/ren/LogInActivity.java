@@ -3,8 +3,10 @@ package com.ren;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.os.AsyncTaskCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -86,6 +88,7 @@ public class LogInActivity extends AppCompatActivity {
 
     private void logIn(String uName, String password) {
         BackgroundConn bckConn = new BackgroundConn(this);
+//        Log.e("LoginActivity", "Sending background login attempt");
         bckConn.execute("login", uName, password);
     }
 
@@ -113,6 +116,7 @@ public class LogInActivity extends AppCompatActivity {
     public void onBackPressed() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String is_logged_in = sp.getString( "Login uname", "" );
+//        Log.e( "LoginActivity", "Login uname: " + is_logged_in );
         if( is_logged_in != null && !is_logged_in.equals("") ) {
             restoreSavedCardsForUser( is_logged_in );
             if( ContactsFragment.mTabs.get() != null && ContactsFragment.mTabs.get().getViewPager() != null && ContactsFragment.mTabs.get().getViewPager().getAdapter() != null ) {
