@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,6 +17,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -23,15 +25,16 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SyncService extends Service {
 
-    private String max_dist = "2";
+    private String max_dist = "2"; // in miles
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;
 
-    private Context context;
+    private static Context context;
     private static final int NOTIFICATION = 638;
 //    private static final int TEN_SECS = 10 * 1000 * 1; // Stop requesting
     private static final int TEN_MINS = 60 * 1000 * 10; // Stop requesting
@@ -43,6 +46,8 @@ public class SyncService extends Service {
     // User name and card pairs
     private static HashMap<String, Card> uNameCardPairs = new HashMap<>();
     private static HashMap<String, Card> savedUnameCardPairs = new HashMap<>();
+    private static HashMap<String, Card> tempRemovedUNameCardPairs = new HashMap<>();
+
 //    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
     // Instance of LocalBinder
     private final IBinder myBinder = new LocalBinder();
@@ -65,7 +70,7 @@ public class SyncService extends Service {
     public SyncService() {
     }
 
-    public void setContext(Context c) {
+    public static void setContext(Context c) {
         context = c;
         //Log.e("SyncService", c.toString());
     }
@@ -89,7 +94,19 @@ public class SyncService extends Service {
         return savedUnameCardPairs;
     }
 
+    /**
+     * Modified setSavedUNameCardPairs in order to handle the problem of "removing a saved card as data is being fetched
+     * from database".
+     * @param savedOnes
+     */
     public static void setSavedUnameCardPairs(HashMap<String, Card> savedOnes) {
+        if( tempRemovedUNameCardPairs.size() > 0 ) {
+            for( String key : tempRemovedUNameCardPairs.keySet() ) {
+               savedOnes.remove( key );
+            }
+            tempRemovedUNameCardPairs.clear();
+        }
+
         savedUnameCardPairs = savedOnes;
     }
 
@@ -207,6 +224,13 @@ public class SyncService extends Service {
         c.setmSaved(true);
         savedUnameCardPairs.put(c.getUname(), c);
         addStar(c);
+        tempRemovedUNameCardPairs.remove( c.getUname() );
+
+        // Add saved user to database
+        BackgroundConn bckConn = new BackgroundConn( context );
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences( context );
+        bckConn.execute(BackgroundConn.SAVE_USER_STR, sp.getString("Login uname", null), c.getUname() );
+
         updateRecyclerView();
 
         // Remove card from received data structure
@@ -216,7 +240,13 @@ public class SyncService extends Service {
     public static void removeSaved(Card c) {
         if (savedUnameCardPairs.containsKey(c.getUname())) {
             savedUnameCardPairs.remove(c.getUname());
+            tempRemovedUNameCardPairs.put( c.getUname(), c );
 //            removeStar(c);
+
+            // Remove saved user from database
+            BackgroundConn bckConn = new BackgroundConn( context );
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences( context );
+            bckConn.execute(BackgroundConn.REMOVE_USER_STR, sp.getString("Login uname", null), c.getUname() );
 
             // Add card back into received data structure
 //            c.setmSaved( false );

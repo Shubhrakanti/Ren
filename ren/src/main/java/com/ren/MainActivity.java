@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SyncService.setContext(getApplicationContext());
+
         // init tabs, pager, navigation, ImageButton OnClickListener
         initUI();
         // Bind service

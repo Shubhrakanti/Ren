@@ -3,6 +3,7 @@ package com.ren;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 // Insert child to ViewPager
 public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -16,7 +17,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-         //Log.e("PagerAdapter", position + "");
+//         Log.e("PagerAdapter", position + "");
         // Only called once
         return TabFragment.getInstance(position);
     }

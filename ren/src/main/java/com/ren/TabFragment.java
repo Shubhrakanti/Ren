@@ -1,11 +1,14 @@
 package com.ren;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +54,11 @@ public class TabFragment extends Fragment implements CardAdapter.ClickListener {
                     newReceivedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     break;
                 case SAVED_TAB_INT:
-//                    Log.e("TabFragment", "Recreating saved tab");
+//                    Log.e("TabFragment", "Recreating saved tab"
+                    BackgroundConn bckconn = new BackgroundConn( getActivity() );
+                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences( getActivity() );
+                    bckconn.execute( BackgroundConn.OBTAIN_SAVED_USERS, sp.getString("Login uname", ""));
+
                     layout = inflater.inflate(R.layout.recyclerview_layout, container, false);
                     RecyclerView savedRecyclerView = (RecyclerView) layout.findViewById(R.id.recycler_view);
                     savedCardAdapter = new CardAdapter(getActivity(), SAVED_TAB_INT);

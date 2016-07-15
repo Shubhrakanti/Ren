@@ -90,6 +90,7 @@ public class LogInActivity extends AppCompatActivity {
         BackgroundConn bckConn = new BackgroundConn(this);
 //        Log.e("LoginActivity", "Sending background login attempt");
         bckConn.execute("login", uName, password);
+
     }
 
     protected void onResume() {
@@ -118,7 +119,7 @@ public class LogInActivity extends AppCompatActivity {
         String is_logged_in = sp.getString( "Login uname", "" );
 //        Log.e( "LoginActivity", "Login uname: " + is_logged_in );
         if( is_logged_in != null && !is_logged_in.equals("") ) {
-            restoreSavedCardsForUser( is_logged_in );
+//            restoreSavedCardsForUser( is_logged_in );
             if( ContactsFragment.mTabs.get() != null && ContactsFragment.mTabs.get().getViewPager() != null && ContactsFragment.mTabs.get().getViewPager().getAdapter() != null ) {
                 ((MyPagerAdapter) ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
                 //Log.d( "LoginActivity", "Inside refresh on login");
@@ -143,19 +144,19 @@ public class LogInActivity extends AppCompatActivity {
      * @author Alvin Truong
      * @date 7/1/2016
      */
-    private void restoreSavedCardsForUser(String username) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
-        String savedCardsInJsonStr = prefs.getString( username + "->SavedCards", null );
+//    private void restoreSavedCardsForUser(String username) {
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
+//        String savedCardsInJsonStr = prefs.getString( username + "->SavedCards", null );
 
-        if( savedCardsInJsonStr != null ) {
-            Gson gson = new Gson();
-            Type savedCardsType = new TypeToken< HashMap< String, Card > >(){}.getType();
-            HashMap< String, Card > savedCardsToRestore = gson.fromJson( savedCardsInJsonStr, savedCardsType );
-            SyncService.setSavedUnameCardPairs(savedCardsToRestore);
-        }
-        else {
-            SyncService.clearSavedCards();
-        }
+//        if( savedCardsInJsonStr != null ) {
+//            Gson gson = new Gson();
+//            Type savedCardsType = new TypeToken< HashMap< String, Card > >(){}.getType();
+//            HashMap< String, Card > savedCardsToRestore = gson.fromJson( savedCardsInJsonStr, savedCardsType );
+//            SyncService.setSavedUnameCardPairs(savedCardsToRestore);
+//        }
+//        else {
+//            SyncService.clearSavedCards();
+//        }
 
-    }
+//    }
 }

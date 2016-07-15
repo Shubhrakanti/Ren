@@ -9,6 +9,10 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -20,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BackgroundConn extends AsyncTask<String, Void, String> {
@@ -27,6 +32,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
     public static String USERNAME = null;
     private static final int DISTANCE = 100000000;
     private static String myLocationStr;
+    // Strings to use for calling background conn
+    public static final String OBTAIN_SAVED_USERS = "get_saved_users",
+                                SAVE_USER_STR = "save_user",
+                                REMOVE_USER_STR = "remove_user";
 
     BackgroundConn(Context ctx) {
         context = ctx;
@@ -36,18 +45,24 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String type = params[0];
         // Own database similar to previous
-        Log.d("BackgroundConn", "BackgroundConn executed" );
+//        Log.d("BackgroundConn", "BackgroundConn executed" );
 //        String login_url = "http://hero.x10host.com/login.php";
 //        String register_url = "http://hero.x10host.com/register.php";
-//        String updateGPS_and_connt_url = "http://hero.x10host.com/updateAndConnect.php";
+//        String updateGPS_and_connect_url = "http://hero.x10host.com/updateAndConnect.php";
 //        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
 //        String profile_update_url = "http://hero.x10host.com/profile_update.php";
+//        String obtain_saved_user_url = "http://hero.x10host.com/saved_user_list.php";
+//        String save_user_url = "http://hero.x10host.com/save_user.php";
+//        String remove_user_url = "http://hero.x10host.com/remove_user.php";
 
         String login_url = "http://senteapps.x10host.com/login.php";
         String register_url = "http://senteapps.x10host.com/register.php";
         String updateGPS_and_connect_url = "http://senteapps.x10host.com/updateAndConnect.php";
         String updateGPS_url = "http://senteapps.x10host.com/updateGPS.php";
         String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
+        String obtain_saved_user_url = "http://senteapps.x10host.com/saved_user_list.php";
+        String save_user_url = "http://senteapps.x10host.com/save_user.php";
+        String remove_user_url = "http://senteapps.x10host.com/remove_user.php";
 
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
@@ -266,6 +281,117 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     e.printStackTrace();
                 }
                 break;
+            case OBTAIN_SAVED_USERS:
+                try {
+                    String username = params[1];
+
+                    URL url = new URL(obtain_saved_user_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+
+                    OutputStream httpOutputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter( new OutputStreamWriter(httpOutputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+
+                    writer.write(post_data);
+                    writer.flush();
+                    writer.close();
+                    httpOutputStream.close();
+
+                    InputStream httpInputStream = httpURLConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(( new InputStreamReader(httpInputStream, "UTF-8")));
+                    String result = "";
+                    String line;
+                    while((line = reader.readLine()) != null) {
+                        result += line;
+                    }
+                    reader.close();
+                    httpInputStream.close();
+
+                    httpURLConnection.disconnect();
+                    return result;
+                } catch(IOException e ) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case SAVE_USER_STR:
+                try {
+                    String username = params[1];
+                    String save_username = params[2];
+
+                    URL url = new URL(save_user_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+
+                    OutputStream httpOutputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter( new OutputStreamWriter(httpOutputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8")
+                            + "&" + URLEncoder.encode("save_username", "UTF-8") + "=" + URLEncoder.encode(save_username, "UTF-8");
+
+                    writer.write(post_data);
+                    writer.flush();
+                    writer.close();
+                    httpOutputStream.close();
+
+                    InputStream httpInputStream = httpURLConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(( new InputStreamReader(httpInputStream, "UTF-8")));
+                    String result = "";
+                    String line;
+                    while((line = reader.readLine()) != null) {
+                        result += line;
+                    }
+                    reader.close();
+                    httpInputStream.close();
+
+                    httpURLConnection.disconnect();
+                    return result;
+                } catch(IOException e ) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case REMOVE_USER_STR:
+                try {
+                    String username = params[1];
+                    String remove_username = params[2];
+
+                    URL url = new URL(remove_user_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+
+                    OutputStream httpOutputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter( new OutputStreamWriter(httpOutputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8")
+                            + "&" + URLEncoder.encode("remove_username", "UTF-8") + "=" + URLEncoder.encode(remove_username, "UTF-8");
+
+                    writer.write(post_data);
+                    writer.flush();
+                    writer.close();
+                    httpOutputStream.close();
+
+                    InputStream httpInputStream = httpURLConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(( new InputStreamReader(httpInputStream, "UTF-8")));
+                    String result = "";
+                    String line;
+                    while((line = reader.readLine()) != null) {
+                        result += line;
+                    }
+                    reader.close();
+                    httpInputStream.close();
+
+                    httpURLConnection.disconnect();
+                    return result;
+                } catch(IOException e ) {
+                    e.printStackTrace();
+                }
+                break;
         }
         return null;
     }
@@ -275,6 +401,15 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         //String TAG = "Connection";
         if (result == null)
             return;
+
+        // If Json object call method to handle json else handle string
+        try {
+//            Log.e( "BackgroundConn", result );
+            JSONObject jsonObj = new JSONObject( result );
+            jsonObjectRouter(jsonObj);
+            return;
+        } catch( JSONException e ) { }
+
         if (result.contains("login success")) {
             //Log.e(TAG, "Log in success.");
             //Log.e("My profile", result);
@@ -311,6 +446,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 
         } else if (result.contains("profile not updated")) {
             //Log.e(TAG, "profile not updated");
+        } else if( result.contains("user saved" ) ) {
+//            Log.e( "BackgroundConn", "user saved");
+        } else if( result.contains("user removed" ) ) {
+//            Log.e( "BackgroundConn", "user removed" );
         }
     }
 
@@ -368,6 +507,71 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 //                Log.d( "BackgroundConn", "Out of bound" );
             }
         }
+    }
+
+    /**
+     * Determine which method to call based on json object's "title" key
+     * @author Alvin Truong
+     * @date 7/14/2016
+     */
+    public void jsonObjectRouter( JSONObject jsonObj )
+    {
+        String titleStr = "";
+        try {
+            titleStr = jsonObj.getString("title");
+        } catch( JSONException e ) {}
+
+        switch(titleStr) {
+            case "saved users":
+                getSavedUsersFromJson(jsonObj);
+                setSavedCardAdapter();
+                break;
+        }
+    }
+
+    /**
+     * Parse json string of saved users and call method to save the saved username cards
+     * @author Alvin Truong
+     * @date 7/14/2016
+     */
+    public void getSavedUsersFromJson( JSONObject json )
+    {
+        HashMap<String, Card> savedCards = new HashMap<>();
+
+        JSONArray savedUserJsonArray = json.optJSONArray( "saved_users_list" );
+
+        // Iterate through JSONArray to obtain JSONObject of users
+        for (int i = 0; i < savedUserJsonArray.length(); ++i) {
+            try {
+                JSONObject row = savedUserJsonArray.getJSONObject(i);
+                Card savedUserCard = new Card(
+                        row.optString("username", "ERROR"),
+                        row.optString("name", "ERROR"),
+                        row.optString("gender", "ERROR"),
+                        row.optString("photo", "ERROR"),
+                        row.optString("phone", "ERROR"),
+                        row.optString("email", "ERROR"),
+                        row.optString("facebook", "ERROR"),
+                        row.optString("instagram", "ERROR"),
+                        row.optString("website", "ERROR"),
+                        row.optString("aboutme", "ERROR")
+                );
+
+                savedUserCard.setmSaved(true);
+                savedCards.put(savedUserCard.getUname(), savedUserCard);
+            } catch (JSONException e) {
+            }
+        }
+        SyncService.setSavedUnameCardPairs( savedCards );
+    }
+
+    /**
+     * Sets the saved card list to the savedcardadapter so that it will display most up to date information
+     * from the recylcerview
+     */
+    public void setSavedCardAdapter()
+    {
+        TabFragment.savedCardAdapter.setCardList( SyncService.getSavedCards() );
     }
 
     /** Parses the result from "login success" to extract the meaningful data to construct a Card.
