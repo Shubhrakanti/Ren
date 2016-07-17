@@ -50,23 +50,23 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         String type = params[0];
         // Own database similar to previous
 //        Log.d("BackgroundConn", "BackgroundConn executed" );
-        String login_url = "http://hero.x10host.com/login.php";
-        String register_url = "http://hero.x10host.com/register.php";
-        String updateGPS_and_connect_url = "http://hero.x10host.com/updateAndConnect.php";
-        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
-        String profile_update_url = "http://hero.x10host.com/profile_update.php";
-        String obtain_saved_user_url = "http://hero.x10host.com/saved_user_list.php";
-        String save_user_url = "http://hero.x10host.com/save_user.php";
-        String remove_user_url = "http://hero.x10host.com/remove_user.php";
+//        String login_url = "http://hero.x10host.com/login.php";
+//        String register_url = "http://hero.x10host.com/register.php";
+//        String updateGPS_and_connect_url = "http://hero.x10host.com/updateAndConnect.php";
+//        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
+//        String profile_update_url = "http://hero.x10host.com/profile_update.php";
+//        String obtain_saved_user_url = "http://hero.x10host.com/saved_user_list.php";
+//        String save_user_url = "http://hero.x10host.com/save_user.php";
+//        String remove_user_url = "http://hero.x10host.com/remove_user.php";
 
-//        String login_url = "http://senteapps.x10host.com/login.php";
-//        String register_url = "http://senteapps.x10host.com/register.php";
-//        String updateGPS_and_connect_url = "http://senteapps.x10host.com/updateAndConnect.php";
-//        String updateGPS_url = "http://senteapps.x10host.com/updateGPS.php";
-//        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
-//        String obtain_saved_user_url = "http://senteapps.x10host.com/saved_user_list.php";
-//        String save_user_url = "http://senteapps.x10host.com/save_user.php";
-//        String remove_user_url = "http://senteapps.x10host.com/remove_user.php";
+        String login_url = "http://senteapps.x10host.com/login.php";
+        String register_url = "http://senteapps.x10host.com/register.php";
+        String updateGPS_and_connect_url = "http://senteapps.x10host.com/updateAndConnect.php";
+        String updateGPS_url = "http://senteapps.x10host.com/updateGPS.php";
+        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
+        String obtain_saved_user_url = "http://senteapps.x10host.com/saved_user_list.php";
+        String save_user_url = "http://senteapps.x10host.com/save_user.php";
+        String remove_user_url = "http://senteapps.x10host.com/remove_user.php";
 
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
@@ -542,7 +542,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
      */
     private void getAndSaveNearbyUsersFromJson( JSONObject json )
     {
-        Log.e("bconn", "Inside nearbyusers method" );
+//        Log.e("bconn", "Inside nearbyusers method" );
         JSONArray nearbyUsersJsonArray = json.optJSONArray( "nearby_users_list" );
 
         for( int row = 0; row < nearbyUsersJsonArray.length(); ++row ) {
