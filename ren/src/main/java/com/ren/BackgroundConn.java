@@ -37,6 +37,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                                 SAVE_USER_STR = "save_user",
                                 REMOVE_USER_STR = "remove_user";
 
+    // Strings used to identify json object
+    private final String    SAVED_USERS_JSON_STR = "saved users",
+                            NEARBY_USERS_JSON_STR = "nearby users";
+
     BackgroundConn(Context ctx) {
         context = ctx;
     }
@@ -46,23 +50,23 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         String type = params[0];
         // Own database similar to previous
 //        Log.d("BackgroundConn", "BackgroundConn executed" );
-//        String login_url = "http://hero.x10host.com/login.php";
-//        String register_url = "http://hero.x10host.com/register.php";
-//        String updateGPS_and_connect_url = "http://hero.x10host.com/updateAndConnect.php";
-//        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
-//        String profile_update_url = "http://hero.x10host.com/profile_update.php";
-//        String obtain_saved_user_url = "http://hero.x10host.com/saved_user_list.php";
-//        String save_user_url = "http://hero.x10host.com/save_user.php";
-//        String remove_user_url = "http://hero.x10host.com/remove_user.php";
+        String login_url = "http://hero.x10host.com/login.php";
+        String register_url = "http://hero.x10host.com/register.php";
+        String updateGPS_and_connect_url = "http://hero.x10host.com/updateAndConnect.php";
+        String updateGPS_url = "http://hero.x10host.com/updateGPS.php";
+        String profile_update_url = "http://hero.x10host.com/profile_update.php";
+        String obtain_saved_user_url = "http://hero.x10host.com/saved_user_list.php";
+        String save_user_url = "http://hero.x10host.com/save_user.php";
+        String remove_user_url = "http://hero.x10host.com/remove_user.php";
 
-        String login_url = "http://senteapps.x10host.com/login.php";
-        String register_url = "http://senteapps.x10host.com/register.php";
-        String updateGPS_and_connect_url = "http://senteapps.x10host.com/updateAndConnect.php";
-        String updateGPS_url = "http://senteapps.x10host.com/updateGPS.php";
-        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
-        String obtain_saved_user_url = "http://senteapps.x10host.com/saved_user_list.php";
-        String save_user_url = "http://senteapps.x10host.com/save_user.php";
-        String remove_user_url = "http://senteapps.x10host.com/remove_user.php";
+//        String login_url = "http://senteapps.x10host.com/login.php";
+//        String register_url = "http://senteapps.x10host.com/register.php";
+//        String updateGPS_and_connect_url = "http://senteapps.x10host.com/updateAndConnect.php";
+//        String updateGPS_url = "http://senteapps.x10host.com/updateGPS.php";
+//        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
+//        String obtain_saved_user_url = "http://senteapps.x10host.com/saved_user_list.php";
+//        String save_user_url = "http://senteapps.x10host.com/save_user.php";
+//        String remove_user_url = "http://senteapps.x10host.com/remove_user.php";
 
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
@@ -439,7 +443,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 //            Log.e("ServerResponse", "GPS updated.");
             //Log.e(TAG, "Parse cards here:");
             //Log.e(TAG, result);
-            getUsers(result);
+//            getUsers(result);
             //update list of cards
         } else if (result.contains("profile updated")) {
             //Log.e(TAG, "profile updated"); // The echo is literally "profile updated"
@@ -453,61 +457,61 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         }
     }
 
-    private void getUsers(String str) {
-        str = str.replace("gps updated ", "");
-        String[] rows = str.split("<br>");
-
-        Location myLocation = new Location("MyLocation");
-        String[] gps = myLocationStr.split(",");
-        if( gps[0]!=null &&  gps[1]!=null) {
-            myLocation.setLatitude(Double.parseDouble(gps[0]));
-//            myLocation.setLatitude(Double.parseDouble(gps[1]));
-            myLocation.setLongitude(Double.parseDouble(gps[1]));
-        }
-
-        for (String s : rows) {
-            try {
-                //Log.d("Background", "getUsers string: " + s);
-                List<String> fields = new ArrayList<>();
-                while (s.contains("<li>")) {
-                    String currentField = s.substring(0, s.indexOf("<li>"));
-                    s = s.substring(currentField.length() + 4);
-                    fields.add(currentField);
-                    //Log.e("AddingField", currentField);
-                }
-                if (fields.get(1).replaceFirst(" ", "").equals(USERNAME)) {
-                    continue;
-                }
-                Location usrLocation = new Location("UsrLocation");
-                gps = fields.get(0).split(",");
-                try {
-                    usrLocation.setLatitude(Double.parseDouble(gps[0]));
-//                usrLocation.setLatitude(Double.parseDouble(gps[1]));
-                    usrLocation.setLongitude(Double.parseDouble(gps[1]));
-                } catch (NumberFormatException e) {
-                    continue;
-                }
-            /*if(usrLocation.distanceTo(myLocation)>DISTANCE) {
-                continue;
-            }*/
-                Card receivedCard = new Card(
-                        fields.get(1).replaceFirst(" ", ""),
-                        fields.get(2).replaceFirst(" ", ""),
-                        fields.get(3).replaceFirst(" ", ""),
-                        fields.get(4).replaceFirst(" ", ""),
-                        fields.get(5).replaceFirst(" ", ""),
-                        fields.get(6).replaceFirst(" ", ""),
-                        fields.get(7).replaceFirst(" ", ""),
-                        fields.get(8).replaceFirst(" ", ""),
-                        fields.get(9).replaceFirst(" ", ""),
-                        fields.get(10).replaceFirst(" ", "")
-                );
-                SyncService.addNewCard(receivedCard);
-            } catch( IndexOutOfBoundsException e ) {
-//                Log.d( "BackgroundConn", "Out of bound" );
-            }
-        }
-    }
+//    private void getUsers(String str) {
+//        str = str.replace("gps updated ", "");
+//        String[] rows = str.split("<br>");
+//
+//        Location myLocation = new Location("MyLocation");
+//        String[] gps = myLocationStr.split(",");
+//        if( gps[0]!=null &&  gps[1]!=null) {
+//            myLocation.setLatitude(Double.parseDouble(gps[0]));
+////            myLocation.setLatitude(Double.parseDouble(gps[1]));
+//            myLocation.setLongitude(Double.parseDouble(gps[1]));
+//        }
+//
+//        for (String s : rows) {
+//            try {
+//                //Log.d("Background", "getUsers string: " + s);
+//                List<String> fields = new ArrayList<>();
+//                while (s.contains("<li>")) {
+//                    String currentField = s.substring(0, s.indexOf("<li>"));
+//                    s = s.substring(currentField.length() + 4);
+//                    fields.add(currentField);
+//                    //Log.e("AddingField", currentField);
+//                }
+//                if (fields.get(1).replaceFirst(" ", "").equals(USERNAME)) {
+//                    continue;
+//                }
+//                Location usrLocation = new Location("UsrLocation");
+//                gps = fields.get(0).split(",");
+//                try {
+//                    usrLocation.setLatitude(Double.parseDouble(gps[0]));
+////                usrLocation.setLatitude(Double.parseDouble(gps[1]));
+//                    usrLocation.setLongitude(Double.parseDouble(gps[1]));
+//                } catch (NumberFormatException e) {
+//                    continue;
+//                }
+//            /*if(usrLocation.distanceTo(myLocation)>DISTANCE) {
+//                continue;
+//            }*/
+//                Card receivedCard = new Card(
+//                        fields.get(1).replaceFirst(" ", ""),
+//                        fields.get(2).replaceFirst(" ", ""),
+//                        fields.get(3).replaceFirst(" ", ""),
+//                        fields.get(4).replaceFirst(" ", ""),
+//                        fields.get(5).replaceFirst(" ", ""),
+//                        fields.get(6).replaceFirst(" ", ""),
+//                        fields.get(7).replaceFirst(" ", ""),
+//                        fields.get(8).replaceFirst(" ", ""),
+//                        fields.get(9).replaceFirst(" ", ""),
+//                        fields.get(10).replaceFirst(" ", "")
+//                );
+//                SyncService.addNewCard(receivedCard);
+//            } catch( IndexOutOfBoundsException e ) {
+////                Log.d( "BackgroundConn", "Out of bound" );
+//            }
+//        }
+//    }
 
     /**
      * Determine which method to call based on json object's "title" key
@@ -522,10 +526,39 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         } catch( JSONException e ) {}
 
         switch(titleStr) {
-            case "saved users":
-                getSavedUsersFromJson(jsonObj);
+            case SAVED_USERS_JSON_STR:
+                getAndSaveSavedUsersFromJson(jsonObj);
                 setSavedCardAdapter();
                 break;
+
+            case NEARBY_USERS_JSON_STR:
+                getAndSaveNearbyUsersFromJson( jsonObj );
+                break;
+        }
+    }
+
+    /**
+     *  Obtain usrs from json object, generate card, and add to received cards structure
+     */
+    private void getAndSaveNearbyUsersFromJson( JSONObject json )
+    {
+        Log.e("bconn", "Inside nearbyusers method" );
+        JSONArray nearbyUsersJsonArray = json.optJSONArray( "nearby_users_list" );
+
+        for( int row = 0; row < nearbyUsersJsonArray.length(); ++row ) {
+            try {
+                JSONObject jsonRow = nearbyUsersJsonArray.getJSONObject( row );
+                Card nearbyUserCard = new Card(
+                        jsonRow.optString("username"),
+                        jsonRow.optString("name"),
+                        jsonRow.optString("gender"),
+                        jsonRow.optString("photo"),
+                        jsonRow.optString("aboutme")
+                );
+
+                SyncService.addNewCard( nearbyUserCard );
+
+            } catch( JSONException e ) { Log.e("bconn", "Json Error"); }
         }
     }
 
@@ -534,7 +567,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
      * @author Alvin Truong
      * @date 7/14/2016
      */
-    public void getSavedUsersFromJson( JSONObject json )
+    private void getAndSaveSavedUsersFromJson( JSONObject json )
     {
         HashMap<String, Card> savedCards = new HashMap<>();
 
@@ -545,16 +578,16 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
             try {
                 JSONObject row = savedUserJsonArray.getJSONObject(i);
                 Card savedUserCard = new Card(
-                        row.optString("username", "ERROR"),
-                        row.optString("name", "ERROR"),
-                        row.optString("gender", "ERROR"),
-                        row.optString("photo", "ERROR"),
-                        row.optString("phone", "ERROR"),
-                        row.optString("email", "ERROR"),
-                        row.optString("facebook", "ERROR"),
-                        row.optString("instagram", "ERROR"),
-                        row.optString("website", "ERROR"),
-                        row.optString("aboutme", "ERROR")
+                        row.optString("username"),
+                        row.optString("name"),
+                        row.optString("gender"),
+                        row.optString("photo"),
+                        row.optString("phone"),
+                        row.optString("email"),
+                        row.optString("facebook"),
+                        row.optString("instagram"),
+                        row.optString("website"),
+                        row.optString("aboutme")
                 );
 
                 savedUserCard.setmSaved(true);
@@ -569,7 +602,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
      * Sets the saved card list to the savedcardadapter so that it will display most up to date information
      * from the recylcerview
      */
-    public void setSavedCardAdapter()
+    private void setSavedCardAdapter()
     {
         TabFragment.savedCardAdapter.setCardList( SyncService.getSavedCards() );
     }

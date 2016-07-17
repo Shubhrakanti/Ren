@@ -3,7 +3,9 @@ package com.ren;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,9 +27,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     private final int layoutStyle;
     private LayoutInflater layoutInflater;
 
+    private Context mContext;
+
     private CardAdapter.ClickListener clickListener; // Implement the interface
 
     public CardAdapter(Context context, int layoutStyle) {
+        mContext = context;
         layoutInflater = LayoutInflater.from(context);
         this.layoutStyle = layoutStyle;
     }
@@ -196,6 +201,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 //            }
             else {
                 if (clickListener != null) {
+                    // On card activity click update all saved users.
+//                    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences( mContext );
+//                    BackgroundConn bckConn = new BackgroundConn( mContext );
+//                    bckConn.execute( BackgroundConn.OBTAIN_SAVED_USERS, sp.getString("Login uname", "") );
+
                     Card clickedCard = cards.get(getAdapterPosition());
                     clickListener.itemClicked(view, clickedCard);
                 }

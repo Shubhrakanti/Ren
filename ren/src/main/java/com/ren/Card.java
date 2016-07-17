@@ -36,6 +36,16 @@ public class Card implements Serializable {
         mOther = "";
     }
 
+    public Card( String u, String name, String gender, String photo, String aboutm) {
+        this();
+
+        uName = u;
+        mName = name;
+        mGender = gender;
+        mPhotoEncoded = (photo.equals(" "))||(photo.equals("")) ? "Default" : photo;
+        mOther = aboutm;
+    }
+
     public Card(String u, String name, String gender, String photo, String phone, String email, String fb, String ig,
                 String website, String other) {
         uName = u;
