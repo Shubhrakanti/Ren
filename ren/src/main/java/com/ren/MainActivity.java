@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.google.gson.Gson;
@@ -230,6 +231,11 @@ public class MainActivity extends AppCompatActivity {
 //        iet = (IconEditText) findViewById(R.id.facebook_account);
 //        if (iet != null)
 //            editor.putString("Facebook", iet.getEditText().getText().toString());
+        Profile fbProfile = Profile.getCurrentProfile();
+        if( fbProfile != null )
+            editor.putString("Facebook", fbProfile.getId());
+        else
+            editor.putString("Facebook", "");
 
         iet = (IconEditText) findViewById(R.id.instagram);
         if (iet != null)
@@ -580,6 +586,10 @@ public class MainActivity extends AppCompatActivity {
 //        if (iet != null) { // There was a layout for Chinese
 //            fb = iet.getText().toString();
 //        }
+        Profile fbProfile = Profile.getCurrentProfile();
+        String fb = "";
+        if( fbProfile != null )
+           fb = fbProfile.getId();
 
         iet = (IconEditText) findViewById(R.id.instagram);
         String ig = "";
@@ -606,7 +616,7 @@ public class MainActivity extends AppCompatActivity {
         /*Log.e("GetMyCard", "Ready to update server.");
         Log.e("GetMyCard", "uName is: "+uName);*/
         return new Card(uName,
-                name, userGender.toString(), userPhotoStr, phone, email, "", ig, website, aboutMe);
+                name, userGender.toString(), userPhotoStr, phone, email, fb, ig, website, aboutMe);
     }
 
     // ServiceConnection monitors the connection with the service

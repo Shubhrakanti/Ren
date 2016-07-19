@@ -2,10 +2,12 @@ package com.ren;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,14 +75,24 @@ public class MyCardFragment extends Fragment {
             ib.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final String url = "fb://page/" + myCard.getmFacebook();
                     try {
-                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                        startActivity(facebookAppIntent);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.facebook_not_found), Toast.LENGTH_SHORT).show();
+                        int fbVersionCode = getContext().getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
                     }
+                    final String url = getFacebookPageUrl() + myCard.getmFacebook();
+
+                    if( MainActivity.DEBUG ) { Log.e("MyCardFragment", "Fb ID: " + myCard.getmFacebook()); }
+
+                    Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(facebookIntent);
+//                    try {
+//                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//                        startActivity(facebookAppIntent);
+//                    } catch (ActivityNotFoundException e) {
+//                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.facebook_not_found), Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
             });
@@ -109,6 +121,21 @@ public class MyCardFragment extends Fragment {
             });
         }
         return myCardView;
+    }
+
+    private String getFacebookPageUrl()
+    {
+        final String FACEBOOK_BASE_URL = "https://www.facebook.com/";
+        try {
+            int fbVersionCode = getContext().getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+
+            if(fbVersionCode >= 3002850)
+                return "fb://facewebmodal/f?href=" + FACEBOOK_BASE_URL;
+            else
+                return "fb://page/";
+        }catch (PackageManager.NameNotFoundException e ){
+            return FACEBOOK_BASE_URL;
+        }
     }
 
 }
