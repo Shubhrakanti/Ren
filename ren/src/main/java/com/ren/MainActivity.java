@@ -28,7 +28,9 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.google.gson.Gson;
 import com.kylewbanks.android.iconedittext.IconEditText;
 
@@ -38,6 +40,8 @@ import com.facebook.FacebookSdk;
 import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity {
+    // Debug purposes
+    public static boolean DEBUG = true;
     // Crop
     private static final int PICK_CROP = 100;
     // For service
@@ -79,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                 Context.BIND_AUTO_CREATE);
         syncService = new SyncService();
 
-        FacebookSdk.sdkInitialize(this);
     }
 
     @Override
@@ -224,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
         iet = (IconEditText) findViewById(R.id.email_address);
         editor.putString("Email", iet.getEditText().getText().toString());
 
-        iet = (IconEditText) findViewById(R.id.facebook_account);
-        if (iet != null)
-            editor.putString("Facebook", iet.getEditText().getText().toString());
+//        iet = (IconEditText) findViewById(R.id.facebook_account);
+//        if (iet != null)
+//            editor.putString("Facebook", iet.getEditText().getText().toString());
 
         iet = (IconEditText) findViewById(R.id.instagram);
         if (iet != null)
@@ -273,12 +276,12 @@ public class MainActivity extends AppCompatActivity {
         String email = prefs.getString("Email", null);
         editText.setText(email);
 
-        iet = (IconEditText) findViewById(R.id.facebook_account);
-        if (iet != null) {
-            editText = iet.getEditText();
-            String fb = prefs.getString("Facebook", null);
-            editText.setText(fb);
-        }
+//        iet = (IconEditText) findViewById(R.id.facebook_account);
+//        if (iet != null) {
+//            editText = iet.getEditText();
+//            String fb = prefs.getString("Facebook", null);
+//            editText.setText(fb);
+//        }
 
         iet = (IconEditText) findViewById(R.id.instagram);
         if (iet != null) {
@@ -518,6 +521,12 @@ public class MainActivity extends AppCompatActivity {
                 //Fixing saved contacts view with refresh issue by setting tab to home page
                 // 0 = home page
                 bottomFragmentTabHost.setCurrentTab( 0 );
+
+                // Logout facebook account
+                LoginManager fbLoginMngr = LoginManager.getInstance().getInstance();
+                if( fbLoginMngr != null )
+                    fbLoginMngr.logOut();
+
                 if ( SyncService.serviceRunning )
                     syncService.stopService();
                 Intent i = new Intent(getApplicationContext(), LogInActivity.class);
@@ -566,11 +575,11 @@ public class MainActivity extends AppCompatActivity {
         iet = (IconEditText) findViewById(R.id.email_address);
         String email = iet.getText().toString();
 
-        iet = (IconEditText) findViewById(R.id.facebook_account);
-        String fb = "";
-        if (iet != null) { // There was a layout for Chinese
-            fb = iet.getText().toString();
-        }
+//        iet = (IconEditText) findViewById(R.id.facebook_account);
+//        String fb = "";
+//        if (iet != null) { // There was a layout for Chinese
+//            fb = iet.getText().toString();
+//        }
 
         iet = (IconEditText) findViewById(R.id.instagram);
         String ig = "";
@@ -597,7 +606,7 @@ public class MainActivity extends AppCompatActivity {
         /*Log.e("GetMyCard", "Ready to update server.");
         Log.e("GetMyCard", "uName is: "+uName);*/
         return new Card(uName,
-                name, userGender.toString(), userPhotoStr, phone, email, fb, ig, website, aboutMe);
+                name, userGender.toString(), userPhotoStr, phone, email, "", ig, website, aboutMe);
     }
 
     // ServiceConnection monitors the connection with the service
