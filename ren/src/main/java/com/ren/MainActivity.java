@@ -28,8 +28,12 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 import com.kylewbanks.android.iconedittext.IconEditText;
+
+//Facebook SDK Import
+import com.facebook.FacebookSdk;
 
 import java.io.ByteArrayOutputStream;
 
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         bindService(new Intent(this, SyncService.class), serviceConnection,
                 Context.BIND_AUTO_CREATE);
         syncService = new SyncService();
+
+        FacebookSdk.sdkInitialize(this);
     }
 
     @Override

@@ -59,4 +59,7 @@
     <!-- Ignore Dialog -->
     <string name="ignore_dialog_title"> Ignore User </string>
     <string name="ignore_dialog_message"> Are you sure you want to ignore?</string>
+
+    <!--Facebook ID-->
+    <string name="facebook_app_id">310206512645519</string>
 </resources>
