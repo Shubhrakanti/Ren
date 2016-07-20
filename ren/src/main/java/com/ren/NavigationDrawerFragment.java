@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -72,7 +76,6 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        // Facebook initializations
         FacebookSdk.sdkInitialize( getContext() );
         callbackManager = CallbackManager.Factory.create();
     }
@@ -104,7 +107,6 @@ public class NavigationDrawerFragment extends Fragment {
                             if (MainActivity.DEBUG) {
                                 Log.e("NavDrawer", "We did it boys: " + user_profile.getId());
                             }
-                            Toast.makeText(getActivity(), "We did it boys: " + user_profile.getId(), Toast.LENGTH_SHORT).show();
                             mProfileTracker.stopTracking();
                         }
                     };
@@ -159,6 +161,7 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void run() {
                 mDrawerToggle.syncState(); // For the hamburger
+                toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
             }
         });
     }

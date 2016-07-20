@@ -7,6 +7,8 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -16,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,10 +31,15 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
+import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
 import com.kylewbanks.android.iconedittext.IconEditText;
 
@@ -70,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     // Navigation
     private NavigationDrawerFragment drawerFragment;
 
+    // Facebook variables
+    ProfileTracker fbProfileTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +94,16 @@ public class MainActivity extends AppCompatActivity {
                 Context.BIND_AUTO_CREATE);
         syncService = new SyncService();
 
+        // Facebook initializations
+        fbProfileTracker = new ProfileTracker(){
+            @Override
+            protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+            // On logout or login of facebook update profile;
+                if(DEBUG) { Log.e("MainActivity", "Profile Changed"); }
+                updateProfileBasedOnNavDrawer();
+            }
+        };
+
     }
 
     @Override
@@ -95,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
             unbindService(serviceConnection);
             isBound = false;
         }
+
+        // Stop facebook tracking
+        fbProfileTracker.stopTracking();
     }
 
     // Back button acts like home button
@@ -437,6 +460,8 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
+        // Setup button listener for facebook for profile update
+
         // ImageButton
         ImageButton userPhotoButton = (ImageButton) findViewById(R.id.user_photo_button);
         userPhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -487,20 +512,8 @@ public class MainActivity extends AppCompatActivity {
         updateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BackgroundConn bckConn = new BackgroundConn(getApplicationContext());
-                // Register process needs modification
-                Card myCard = getMyCard( true );
-                //String uName = BackgroundConn.USERNAME;
-                bckConn.execute("update_profile", myCard.getmName(), myCard.getmPhone(), myCard.getmEmail(), myCard.getmGender(),
-                        myCard.getmFacebook(), myCard.getmInstagram(),
-                        myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
-
-
-                // Updates My Card profile using  technique
-                if( bottomFragmentTabHost.getCurrentTab() == MY_CARD_TAB_INDEX ) {
-                    bottomFragmentTabHost.setCurrentTab( HOME_TAB_INDEX );
-                    bottomFragmentTabHost.setCurrentTab( MY_CARD_TAB_INDEX );
-                }
+                // Send data to database
+                updateProfileBasedOnNavDrawer();
 
                 Toast.makeText(getApplicationContext(), "Profile updated..", Toast.LENGTH_SHORT).show();
             }
@@ -520,6 +533,9 @@ public class MainActivity extends AppCompatActivity {
                 spEditor.putString( "Login uname", "" );
 
                 spEditor.apply();
+
+                // Update profile just incase
+                updateProfileBasedOnNavDrawer();
 
                 // Clear Received Cards and Tab
                 SyncService.clearReceivedCards();
@@ -619,6 +635,27 @@ public class MainActivity extends AppCompatActivity {
                 name, userGender.toString(), userPhotoStr, phone, email, fb, ig, website, aboutMe);
     }
 
+    /**
+     * Generates an async task that will update the user profile on the database
+     * based on current navigation drawer
+     */
+    public void updateProfileBasedOnNavDrawer()
+    {
+        BackgroundConn bckConn = new BackgroundConn(getApplicationContext());
+        // Register process needs modification
+        Card myCard = getMyCard( true );
+        //String uName = BackgroundConn.USERNAME;
+        bckConn.execute("update_profile", myCard.getmName(), myCard.getmPhone(), myCard.getmEmail(), myCard.getmGender(),
+                myCard.getmFacebook(), myCard.getmInstagram(),
+                myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
+
+        // Updates My Card profile if the user is currently on that tab
+        if( bottomFragmentTabHost.getCurrentTab() == MY_CARD_TAB_INDEX ) {
+            bottomFragmentTabHost.setCurrentTab( HOME_TAB_INDEX );
+            bottomFragmentTabHost.setCurrentTab( MY_CARD_TAB_INDEX );
+        }
+
+    }
     // ServiceConnection monitors the connection with the service
     private ServiceConnection serviceConnection = new ServiceConnection() {
 

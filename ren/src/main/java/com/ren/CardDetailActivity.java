@@ -2,10 +2,14 @@ package com.ren;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -25,6 +29,8 @@ public class CardDetailActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;
         //getSupportActionBar().setHomeButtonEnabled(true); // Show the return button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Return only one level
+        // Set color for navigation bar
+        toolbar.getNavigationIcon().setColorFilter( Color.WHITE, PorterDuff.Mode.SRC_ATOP);
 
         final Card cardClicked = (Card) getIntent().getExtras().get("Card");
 
@@ -76,14 +82,25 @@ public class CardDetailActivity extends AppCompatActivity {
             ib.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final String url = "fb://page/" + cardClicked.getmFacebook();
                     try {
-                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                        startActivity(facebookAppIntent);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(getApplicationContext(), getString(R.string.facebook_not_found), Toast.LENGTH_SHORT).show();
+                        int fbVersionCode = getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
                     }
+                    final String url = getFacebookPageUrl() + cardClicked.getmFacebook();
+
+                    if( MainActivity.DEBUG ) { Log.e("MyCardFragment", "Fb ID: " + cardClicked.getmFacebook()); }
+
+                    Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(facebookIntent);
+//                    final String url = "fb://page/" + cardClicked.getmFacebook();
+//                    try {
+//                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+//                        startActivity(facebookAppIntent);
+//                    } catch (ActivityNotFoundException e) {
+//                        Toast.makeText(getApplicationContext(), getString(R.string.facebook_not_found), Toast.LENGTH_SHORT).show();
+//                    }
 
                 }
             });
@@ -126,6 +143,21 @@ public class CardDetailActivity extends AppCompatActivity {
             });
         }*/
 
+    }
+
+    private String getFacebookPageUrl()
+    {
+        final String FACEBOOK_BASE_URL = "https://www.facebook.com/";
+        try {
+            int fbVersionCode = getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+
+            if(fbVersionCode >= 3002850)
+                return "fb://facewebmodal/f?href=" + FACEBOOK_BASE_URL;
+            else
+                return "fb://page/";
+        }catch (PackageManager.NameNotFoundException e ){
+            return FACEBOOK_BASE_URL;
+        }
     }
 
     @Override
