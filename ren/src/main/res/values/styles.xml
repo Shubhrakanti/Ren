@@ -9,4 +9,5 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
+
 </resources>

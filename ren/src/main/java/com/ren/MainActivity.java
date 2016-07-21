@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -100,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
             // On logout or login of facebook update profile;
                 if(DEBUG) { Log.e("MainActivity", "Profile Changed"); }
-                updateProfileBasedOnNavDrawer();
+                if( currentProfile != null )
+                    updateProfileBasedOnNavDrawer();
             }
         };
 
@@ -279,6 +281,27 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+    // ========================================================
+    // Facebook Remove/Add Button
+    // ========================================================
+    private void switchToFBLoginButton()
+    {
+        LoginButton fbButton = (LoginButton)findViewById( R.id.facebook_login_button );
+        Button      fbRemoveProfile = (Button)findViewById(R.id.fb_remove_profile_button);
+
+        fbButton.setVisibility(View.VISIBLE);
+        fbRemoveProfile.setVisibility(View.GONE);
+    }
+
+    private void switchToRemoveProfileButton()
+    {
+        LoginButton fbButton = (LoginButton)findViewById( R.id.facebook_login_button );
+        Button      fbRemoveProfile = (Button)findViewById(R.id.fb_remove_profile_button);
+
+        fbButton.setVisibility(View.GONE);
+        fbRemoveProfile.setVisibility(View.VISIBLE);
+    }
+
     private void recoverNavigationDrawer() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -311,6 +334,13 @@ public class MainActivity extends AppCompatActivity {
 //            String fb = prefs.getString("Facebook", null);
 //            editText.setText(fb);
 //        }
+        String fbId = prefs.getString("Facebook", "");
+        if( fbId.equals("") ) {
+            switchToFBLoginButton();
+        }
+        else {
+            switchToRemoveProfileButton();
+        }
 
         iet = (IconEditText) findViewById(R.id.instagram);
         if (iet != null) {
@@ -460,6 +490,16 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), toolbar);
 
+        Button removeFBButton = (Button)drawerFragment.getView().findViewById(R.id.fb_remove_profile_button);
+
+        // Set onclick listener
+        removeFBButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logOut();
+                updateProfileBasedOnNavDrawer();
+            }
+        });
         // Setup button listener for facebook for profile update
 
         // ImageButton
@@ -544,10 +584,10 @@ public class MainActivity extends AppCompatActivity {
                 // 0 = home page
                 bottomFragmentTabHost.setCurrentTab( 0 );
 
-                // Logout facebook account
-                LoginManager fbLoginMngr = LoginManager.getInstance().getInstance();
-                if( fbLoginMngr != null )
-                    fbLoginMngr.logOut();
+//                // Logout facebook account
+//                LoginManager fbLoginMngr = LoginManager.getInstance().getInstance();
+//                if( fbLoginMngr != null )
+//                    fbLoginMngr.logOut();
 
                 if ( SyncService.serviceRunning )
                     syncService.stopService();

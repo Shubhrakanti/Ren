@@ -60,7 +60,11 @@
     <string name="ignore_dialog_title"> Ignore User </string>
     <string name="ignore_dialog_message"> Are you sure you want to ignore?</string>
 
+    <!--Social Media Label-->
+    <string name="social_media_label">Add Profiles to Card</string>
     <!--Facebook-->
     <string name="facebook_app_id">310206512645519</string>
     <string name="facebook_activity_name">Facebook Login</string>
+    <string name="facebook_remove_profile">Remove Facebook Profile</string>
+
 </resources>

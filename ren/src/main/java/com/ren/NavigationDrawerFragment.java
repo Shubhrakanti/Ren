@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.kylewbanks.android.iconedittext.IconEditText;
@@ -86,7 +88,8 @@ public class NavigationDrawerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(com.ren.R.layout.fragment_navigation_drawer, container, false);
 
-        LoginButton fbLoginButton = (LoginButton) view.findViewById(R.id.facebook_login_button);
+        final LoginButton fbLoginButton = (LoginButton) view.findViewById(R.id.facebook_login_button);
+
         // Set Facebook permissions we are requesting
         fbLoginButton.setReadPermissions("public_profile");
         fbLoginButton.setFragment( this );
