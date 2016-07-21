@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HelpDialogButtonView">
+        <attr name="dialogTitle" format="reference"/>
+        <attr name="dialogMsg" format="reference"/>
+        <attr name="dialogDrawable" format="reference"/>
+    </declare-styleable>
+</resources>

@@ -206,9 +206,23 @@
                 android:minHeight="38dp"
                 android:layout_marginLeft="5dp"
                 android:text="@string/facebook_remove_profile"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:visibility="visible"
                  />
+            <com.ren.HelpDialogButtonView
+                xmlns:HelpDialog="http://schemas.android.com/apk/res-auto"
+                style="@style/com_facebook_button"
+                android:background="@color/com_facebook_blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:minWidth="30dp"
+                android:minHeight="38dp"
+                HelpDialog:dialogTitle="@string/facebook_help_dialog_title"
+                HelpDialog:dialogMsg="@string/facebook_help_dialog_msg"
+                HelpDialog:dialogDrawable="@android:drawable/ic_dialog_info"
+                />
         </LinearLayout>
 
         <com.kylewbanks.android.iconedittext.IconEditText
