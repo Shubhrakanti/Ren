@@ -33,26 +33,18 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
-import com.facebook.CallbackManager;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
 import com.kylewbanks.android.iconedittext.IconEditText;
 
-//Facebook SDK Import
-import com.facebook.FacebookSdk;
-
 import java.io.ByteArrayOutputStream;
 
 public class MainActivity extends AppCompatActivity {
     // Debug purposes
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false ;
     // Crop
     private static final int PICK_CROP = 100;
     // For service

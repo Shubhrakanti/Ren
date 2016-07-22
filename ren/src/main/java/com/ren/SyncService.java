@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SyncService extends Service {
 
-    private String max_dist = "1000"; // in miles
+    private String max_dist = "2"; // in miles
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;

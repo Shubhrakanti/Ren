@@ -1,20 +1,12 @@
 package com.ren;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.os.Build;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-import android.support.v4.content.ContextCompat;
 
 /**
  * Creates a button that has a sole purpose of showing a help menu.
@@ -35,7 +27,6 @@ public class HelpDialogButtonView extends Button implements View.OnClickListener
 
         setText("?");
 
-        Log.e(TAG, "Being created");
         try {
 
             dialogTitleStr  = a.getString(R.styleable.HelpDialogButtonView_dialogTitle);
@@ -52,7 +43,6 @@ public class HelpDialogButtonView extends Button implements View.OnClickListener
 
     private void buildAlertDialog()
     {
-        Log.e(TAG, "Dialog being built");
            AlertDialog.Builder b = new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
         // Create custom title if drawable exists
 
