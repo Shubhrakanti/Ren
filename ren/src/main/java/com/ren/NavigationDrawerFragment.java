@@ -104,12 +104,8 @@ public class NavigationDrawerFragment extends Fragment {
                     mProfileTracker = new ProfileTracker() {
                         @Override
                         protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                            //currentProfile == the new profile
+                            //currentProfile -? the new profile
                             Profile.setCurrentProfile( currentProfile );
-                            Profile user_profile = Profile.getCurrentProfile();
-                            if (MainActivity.DEBUG) {
-                                Log.e("NavDrawer", "We did it boys: " + user_profile.getId());
-                            }
                             mProfileTracker.stopTracking();
                         }
                     };
@@ -175,63 +171,7 @@ public class NavigationDrawerFragment extends Fragment {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    //    /** Populates navigation drawer with "successful login" data.
-//     *
-//     * @param myCard contains the card with the details associated with person logging in.
-//     * @author Alvin Truong
-//     * @date   6/25/2016
-//     */
-//    public void setMyCard( Card myCard ) {
-//
-//        EditText editTextView = (EditText) getView().findViewById( R.id.user_name );
-//        editTextView.setText( myCard.getmName() );
-//
-//        IconEditText iconEditTextView = (IconEditText) getView().findViewById( R.id.user_phone );
-//        iconEditTextView.getEditText().setText( myCard.getmPhone() );
-//
-//        iconEditTextView = (IconEditText) getView().findViewById( R.id.email_address );
-//        iconEditTextView.getEditText().setText( myCard.getmEmail() );
-//
-//        iconEditTextView = (IconEditText) getView().findViewById( R.id.facebook_account );
-//        iconEditTextView.getEditText().setText( myCard.getmFacebook() );
-//
-//        iconEditTextView = (IconEditText) getView().findViewById( R.id.instagram );
-//        iconEditTextView.getEditText().setText( myCard.getmInstagram() );
-//
-//        iconEditTextView = (IconEditText) getView().findViewById( R.id.website );
-//        iconEditTextView.getEditText().setText( myCard.getmWebsite() );
-//
-//        editTextView = (EditText) getView().findViewById( R.id.about_me );
-//        editTextView.setText( myCard.getmOther() );
-//
-//        // Set gender image
-//        ImageView imageView = (ImageView) getView().findViewById(R.id.genderIcon);
-//        switch( myCard.getmGender() ) {
-//            case "MALE":
-//                imageView.setImageResource( R.drawable.male );
-//                break;
-//
-//            case "FEMALE":
-//                imageView.setImageResource( R.drawable.female );
-//                break;
-//
-//            default:
-//                imageView.setImageResource( 0 );
-//                break;
-//        }
-//
-//        // Set profile image
-//        ImageButton ib = (ImageButton) getView().findViewById(R.id.user_photo_button);
-//        if (!myCard.getmPhotoEncoded().equals("Default")) {
-//            // User has custom photo
-//            Bitmap customPhoto = myCard.decodeBase64();
-//            ib.setImageBitmap( customPhoto );
-//        }
-//        else {
-//            ib.setImageResource( R.drawable.usericon );
-//        }
-//    }
-    public static void hide_keyboard(Activity activity) {
+   public static void hide_keyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();

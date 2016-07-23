@@ -4,11 +4,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
 public class Card implements Serializable {
+    private static final String TAG = "Card";
 
     private String uName;
     private String mName; // This is the user's real name
@@ -62,7 +64,8 @@ public class Card implements Serializable {
 
     public static String encodeTobase64(Bitmap image) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        image.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+        if(MainActivity.DEBUG) { Log.e(TAG, "Image size after compression: " + (baos.size()/1000) + "kb"); }
         byte[] b = baos.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
     }

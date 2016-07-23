@@ -82,26 +82,12 @@ public class CardDetailActivity extends AppCompatActivity {
             ib.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        int fbVersionCode = getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
                     final String url = getFacebookPageUrl() + cardClicked.getmFacebook();
 
                     if( MainActivity.DEBUG ) { Log.e("MyCardFragment", "Fb ID: " + cardClicked.getmFacebook()); }
 
                     Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(facebookIntent);
-//                    final String url = "fb://page/" + cardClicked.getmFacebook();
-//                    try {
-//                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//                        startActivity(facebookAppIntent);
-//                    } catch (ActivityNotFoundException e) {
-//                        Toast.makeText(getApplicationContext(), getString(R.string.facebook_not_found), Toast.LENGTH_SHORT).show();
-//                    }
-
                 }
             });
         }

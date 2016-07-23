@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 
 public class SyncService extends Service {
 
-    private String max_dist = "2"; // in miles
+    private String max_dist = "1000"; // in miles
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;
@@ -342,7 +343,8 @@ public class SyncService extends Service {
                         .setSmallIcon(R.drawable.ren_white)
                         .setColor( getResources().getColor( R.color.primaryColor ) )
                         .setContentTitle(getString(R.string.app_name))
-                        .setContentText(getString(R.string.currently_exchanging));
+                        .setContentText(getString(R.string.currently_exchanging))
+                        .setOngoing(true);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setAction(Intent.ACTION_MAIN);
@@ -363,8 +365,16 @@ public class SyncService extends Service {
 
     public void onDestroy() {
         super.onDestroy();
+        if(MainActivity.DEBUG) { Log.e(TAG, "OnDestroy()"); }
         unregisterReceiver(mReceiver);
-        serviceRunning = false;
+        if(serviceRunning)
+            stopSelf();
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        if(MainActivity.DEBUG) { Log.e(TAG, "OnTaskRemoved()"); }
     }
 
     @Override

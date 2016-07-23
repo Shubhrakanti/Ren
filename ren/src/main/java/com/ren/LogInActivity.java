@@ -117,13 +117,12 @@ public class LogInActivity extends AppCompatActivity {
     public void onBackPressed() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String is_logged_in = sp.getString( "Login uname", "" );
-//        Log.e( "LoginActivity", "Login uname: " + is_logged_in );
+
         if( is_logged_in != null && !is_logged_in.equals("") ) {
-//            restoreSavedCardsForUser( is_logged_in );
             if( ContactsFragment.mTabs.get() != null && ContactsFragment.mTabs.get().getViewPager() != null && ContactsFragment.mTabs.get().getViewPager().getAdapter() != null ) {
                 ((MyPagerAdapter) ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
-                //Log.d( "LoginActivity", "Inside refresh on login");
             }
+
             super.onBackPressed();
         }
     }
@@ -138,25 +137,4 @@ public class LogInActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * Method to restore saved cards for a particular user.
-     * @author Alvin Truong
-     * @date 7/1/2016
-     */
-//    private void restoreSavedCardsForUser(String username) {
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences( getApplicationContext() );
-//        String savedCardsInJsonStr = prefs.getString( username + "->SavedCards", null );
-
-//        if( savedCardsInJsonStr != null ) {
-//            Gson gson = new Gson();
-//            Type savedCardsType = new TypeToken< HashMap< String, Card > >(){}.getType();
-//            HashMap< String, Card > savedCardsToRestore = gson.fromJson( savedCardsInJsonStr, savedCardsType );
-//            SyncService.setSavedUnameCardPairs(savedCardsToRestore);
-//        }
-//        else {
-//            SyncService.clearSavedCards();
-//        }
-
-//    }
 }

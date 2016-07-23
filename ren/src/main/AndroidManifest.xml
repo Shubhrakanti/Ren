@@ -44,6 +44,10 @@
                     android:theme="@android:style/Theme.Translucent.NoTitleBar"
                     android:label="@string/facebook_activity_name"/>
 
+        <!--Image Cropper for any Android-->
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                    android:theme="@style/Base.Theme.AppCompat"/>
+
         <!-- serviceRunning service; name, icon, label -->
         <service
             android:name="com.ren.SyncService"

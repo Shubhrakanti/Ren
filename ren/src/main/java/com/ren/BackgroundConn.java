@@ -76,7 +76,6 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     String user_name = params[1];
                     String password = params[2];
                     USERNAME = user_name;
-                    //Log.d("Sente", "username is " + user_name + " password is " + password);
                     URL url = new URL(login_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
@@ -98,13 +97,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     String line;
                     while ((line = bufferedReader.readLine()) != null) {
                         result += line;
-//                        Log.e("BackgroundConn", line);
                     }
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
-//                    Log.e("BackgroundConn", "result is " + result);
-                    //this is global username for next intent
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -125,8 +121,6 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                     String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") +
                             "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
-                    //String post_data = URLEncoder.encode("user_name","UTF-8")+"="+URLEncoder.encode(user_name,"UTF-8")+"&"
-                    //      +URLEncoder.encode("password","UTF-8")+"="+URLEncoder.encode(password,"UTF-8");
                     bufferedWriter.write(post_data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
@@ -176,15 +170,12 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                     String result = "";
                     String line;
-//                    while ((line = bufferedReader.readLine()) != null) {
                     while ((line = bufferedReader.readLine()) != null) {
                         result += line;
                     }
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
-                    //USERNAME = username;
-//                    Log.d("BackgroundConn", "Updating database location with " + myLocationStr );
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -218,16 +209,12 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                     String result = "";
                     String line;
-//                    while ((line = bufferedReader.readLine()) != null) {
                     while ((line = bufferedReader.readLine()) != null) {
                         result += line;
                     }
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
-                    //USERNAME = username;
-//                    Log.d("BackgroundConn", "Updating database location with " + myLocationStr );
-                    //Log.d( "BackgroundConn", "Result->" + result );
                     return result;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -235,7 +222,6 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                 break;
             case "update_profile":
                 try {
-                    //Log.d("BackgroundConn", "Updating profile");
                     String name = params[1];
                     String phone = params[2];
                     String email = params[3];
@@ -408,15 +394,12 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 
         // If Json object call method to handle json else handle string
         try {
-//            Log.e( "BackgroundConn", result );
             JSONObject jsonObj = new JSONObject( result );
             jsonObjectRouter(jsonObj);
             return;
         } catch( JSONException e ) { }
 
         if (result.contains("login success")) {
-            //Log.e(TAG, "Log in success.");
-            //Log.e("My profile", result);
 
             // Set username
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences( context );
@@ -443,12 +426,12 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 //            Log.e("ServerResponse", "GPS updated.");
             //Log.e(TAG, "Parse cards here:");
             //Log.e(TAG, result);
-//            getUsers(result);
             //update list of cards
         } else if (result.contains("profile updated")) {
-            //Log.e(TAG, "profile updated"); // The echo is literally "profile updated"
+//            Log.e("BCK", "profile updated"); // The echo is literally "profile updated"
 
         } else if (result.contains("profile not updated")) {
+//            Log.e("BCK", "Profile not updated");
             //Log.e(TAG, "profile not updated");
         } else if( result.contains("user saved" ) ) {
 //            Log.e( "BackgroundConn", "user saved");
@@ -457,61 +440,6 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         }
     }
 
-//    private void getUsers(String str) {
-//        str = str.replace("gps updated ", "");
-//        String[] rows = str.split("<br>");
-//
-//        Location myLocation = new Location("MyLocation");
-//        String[] gps = myLocationStr.split(",");
-//        if( gps[0]!=null &&  gps[1]!=null) {
-//            myLocation.setLatitude(Double.parseDouble(gps[0]));
-////            myLocation.setLatitude(Double.parseDouble(gps[1]));
-//            myLocation.setLongitude(Double.parseDouble(gps[1]));
-//        }
-//
-//        for (String s : rows) {
-//            try {
-//                //Log.d("Background", "getUsers string: " + s);
-//                List<String> fields = new ArrayList<>();
-//                while (s.contains("<li>")) {
-//                    String currentField = s.substring(0, s.indexOf("<li>"));
-//                    s = s.substring(currentField.length() + 4);
-//                    fields.add(currentField);
-//                    //Log.e("AddingField", currentField);
-//                }
-//                if (fields.get(1).replaceFirst(" ", "").equals(USERNAME)) {
-//                    continue;
-//                }
-//                Location usrLocation = new Location("UsrLocation");
-//                gps = fields.get(0).split(",");
-//                try {
-//                    usrLocation.setLatitude(Double.parseDouble(gps[0]));
-////                usrLocation.setLatitude(Double.parseDouble(gps[1]));
-//                    usrLocation.setLongitude(Double.parseDouble(gps[1]));
-//                } catch (NumberFormatException e) {
-//                    continue;
-//                }
-//            /*if(usrLocation.distanceTo(myLocation)>DISTANCE) {
-//                continue;
-//            }*/
-//                Card receivedCard = new Card(
-//                        fields.get(1).replaceFirst(" ", ""),
-//                        fields.get(2).replaceFirst(" ", ""),
-//                        fields.get(3).replaceFirst(" ", ""),
-//                        fields.get(4).replaceFirst(" ", ""),
-//                        fields.get(5).replaceFirst(" ", ""),
-//                        fields.get(6).replaceFirst(" ", ""),
-//                        fields.get(7).replaceFirst(" ", ""),
-//                        fields.get(8).replaceFirst(" ", ""),
-//                        fields.get(9).replaceFirst(" ", ""),
-//                        fields.get(10).replaceFirst(" ", "")
-//                );
-//                SyncService.addNewCard(receivedCard);
-//            } catch( IndexOutOfBoundsException e ) {
-////                Log.d( "BackgroundConn", "Out of bound" );
-//            }
-//        }
-//    }
 
     /**
      * Determine which method to call based on json object's "title" key
@@ -542,7 +470,6 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
      */
     private void getAndSaveNearbyUsersFromJson( JSONObject json )
     {
-//        Log.e("bconn", "Inside nearbyusers method" );
         JSONArray nearbyUsersJsonArray = json.optJSONArray( "nearby_users_list" );
 
         for( int row = 0; row < nearbyUsersJsonArray.length(); ++row ) {
@@ -621,17 +548,9 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 
         // Split up data and call setMyCard to setup navigation drawer with information.
         String removedStatusMessage = result.replace( "login success ", "");
-        //Log.d("BackgroundConn", "Original result: '" + result + "'" );
-        //Log.d("BackgroundConn", "Replaced message: '" + removedStatusMessage +"'");
         String[] splitForMeaningfulData = removedStatusMessage.split( "!@#\\$ " );
         splitForMeaningfulData[8] = splitForMeaningfulData[8].replace("<br>", "");
 
-
-//         Prints out debug message for parsed data.
-//        Log.d("BackgroundConn", "Parsed Length: " + splitForMeaningfulData.length );
-//        for( String data : splitForMeaningfulData ) {
-//            Log.d("BackgroundConn", "Parsed Data: " + data );
-//        }
         return splitForMeaningfulData;
     }
 

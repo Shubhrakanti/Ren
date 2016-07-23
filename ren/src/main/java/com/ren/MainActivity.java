@@ -10,10 +10,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.opengl.Visibility;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -39,14 +42,22 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
 import com.kylewbanks.android.iconedittext.IconEditText;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageActivity;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     // Debug purposes
-    public static boolean DEBUG = false ;
+    public static boolean DEBUG = false;
+    private final String TAG = "MainActivity";
     // Crop
     private static final int PICK_CROP = 100;
+    // Variables used for Profile Photo
+    private static final int PHOTO_SELECTED = 101;
+    private static final int PHOTO_WIDTH = 200, PHOTO_HEIGHT = 200;
     // For service
     private SyncService syncService;
     private boolean isBound = false;
@@ -105,11 +116,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         ////Log.e("Destroy", "Called");
         super.onDestroy();
+        if ( SyncService.serviceRunning )
+            syncService.stopService();
+
         // Unbind from the service
         if (isBound) {
             unbindService(serviceConnection);
             isBound = false;
         }
+
 
         // Stop facebook tracking
         fbProfileTracker.stopTracking();
@@ -187,6 +202,15 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
+            case PHOTO_SELECTED:
+                if(data != null) {
+                    CropImage.activity(data.getData())
+                            .setGuidelines(CropImageView.Guidelines.ON)
+                            .setInitialCropWindowPaddingRatio(0)
+                            .setRequestedSize(PHOTO_WIDTH, PHOTO_HEIGHT)
+                            .start(this);
+                }
+                break;
             case PICK_CROP:
                 if (data != null) {
                     Bundle extras = data.getExtras();
@@ -197,18 +221,42 @@ public class MainActivity extends AppCompatActivity {
                     Bitmap selectedBitmap = extras.getParcelable("data");
                     ImageButton ib = (ImageButton) findViewById(R.id.user_photo_button);
                     ib.setImageBitmap(selectedBitmap);
+
                     // Save the custom photo, otherwise onResume will cancel changes
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     if (selectedBitmap != null) {
-                        selectedBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                        byte[] b = baos.toByteArray();
-                        userPhotoStr = Base64.encodeToString(b, Base64.DEFAULT);
+                        userPhotoStr = Card.encodeTobase64(selectedBitmap);
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         SharedPreferences.Editor editor = prefs.edit();
                         // User photo is saved as String
                         editor.putString("Photo", userPhotoStr);
                         editor.apply();
                     }
+                }
+                break;
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if(resultCode == RESULT_OK) {
+                    Uri resultUri = result.getUri();
+
+                    Bitmap resizedImage = BitmapFactory.decodeFile(resultUri.getPath());
+
+                    ImageButton ib = (ImageButton) findViewById(R.id.user_photo_button);
+                    ib.setImageBitmap(resizedImage);
+
+                    if(DEBUG) { Log.e(TAG, "Cropped Image size: " + (resizedImage.getByteCount()/1000) + "kb"); }
+
+                    // Save the custom photo, otherwise onResume will cancel changes
+                    if (resizedImage!= null) {
+                        userPhotoStr = Card.encodeTobase64(resizedImage);
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor = prefs.edit();
+                        // User photo is saved as String
+                        editor.putString("Photo", userPhotoStr);
+                        editor.apply();
+                    }
+
+                } else if( resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Toast.makeText(this, "Failed image cropping.",Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -246,9 +294,6 @@ public class MainActivity extends AppCompatActivity {
         iet = (IconEditText) findViewById(R.id.email_address);
         editor.putString("Email", iet.getEditText().getText().toString());
 
-//        iet = (IconEditText) findViewById(R.id.facebook_account);
-//        if (iet != null)
-//            editor.putString("Facebook", iet.getEditText().getText().toString());
         Profile fbProfile = Profile.getCurrentProfile();
         if( fbProfile != null )
             editor.putString("Facebook", fbProfile.getId());
@@ -266,10 +311,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("AboutMe", editText.getText().toString());
 
         editor.putString("Gender", userGender.toString());
-
-//        Gson gson = new Gson();
-//        String json = gson.toJson(syncService.getSavedUnameCardPairs());
-//        editor.putString("SavedCardJson " , json);
 
         editor.apply();
     }
@@ -298,15 +339,6 @@ public class MainActivity extends AppCompatActivity {
     private void recoverNavigationDrawer() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-//        String json = prefs.getString("SavedCardJson", null);
-//        if (json != null) {
-//            Type type = new TypeToken<HashMap<String, Card>>() {
-//            }.getType();
-//            Gson gson = new Gson();
-//            HashMap<String, Card> savedOnes = gson.fromJson(json, type);
-//            syncService.setSavedUnameCardPairs(savedOnes);
-//        }
-
         EditText editText = (EditText) findViewById(R.id.user_name);
         String name = prefs.getString("Name", null);
         editText.setText(name);
@@ -321,12 +353,6 @@ public class MainActivity extends AppCompatActivity {
         String email = prefs.getString("Email", null);
         editText.setText(email);
 
-//        iet = (IconEditText) findViewById(R.id.facebook_account);
-//        if (iet != null) {
-//            editText = iet.getEditText();
-//            String fb = prefs.getString("Facebook", null);
-//            editText.setText(fb);
-//        }
         String fbId = prefs.getString("Facebook", "");
         if( fbId.equals("") ) {
             switchToFBLoginButton();
@@ -470,12 +496,6 @@ public class MainActivity extends AppCompatActivity {
         bottomFragmentTabHost.addTab( contactTab, ContactsFragment.class, null );
         bottomFragmentTabHost.addTab( mycardTab, MyCardFragment.class, null );
 
-        // Initialize all tabs with selector that sets up color for selected and unselected text
-//        for( int i = 0; i < mainFragmentTabHost.getTabWidget().getTabCount(); ++i ){
-//            TextView tv = (TextView)mainFragmentTabHost.getTabWidget().getChildAt( i ).findViewById( android.R.id.title);
-//            tv.setTextColor( getResources().getColorStateList( R.color.tab_color_selector ));
-//        }
-
         // Navigation
         // Pass toolbar to navigation drawer
         // com.ren.R.id.fragment_navigation_drawer is the id of the root layout in activity_main.xml
@@ -501,7 +521,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Log.d("MainActivity", "User photo clicked" );
-                doCrop();
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    selectImage();
+                else
+                    doCrop();
             }
         });
 
@@ -530,16 +553,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*// Account Activity
-        Button accountBtn = (Button) findViewById(R.id.account);
-        accountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), LogInActivity.class);
-                startActivity(i);
-            }
-        });*/
-
         // Update profile button
         Button updateBtn = (Button) findViewById(R.id.update_profile);
         updateBtn.setOnClickListener(new View.OnClickListener() {
@@ -548,7 +561,7 @@ public class MainActivity extends AppCompatActivity {
                 // Send data to database
                 updateProfileBasedOnNavDrawer();
 
-                Toast.makeText(getApplicationContext(), "Profile updated..", Toast.LENGTH_SHORT).show();
+                Toast.makeText( getApplicationContext(), "Profile updated..", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -577,11 +590,6 @@ public class MainActivity extends AppCompatActivity {
                 // 0 = home page
                 bottomFragmentTabHost.setCurrentTab( 0 );
 
-//                // Logout facebook account
-//                LoginManager fbLoginMngr = LoginManager.getInstance().getInstance();
-//                if( fbLoginMngr != null )
-//                    fbLoginMngr.logOut();
-
                 if ( SyncService.serviceRunning )
                     syncService.stopService();
                 Intent i = new Intent(getApplicationContext(), LogInActivity.class);
@@ -598,6 +606,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    private void selectImage()
+    {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,
+                                              MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, PHOTO_SELECTED);
+
+    }
+
 
     private void doCrop() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK,
@@ -630,11 +649,6 @@ public class MainActivity extends AppCompatActivity {
         iet = (IconEditText) findViewById(R.id.email_address);
         String email = iet.getText().toString();
 
-//        iet = (IconEditText) findViewById(R.id.facebook_account);
-//        String fb = "";
-//        if (iet != null) { // There was a layout for Chinese
-//            fb = iet.getText().toString();
-//        }
         Profile fbProfile = Profile.getCurrentProfile();
         String fb = "";
         if( fbProfile != null )
@@ -656,7 +670,7 @@ public class MainActivity extends AppCompatActivity {
             // User has custom photo
             ImageButton ib = (ImageButton) findViewById(R.id.user_photo_button);
             Bitmap customPhoto = ((BitmapDrawable) ib.getDrawable()).getBitmap();
-            //Log.d("MainActivity", (customPhoto == null ? "true" : "false") );
+            Log.d("MainActivity", (customPhoto == null ? "true" : "false") );
             userPhotoStr = Card.encodeTobase64(customPhoto);
         }
 
@@ -678,6 +692,7 @@ public class MainActivity extends AppCompatActivity {
         // Register process needs modification
         Card myCard = getMyCard( true );
         //String uName = BackgroundConn.USERNAME;
+        Log.e(TAG, "Photo from card:" + myCard.getmPhotoEncoded());
         bckConn.execute("update_profile", myCard.getmName(), myCard.getmPhone(), myCard.getmEmail(), myCard.getmGender(),
                 myCard.getmFacebook(), myCard.getmInstagram(),
                 myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());

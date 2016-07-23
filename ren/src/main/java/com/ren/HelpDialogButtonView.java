@@ -31,7 +31,6 @@ public class HelpDialogButtonView extends Button implements View.OnClickListener
 
             dialogTitleStr  = a.getString(R.styleable.HelpDialogButtonView_dialogTitle);
             dialogMsgStr    = a.getString(R.styleable.HelpDialogButtonView_dialogMsg);
-            if( MainActivity.DEBUG) {Log.e(TAG, "Dialog Title: " + dialogTitleStr + " Msg: " + dialogMsgStr );}
             dialogTitleDrawableInt = a.getResourceId(R.styleable.HelpDialogButtonView_dialogDrawable, -1);
         } finally {
             a.recycle();

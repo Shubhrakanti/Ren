@@ -75,24 +75,12 @@ public class MyCardFragment extends Fragment {
             ib.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        int fbVersionCode = getContext().getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                    }
                     final String url = getFacebookPageUrl() + myCard.getmFacebook();
 
                     if( MainActivity.DEBUG ) { Log.e("MyCardFragment", "Fb ID: " + myCard.getmFacebook()); }
 
                     Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(facebookIntent);
-//                    try {
-//                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-//                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-//                        startActivity(facebookAppIntent);
-//                    } catch (ActivityNotFoundException e) {
-//                        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.facebook_not_found), Toast.LENGTH_SHORT).show();
-//                    }
 
                 }
             });
