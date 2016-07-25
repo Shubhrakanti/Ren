@@ -7,11 +7,8 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -19,7 +16,6 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -43,11 +39,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
 import com.kylewbanks.android.iconedittext.IconEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageActivity;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     // Debug purposes
@@ -85,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Facebook variables
     ProfileTracker fbProfileTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -434,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
                     ImageView currentTabImageView = (ImageView)bottomFragmentTabHost.getTabWidget().getChildAt(i).findViewById( R.id.icon );
                     switch( i ) {
                         case 0:
-                           currentTabImageView.setImageResource( R.drawable.home_tab_icon_white );
+                           currentTabImageView.setImageResource( R.drawable.home_tab_icon_white);
                             break;
                         case 1:
                             currentTabImageView.setImageResource( R.drawable.contacts_tab_icon_white);
@@ -451,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
                 ImageView currentTabImageView = (ImageView)currentTabView.findViewById( R.id.icon );
                 switch(bottomFragmentTabHost.getCurrentTab()) {
                     case 0:
-                        currentTabImageView.setImageResource( R.drawable.home_tab_icon_orange );
+                        currentTabImageView.setImageResource( R.drawable.home_tab_icon_orange);
                         break;
                     case 1:
                         currentTabImageView.setImageResource( R.drawable.contacts_tab_icon_orange );

@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BackgroundConn extends AsyncTask<String, Void, String> {
+    private static final String TAG = "BackgroundConn";
     Context context;
     public static String USERNAME = null;
     private static final int DISTANCE = 100000000;
@@ -35,7 +36,9 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
     // Strings to use for calling background conn
     public static final String OBTAIN_SAVED_USERS = "get_saved_users",
                                 SAVE_USER_STR = "save_user",
-                                REMOVE_USER_STR = "remove_user";
+                                REMOVE_USER_STR = "remove_user",
+                                GET_IG_ACCESS_TOKEN = "ig_access_token",
+                                GET_IG_USERNAME = "ig_username";
 
     // Strings used to identify json object
     private final String    SAVED_USERS_JSON_STR = "saved users",
@@ -67,6 +70,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         String obtain_saved_user_url = "http://senteapps.x10host.com/saved_user_list.php";
         String save_user_url = "http://senteapps.x10host.com/save_user.php";
         String remove_user_url = "http://senteapps.x10host.com/remove_user.php";
+
+        // Instagram URLS
+        String ig_auth_url_base = "https://api.instagram.com/oauth/authorize/?";
+        String ig_redirect_uri = "ren://ig_oauthresponse";
 
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
@@ -377,6 +384,36 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     httpInputStream.close();
 
                     httpURLConnection.disconnect();
+                    return result;
+                } catch(IOException e ) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case GET_IG_ACCESS_TOKEN:
+                try {
+                    String username = params[1];
+                    String remove_username = params[2];
+
+                    String ig_access_token_url = ig_auth_url_base +
+                                            URLEncoder.encode("client_id", "UTF-8") + "=" +  URLEncoder.encode(context.getResources().getString(R.string.ig_client_id), "UTF-8") + "&" +
+                                            URLEncoder.encode("redirect_uri", "UTF-8") + "=" + URLEncoder.encode(ig_redirect_uri, "UTF-8") + "&response_type=code";
+
+                    URL url = new URL(ig_access_token_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+
+                    InputStream httpInputStream = httpURLConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(( new InputStreamReader(httpInputStream, "UTF-8")));
+                    String result = "";
+                    String line;
+                    while((line = reader.readLine()) != null) {
+                        result += line;
+                    }
+                    reader.close();
+                    httpInputStream.close();
+
+                    httpURLConnection.disconnect();
+                    if(MainActivity.DEBUG) { Log.e(TAG, "IG_Access_Token Response: " + result); }
                     return result;
                 } catch(IOException e ) {
                     e.printStackTrace();

@@ -70,4 +70,6 @@
     <string name="facebook_help_dialog_msg">Ren uses your Facebook login credentials to read your Facebook user ID. With this Information, we can link your profile to your card. Ren does not track your Facebook activity or store your login credentials.</string>
     <string name="empty_str"></string>
 
+    <!--Instagram-->
+    <string name="ig_client_id">2bb27963b8694b9cadbd8eab23b96ded</string>
 </resources>
