@@ -43,7 +43,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class MainActivity extends AppCompatActivity {
     // Debug purposes
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     private final String TAG = "MainActivity";
     // Crop
     private static final int PICK_CROP = 100;

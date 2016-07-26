@@ -19,8 +19,8 @@ android {
         applicationId "com.ren"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 9
-        versionName "1.3.2"
+        versionCode 10
+        versionName "1.3.3"
         signingConfig signingConfigs.config
     }
     buildTypes {

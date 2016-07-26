@@ -26,11 +26,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SyncService extends Service {
 
-    private String max_dist = "2"; // in miles
+    private String max_dist = (MainActivity.DEBUG) ? "1000" : "2"; // in miles
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;
@@ -44,12 +43,13 @@ public class SyncService extends Service {
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
     private static Card myCard = new Card(); // Will be used when requesting update from server
+
     // User name and card pairs
     private static HashMap<String, Card> uNameCardPairs = new HashMap<>();
     private static HashMap<String, Card> savedUnameCardPairs = new HashMap<>();
     private static HashMap<String, Card> tempRemovedUNameCardPairs = new HashMap<>();
+    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
 
-//    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
     // Instance of LocalBinder
     private final IBinder myBinder = new LocalBinder();
     private PendingIntent pendingOff;
