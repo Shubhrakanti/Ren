@@ -122,7 +122,7 @@ public class SyncService extends Service {
 
     /** Returns a list of Cards used to setup CardAdapter for ignored cards.
      */
-//    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
+    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
 
     /** Static functions to clear HashMap data structures
      *
@@ -328,11 +328,6 @@ public class SyncService extends Service {
         BackgroundConn bc = new BackgroundConn( getApplicationContext() );
         String gps = NULL_LATITUDE + "," + NULL_LONGITUDE;
         bc.execute("update_GPS", myCard.getUname(), gps);
-
-        // Upon stopping a "connect" session we want to flush the people that are currently ignored.
-        // During a session if we ignore someone, they should not show up again for that sesssion.
-        // The meaning of "Session": When you click on the "connect" button they are in a session. When turn off the "connect" the session ends.
-        clearIgnoredCards();
     }
 
     private void buttonOn() {
