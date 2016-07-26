@@ -43,7 +43,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class MainActivity extends AppCompatActivity {
     // Debug purposes
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
     private final String TAG = "MainActivity";
     // Crop
     private static final int PICK_CROP = 100;
@@ -161,9 +161,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here.
         int id = item.getItemId();
+
+        // Upon stopping a "connect" session we want to flush the people that are currently ignored.
+        // During a session if we ignore someone, they should not show up again for that sesssion.
+        // The meaning of "Session": When you click on the "connect" button they are in a session. When turn off the "connect" the session ends.
+        SyncService.clearIgnoredCards();
+
         if (id == R.id.on_off_button) {
             syncService.menuItem = item;
-            // current not sending/serviceRunning
+            // currently not sending/serviceRunning
             if (!SyncService.serviceRunning) {
                 Card c = getMyCard( false );
                 if (c.getUname() == null || c.getUname().equals("")) {

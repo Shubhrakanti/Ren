@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -210,9 +211,14 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                     String result = "";
                     String line;
-                    while ((line = bufferedReader.readLine()) != null) {
+                    while ((SyncService.serviceRunning) && (line = bufferedReader.readLine()) != null) {
                         result += line;
                     }
+                    if(!SyncService.serviceRunning) {
+                        Log.e(TAG, "Service cancelled" );
+                        result = "";
+                    }
+
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
@@ -484,10 +490,14 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                         jsonRow.optString("aboutme")
                 );
 
+                if(MainActivity.DEBUG) { Log.e( TAG, nearbyUserCard.getUname() + "-> " + ((nearbyUserCard.getmPhotoEncoded().getBytes().length)/1000) + "kb");
+                                        }
                 SyncService.addNewCard( nearbyUserCard );
 
             } catch( JSONException e ) { Log.e("bconn", "Json Error"); }
         }
+
+        if(MainActivity.DEBUG) { Log.e(TAG, "Ignored cards" + SyncService.getIgnoredCards().toString()); }
     }
 
     /**

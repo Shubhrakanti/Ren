@@ -26,11 +26,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SyncService extends Service {
 
-    private String max_dist = "2"; // in miles
+    private String max_dist = (MainActivity.DEBUG) ? "1000" : "2"; // in miles
     String TAG = "SyncService";
     public MenuItem menuItem;// To control the on/off button
     public static boolean serviceRunning = false;
@@ -44,18 +43,20 @@ public class SyncService extends Service {
     private static final int TWO_MINUTES = 1000 * 60 * 2;
 
     private static Card myCard = new Card(); // Will be used when requesting update from server
+
     // User name and card pairs
     private static HashMap<String, Card> uNameCardPairs = new HashMap<>();
     private static HashMap<String, Card> savedUnameCardPairs = new HashMap<>();
     private static HashMap<String, Card> tempRemovedUNameCardPairs = new HashMap<>();
+    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
 
-//    private static HashMap<String, Card> ignoredUNameCardPairs = new HashMap<>();
     // Instance of LocalBinder
     private final IBinder myBinder = new LocalBinder();
     private PendingIntent pendingOff;
     private PendingIntent pendingRequestServer;
     private AlarmManager alarmManager;
     private NotificationManager mNotificationManager;
+
     // Location stuff
     private Location currentLocation;
     private LocationManager locationManager = null;
@@ -121,14 +122,14 @@ public class SyncService extends Service {
 
     /** Returns a list of Cards used to setup CardAdapter for ignored cards.
      */
-//    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
+    public static List<Card> getIgnoredCards() { return new ArrayList<>( ignoredUNameCardPairs.values() ); }
 
     /** Static functions to clear HashMap data structures
      *
      */
     public static void clearReceivedCards() { uNameCardPairs.clear(); }
     public static void clearSavedCards() { savedUnameCardPairs.clear(); }
-//    public static void clearIgnoredCards() { ignoredUNameCardPairs.clear(); }
+    public static void clearIgnoredCards() { ignoredUNameCardPairs.clear(); }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -147,7 +148,9 @@ public class SyncService extends Service {
     };
 
     public static void addNewCard(Card c) {
-        if( !savedUnameCardPairs.containsKey( c.getUname() ) ) {
+
+        // If user is not already saved or is not ignored, put them into the received cards tab.
+        if( !savedUnameCardPairs.containsKey( c.getUname() ) && !ignoredUNameCardPairs.containsKey( c.getUname() ) ) {
             uNameCardPairs.put(c.getUname(), c);
             removeStar( c );
             updateRecyclerView();
@@ -167,30 +170,31 @@ public class SyncService extends Service {
         }
     }
 
-   /* /** Add card into ignoreUNameCardPairs
+   /** Add card into ignoreUNameCardPairs
      *
      * @param c is a card to add
      * @author Alvin Truong
      * @date   6/28/2016
+    */
     public static void addIgnoredCard( Card c ) {
         c.setmIgnored( true );
         ignoredUNameCardPairs.put( c.getUname(), c );
         updateRecyclerView();
     }
-     */
 
-    /*/** Remove card from ignored tab
-     *
-     * @param c card to remove
-     * @author Alvin Truong
-     * @date 6/28/2016
-    public static void removeIgnoredCard( Card c ) {
-        if( ignoredUNameCardPairs.containsKey( c.getUname() ) ){
-            ignoredUNameCardPairs.remove( c.getUname() );
-            updateRecyclerView();
-        }
-    }
-     */
+//    /** Remove card from ignored tab
+//     *
+//     * @param c card to remove
+//     * @author Alvin Truong
+//     * @date 6/28/2016
+//    */
+//    public static void removeIgnoredCard( Card c ) {
+//        if( ignoredUNameCardPairs.containsKey( c.getUname() ) ){
+//            ignoredUNameCardPairs.remove( c.getUname() );
+//            updateRecyclerView();
+//        }
+//    }
+
     private void requestServer() {
         //depends on the implementation of the server
         //Log.e("GPS", "final gps value is " + currentLocation.toString());
