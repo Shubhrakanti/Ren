@@ -181,6 +181,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                     public void onClick( DialogInterface dialog, int id ) {
                        SyncService.removeSaved(clickedCard);
                        SyncService.removeReceivedCard(clickedCard);
+
+                       // Ignore card
+                       SyncService.addIgnoredCard( clickedCard );
                    }
                 });
                 ignoreConfirmationBuilder.setNegativeButton( "No", new DialogInterface.OnClickListener() {
@@ -192,7 +195,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
                 AlertDialog ignoreConfirmationDialog = ignoreConfirmationBuilder.create();
                 ignoreConfirmationDialog.show();
-//                SyncService.addIgnoredCard( clickedCard );
             }
 //             else if( unignoreButton != null && view.getId() == unignoreButton.getId() ) {
 //                clickedCard = cards.get( getAdapterPosition() );

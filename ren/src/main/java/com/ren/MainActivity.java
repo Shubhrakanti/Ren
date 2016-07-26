@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.on_off_button) {
             syncService.menuItem = item;
-            // current not sending/serviceRunning
+            // currently not sending/serviceRunning
             if (!SyncService.serviceRunning) {
                 Card c = getMyCard( false );
                 if (c.getUname() == null || c.getUname().equals("")) {

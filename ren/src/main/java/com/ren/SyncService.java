@@ -56,6 +56,7 @@ public class SyncService extends Service {
     private PendingIntent pendingRequestServer;
     private AlarmManager alarmManager;
     private NotificationManager mNotificationManager;
+
     // Location stuff
     private Location currentLocation;
     private LocationManager locationManager = null;
@@ -128,7 +129,7 @@ public class SyncService extends Service {
      */
     public static void clearReceivedCards() { uNameCardPairs.clear(); }
     public static void clearSavedCards() { savedUnameCardPairs.clear(); }
-//    public static void clearIgnoredCards() { ignoredUNameCardPairs.clear(); }
+    public static void clearIgnoredCards() { ignoredUNameCardPairs.clear(); }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -147,7 +148,9 @@ public class SyncService extends Service {
     };
 
     public static void addNewCard(Card c) {
-        if( !savedUnameCardPairs.containsKey( c.getUname() ) ) {
+
+        // If user is not already saved or is not ignored, put them into the received cards tab.
+        if( !savedUnameCardPairs.containsKey( c.getUname() ) && !ignoredUNameCardPairs.containsKey( c.getUname() ) ) {
             uNameCardPairs.put(c.getUname(), c);
             removeStar( c );
             updateRecyclerView();
@@ -167,30 +170,31 @@ public class SyncService extends Service {
         }
     }
 
-   /* /** Add card into ignoreUNameCardPairs
+   /** Add card into ignoreUNameCardPairs
      *
      * @param c is a card to add
      * @author Alvin Truong
      * @date   6/28/2016
+    */
     public static void addIgnoredCard( Card c ) {
         c.setmIgnored( true );
         ignoredUNameCardPairs.put( c.getUname(), c );
         updateRecyclerView();
     }
-     */
 
-    /*/** Remove card from ignored tab
-     *
-     * @param c card to remove
-     * @author Alvin Truong
-     * @date 6/28/2016
-    public static void removeIgnoredCard( Card c ) {
-        if( ignoredUNameCardPairs.containsKey( c.getUname() ) ){
-            ignoredUNameCardPairs.remove( c.getUname() );
-            updateRecyclerView();
-        }
-    }
-     */
+//    /** Remove card from ignored tab
+//     *
+//     * @param c card to remove
+//     * @author Alvin Truong
+//     * @date 6/28/2016
+//    */
+//    public static void removeIgnoredCard( Card c ) {
+//        if( ignoredUNameCardPairs.containsKey( c.getUname() ) ){
+//            ignoredUNameCardPairs.remove( c.getUname() );
+//            updateRecyclerView();
+//        }
+//    }
+
     private void requestServer() {
         //depends on the implementation of the server
         //Log.e("GPS", "final gps value is " + currentLocation.toString());
@@ -324,6 +328,11 @@ public class SyncService extends Service {
         BackgroundConn bc = new BackgroundConn( getApplicationContext() );
         String gps = NULL_LATITUDE + "," + NULL_LONGITUDE;
         bc.execute("update_GPS", myCard.getUname(), gps);
+
+        // Upon stopping a "connect" session we want to flush the people that are currently ignored.
+        // During a session if we ignore someone, they should not show up again for that sesssion.
+        // The meaning of "Session": When you click on the "connect" button they are in a session. When turn off the "connect" the session ends.
+        clearIgnoredCards();
     }
 
     private void buttonOn() {
