@@ -66,10 +66,10 @@ public class CardDetailActivity extends AppCompatActivity {
             tv.setText(cardClicked.getmEmail());
         }
 
-        if (!cardClicked.getmWebsite().equals("")) {
-            tv = (TextView) findViewById(R.id.detail_website);
-            tv.setText(cardClicked.getmWebsite());
-        }
+//        if (!cardClicked.getmWebsite().equals("")) {
+//            tv = (TextView) findViewById(R.id.detail_website);
+//            tv.setText(cardClicked.getmWebsite());
+//        }
 
         if (!cardClicked.getmOther().equals("")) {
             tv = (TextView) findViewById(R.id.detail_aboutme_full);

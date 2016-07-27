@@ -19,7 +19,7 @@ public class Card implements Serializable {
     private String mEmail;
     private String mFacebook;
     private String mInstagram;
-    private String mWebsite;
+//    private String mWebsite;
     private String mOther;
     private String mGender;
     private boolean mSaved = false;
@@ -34,7 +34,7 @@ public class Card implements Serializable {
         mEmail = "";
         mFacebook = "";
         mInstagram = "";
-        mWebsite = "";
+//        mWebsite = "";
         mOther = "";
     }
 
@@ -49,7 +49,8 @@ public class Card implements Serializable {
     }
 
     public Card(String u, String name, String gender, String photo, String phone, String email, String fb, String ig,
-                String website, String other) {
+//                String website, String other) {
+                String other) {
         uName = u;
         mName = name;
         mGender = (gender.equals(" "))||(gender.equals("")) ? "UNKNOWN":gender;
@@ -58,7 +59,7 @@ public class Card implements Serializable {
         mEmail = email;
         mFacebook = fb;
         mInstagram = ig;
-        mWebsite = website;
+//        mWebsite = website;
         mOther = other;
     }
 
@@ -107,9 +108,9 @@ public class Card implements Serializable {
         return mInstagram;
     }
 
-    public String getmWebsite() {
-        return mWebsite;
-    }
+//    public String getmWebsite() {
+//        return mWebsite;
+//    }
 
     public String getmOther() {
         return mOther;

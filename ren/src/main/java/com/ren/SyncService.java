@@ -77,16 +77,16 @@ public class SyncService extends Service {
         //Log.e("SyncService", c.toString());
     }
 
-    private void addDummy() {
-        Card dummy1 = new Card("dummy1", "Dummy1", "MALE", "Default", "5203018949", "dummy1@email.com", "100003657948716", "",
-                "dummy1.com", "hello guys!");
-        Card dummy2 = new Card("dummy2", "Dummy2", "FEMALE", "Default", "", "dummy2@email.com", "", "dp2m.s4",
-                "dummy2.com", "I'm dummy2");
-        uNameCardPairs.put("dummy1", dummy1);
-        uNameCardPairs.put("dummy2", dummy2);
-        List<Card> receivedCards = new ArrayList<>(uNameCardPairs.values()); // For dummies
-        TabFragment.newReceivedCardAdapter.setCardList(receivedCards); // For dummies
-    }
+//    private void addDummy() {
+//        Card dummy1 = new Card("dummy1", "Dummy1", "MALE", "Default", "5203018949", "dummy1@email.com", "100003657948716", "",
+//                "dummy1.com", "hello guys!");
+//        Card dummy2 = new Card("dummy2", "Dummy2", "FEMALE", "Default", "", "dummy2@email.com", "", "dp2m.s4",
+//                "dummy2.com", "I'm dummy2");
+//        uNameCardPairs.put("dummy1", dummy1);
+//        uNameCardPairs.put("dummy2", dummy2);
+//        List<Card> receivedCards = new ArrayList<>(uNameCardPairs.values()); // For dummies
+//        TabFragment.newReceivedCardAdapter.setCardList(receivedCards); // For dummies
+//    }
 
     public void setMyCard(Card c) {
         myCard = c;
@@ -299,7 +299,8 @@ public class SyncService extends Service {
         // Register process needs modification
         bckConn.execute("update_profile", myCard.getmName(), myCard.getmPhone(), myCard.getmEmail(), myCard.getmGender(),
                 myCard.getmFacebook(), myCard.getmInstagram(),
-                myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
+//                myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
+                myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
     }
 
     public void stopService() {

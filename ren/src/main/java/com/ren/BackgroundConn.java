@@ -208,6 +208,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     outputStream.close();
                     ///////////////reading/////////////
                     InputStream inputStream = httpURLConnection.getInputStream();
+                    if(MainActivity.DEBUG) { Log.e(TAG, "Gathering nearby"); }
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                     String result = "";
                     String line;
@@ -235,10 +236,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     String gender = params[4];
                     String fb = params[5];
                     String ig = params[6];
-                    String website = params[7];
-                    String aboutMe = params[8];
-                    String photo = params[9];
-                    String uName = params[10];
+//                    String website = params[7];
+                    String aboutMe = params[7];
+                    String photo = params[8];
+                    String uName = params[9];
                     URL url = new URL(profile_update_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
@@ -253,7 +254,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                             "&" + URLEncoder.encode("gender", "UTF-8") + "=" + URLEncoder.encode(gender, "UTF-8") +
                             "&" + URLEncoder.encode("femail", "UTF-8") + "=" + URLEncoder.encode(fb, "UTF-8") +
                             "&" + URLEncoder.encode("instagram", "UTF-8") + "=" + URLEncoder.encode(ig, "UTF-8") +
-                            "&" + URLEncoder.encode("website", "UTF-8") + "=" + URLEncoder.encode(website, "UTF-8") +
+//                            "&" + URLEncoder.encode("website", "UTF-8") + "=" + URLEncoder.encode(website, "UTF-8") +
                             "&" + URLEncoder.encode("about_me", "UTF-8") + "=" + URLEncoder.encode(aboutMe, "UTF-8") +
                             "&" + URLEncoder.encode("photo", "UTF-8") + "=" + URLEncoder.encode(photo, "UTF-8") +
                             "&" + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(uName, "UTF-8");
@@ -399,6 +400,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         if (result == null)
             return;
 
+        if(MainActivity.DEBUG) { Log.e(TAG, "Post Result: " + result ); }
         // If Json object call method to handle json else handle string
         try {
             JSONObject jsonObj = new JSONObject( result );
@@ -467,6 +469,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                 break;
 
             case NEARBY_USERS_JSON_STR:
+                if(MainActivity.DEBUG) { Log.e(TAG, "JsonRouterNearby"); }
                 getAndSaveNearbyUsersFromJson( jsonObj );
                 break;
         }
@@ -524,7 +527,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                         row.optString("email"),
                         row.optString("facebook"),
                         row.optString("instagram"),
-                        row.optString("website"),
+//                        row.optString("website"),
                         row.optString("aboutme")
                 );
 
@@ -548,7 +551,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
     /** Parses the result from "login success" to extract the meaningful data to construct a Card.
      *
      * @param result
-     *          contains a string in the format of "login success hero!@#$ 1111111!@#$ email!@#$ MALE!@#$ facebook!@#$ instagram!@#$ website!@#$ aboutme!@#$ Default<br>"
+     *          contains a string in the format of "login success hero!@#$ 1111111!@#$ email!@#$ MALE!@#$ facebook!@#$ instagram!@#$ aboutme!@#$ Default<br>"
      *
      * @return String[] consisting only have the meaningful data in between "!@#$ "
      * @author Alvin Truong
@@ -560,7 +563,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         // Split up data and call setMyCard to setup navigation drawer with information.
         String removedStatusMessage = result.replace( "login success ", "");
         String[] splitForMeaningfulData = removedStatusMessage.split( "!@#\\$ " );
-        splitForMeaningfulData[8] = splitForMeaningfulData[8].replace("<br>", "");
+        splitForMeaningfulData[7] = splitForMeaningfulData[7].replace("<br>", "");
 
         return splitForMeaningfulData;
     }
@@ -568,8 +571,8 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
     /** Saves card data in shared memory to auto populate navigation drawer in MainActivity.
      *
      * @param cardData: Format =>
-     *         0       1       2       3       4           5           6           7           8
-     *       ( name,   phone,  email,  gender, facebook,   instagram,  website,    aboutme,    photo )
+     *         0       1       2       3       4           5           6           7
+     *       ( name,   phone,  email,  gender, facebook,   instagram,  aboutme,    photo )
      *
      * @return Card if cardData is provided else null
      * @author Alvin Truong
@@ -582,10 +585,10 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 
         editor.putString("Name", cardData[0]);
 
-        if( cardData[8].equals( "" ) )
+        if( cardData[7].equals( "" ) )
             editor.putString("Photo", "Default");
         else
-            editor.putString("Photo", cardData[8] );
+            editor.putString("Photo", cardData[7] );
 
         editor.putString("Phone", cardData[1]);
 
@@ -595,9 +598,9 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 
         editor.putString("Instagram", cardData[5] );
 
-        editor.putString("Website", cardData[6] );
+//        editor.putString("Website", cardData[6] );
 
-        editor.putString("AboutMe", cardData[7] );
+        editor.putString("AboutMe", cardData[6] );
 
         editor.putString("Gender", cardData[3] );
 

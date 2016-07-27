@@ -162,15 +162,17 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here.
         int id = item.getItemId();
 
-        // Upon stopping a "connect" session we want to flush the people that are currently ignored.
-        // During a session if we ignore someone, they should not show up again for that sesssion.
-        // The meaning of "Session": When you click on the "connect" button they are in a session. When turn off the "connect" the session ends.
-        SyncService.clearIgnoredCards();
 
         if (id == R.id.on_off_button) {
             syncService.menuItem = item;
             // currently not sending/serviceRunning
             if (!SyncService.serviceRunning) {
+
+                // Upon stopping a "connect" session we want to flush the people that are currently ignored.
+                // During a session if we ignore someone, they should not show up again for that sesssion.
+                // The meaning of "Session": When you click on the "connect" button they are in a session. When turn off the "connect" the session ends.
+                SyncService.clearIgnoredCards();
+
                 Card c = getMyCard( false );
                 if (c.getUname() == null || c.getUname().equals("")) {
                     return true;
@@ -303,8 +305,8 @@ public class MainActivity extends AppCompatActivity {
         if (iet != null)
             editor.putString("Instagram", iet.getEditText().getText().toString());
 
-        iet = (IconEditText) findViewById(R.id.website);
-        editor.putString("Website", iet.getEditText().getText().toString());
+//        iet = (IconEditText) findViewById(R.id.website);
+//        editor.putString("Website", iet.getEditText().getText().toString());
 
         editText = (EditText) findViewById(R.id.about_me);
         editor.putString("AboutMe", editText.getText().toString());
@@ -367,10 +369,10 @@ public class MainActivity extends AppCompatActivity {
             editText.setText(ig);
         }
 
-        iet = (IconEditText) findViewById(R.id.website);
-        editText = iet.getEditText();
-        String website = prefs.getString("Website", null);
-        editText.setText(website);
+//        iet = (IconEditText) findViewById(R.id.website);
+//        editText = iet.getEditText();
+//        String website = prefs.getString("Website", null);
+//        editText.setText(website);
 
         editText = (EditText) findViewById(R.id.about_me);
         String aboutMe = prefs.getString("AboutMe", null);
@@ -659,8 +661,8 @@ public class MainActivity extends AppCompatActivity {
             ig = iet.getText().toString();
         }
 
-        iet = (IconEditText) findViewById(R.id.website);
-        String website = iet.getText().toString();
+//        iet = (IconEditText) findViewById(R.id.website);
+//        String website = iet.getText().toString();
 
         editText = (EditText) findViewById(R.id.about_me);
         String aboutMe = editText.getText().toString();
@@ -677,8 +679,9 @@ public class MainActivity extends AppCompatActivity {
         String uName = prefs.getString("Login_uname", "");
         /*Log.e("GetMyCard", "Ready to update server.");
         Log.e("GetMyCard", "uName is: "+uName);*/
-        return new Card(uName,
-                name, userGender.toString(), userPhotoStr, phone, email, fb, ig, website, aboutMe);
+        return new Card(uName, name, userGender.toString(), userPhotoStr,
+//                        phone, email, fb, ig, website, aboutMe);
+                        phone, email, fb, ig, aboutMe);
     }
 
     /**
@@ -694,7 +697,8 @@ public class MainActivity extends AppCompatActivity {
         Log.e(TAG, "Photo from card:" + myCard.getmPhotoEncoded());
         bckConn.execute("update_profile", myCard.getmName(), myCard.getmPhone(), myCard.getmEmail(), myCard.getmGender(),
                 myCard.getmFacebook(), myCard.getmInstagram(),
-                myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
+//                myCard.getmWebsite(), myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
+                myCard.getmOther(), myCard.getmPhotoEncoded(), myCard.getUname());
 
         // Updates My Card profile if the user is currently on that tab
         if( bottomFragmentTabHost.getCurrentTab() == MY_CARD_TAB_INDEX ) {

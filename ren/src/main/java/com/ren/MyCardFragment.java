@@ -59,10 +59,10 @@ public class MyCardFragment extends Fragment {
             tv.setText(myCard.getmEmail());
         }
 
-        if (!myCard.getmWebsite().equals("")) {
-            tv = (TextView) myCardView.findViewById(R.id.my_detail_website);
-            tv.setText(myCard.getmWebsite());
-        }
+//        if (!myCard.getmWebsite().equals("")) {
+//            tv = (TextView) myCardView.findViewById(R.id.my_detail_website);
+//            tv.setText(myCard.getmWebsite());
+//        }
 
         if (!myCard.getmOther().equals("")) {
             tv = (TextView) myCardView.findViewById(R.id.my_detail_aboutme_full);

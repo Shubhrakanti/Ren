@@ -63,19 +63,19 @@
         android:textColor="@color/colorText"
         android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/my_detail_website"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/my_detail_name"
-        android:layout_alignStart="@id/detail_name"
-        android:layout_below="@+id/my_detail_email"
-        android:layout_toEndOf="@+id/detail_photo"
-        android:layout_toRightOf="@+id/my_detail_photo"
-        android:autoLink="web"
-        android:padding="2dp"
-        android:textColor="@color/colorText"
-        android:textSize="13sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/my_detail_website"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignLeft="@+id/my_detail_name"-->
+        <!--android:layout_alignStart="@id/detail_name"-->
+        <!--android:layout_below="@+id/my_detail_email"-->
+        <!--android:layout_toEndOf="@+id/detail_photo"-->
+        <!--android:layout_toRightOf="@+id/my_detail_photo"-->
+        <!--android:autoLink="web"-->
+        <!--android:padding="2dp"-->
+        <!--android:textColor="@color/colorText"-->
+        <!--android:textSize="13sp" />-->
 
     <ImageButton
         android:id="@+id/my_detail_facebook"
@@ -83,7 +83,7 @@
         android:layout_height="45dp"
         android:layout_alignLeft="@+id/my_detail_name"
         android:layout_alignStart="@id/detail_name"
-        android:layout_below="@+id/my_detail_website"
+        android:layout_below="@+id/my_detail_email"
         android:layout_margin="3dp"
         android:layout_toEndOf="@+id/detail_photo"
         android:layout_toRightOf="@+id/my_detail_photo"
@@ -96,7 +96,7 @@
         android:id="@+id/my_detail_instagram"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_below="@+id/my_detail_website"
+        android:layout_below="@+id/my_detail_email"
         android:layout_margin="3dp"
         android:layout_toEndOf="@+id/detail_facebook"
         android:layout_toRightOf="@+id/my_detail_facebook"
@@ -105,17 +105,17 @@
         android:src="@drawable/instagram_color"
         android:visibility="gone" />
 
-    <ImageButton
-        android:id="@+id/my_detail_wechat"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_margin="3dp"
-        android:layout_toEndOf="@+id/detail_instagram"
-        android:layout_toRightOf="@+id/my_detail_instagram"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/wechatcolor"
-        android:visibility="gone" />
+    <!--<ImageButton-->
+        <!--android:id="@+id/my_detail_wechat"-->
+        <!--android:layout_width="45dp"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_margin="3dp"-->
+        <!--android:layout_toEndOf="@+id/my_detail_email"-->
+        <!--android:layout_toRightOf="@+id/my_detail_instagram"-->
+        <!--android:background="@null"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/wechatcolor"-->
+        <!--android:visibility="gone" />-->
 
     <TextView
         android:id="@+id/my_detail_aboutme"
