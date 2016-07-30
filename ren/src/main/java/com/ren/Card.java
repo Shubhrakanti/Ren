@@ -9,7 +9,7 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
-public class Card implements Serializable {
+public class Card implements Serializable, Comparable<Card> {
     private static final String TAG = "Card";
 
     private String uName;
@@ -132,5 +132,12 @@ public class Card implements Serializable {
 
     public void setmIgnored(boolean mIgnored) {
         this.mIgnored = mIgnored;
+    }
+
+    // Override compareTo for Collections.sort()
+
+    @Override
+    public int compareTo(Card another) {
+        return mName.compareToIgnoreCase(another.getmName());
     }
 }

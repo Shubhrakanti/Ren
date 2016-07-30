@@ -115,6 +115,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     public void setCardList(List<Card> cardsList) {
         cards = cardsList;
+        Collections.sort(cards);
+
         notifyDataSetChanged();
     }
 
