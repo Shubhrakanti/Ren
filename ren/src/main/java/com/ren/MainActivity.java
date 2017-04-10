@@ -1,6 +1,7 @@
 package com.ren;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -205,12 +206,35 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case PHOTO_SELECTED:
                 if(data != null) {
-                    CropImage.activity(data.getData())
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .setInitialCropWindowPaddingRatio(0)
-                            .setRequestedSize(PHOTO_WIDTH, PHOTO_HEIGHT)
-                            .start(this);
-                }
+//                    CropImage.activity(data.getData())
+//                            .setGuidelines(CropImageView.Guidelines.ON)
+//                            .setInitialCropWindowPaddingRatio(0)
+//                            .setRequestedSize(PHOTO_WIDTH, PHOTO_HEIGHT)
+//                            .start(this);
+                    Uri image = data.getData();
+                    final ContentResolver contentResolver = getContentResolver();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(contentResolver, image);
+                        ImageButton ib = (ImageButton) findViewById(R.id.user_photo_button);
+                        ib.setImageBitmap(bitmap);
+                        if(bitmap !=null){
+                            userPhotoStr = Card.encodeTobase64(bitmap);
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences.Editor editor = prefs.edit();
+                            // User photo is saved as String
+                            editor.putString("Photo", userPhotoStr);
+                            editor.apply();
+
+                        }
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
+
+               }
                 break;
             case PICK_CROP:
                 if (data != null) {
@@ -475,21 +499,21 @@ public class MainActivity extends AppCompatActivity {
         View tabWithHomeIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,bottomFragmentTabHost.getTabWidget(), false );
         TextView tabText = ((TextView)tabWithHomeIconView.findViewById( R.id.title ));
         ImageView tabIcon = ((ImageView)tabWithHomeIconView.findViewById( R.id.icon) );
-        tabText.setText( "HOME" );
+        tabText.setText( "Converse" );
         tabIcon.setImageResource( R.drawable.home_tab_icon_white);
         homeTab.setIndicator( tabWithHomeIconView );
 
         View tabWithContactIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,bottomFragmentTabHost.getTabWidget(), false );
         tabText = ((TextView)tabWithContactIconView.findViewById( R.id.title ));
         tabIcon = ((ImageView)tabWithContactIconView.findViewById( R.id.icon) );
-        tabText.setText( "CONTACTS" );
+        tabText.setText( "Connect" );
         tabIcon.setImageResource( R.drawable.contacts_tab_icon_white);
         contactTab.setIndicator( tabWithContactIconView );
 
         View tabWithMyCardIconView = LayoutInflater.from(this).inflate( R.layout.fragment_tab_host_with_img,bottomFragmentTabHost.getTabWidget(), false );
         tabText = ((TextView)tabWithMyCardIconView.findViewById( R.id.title ));
         tabIcon = ((ImageView)tabWithMyCardIconView.findViewById( R.id.icon) );
-        tabText.setText( "MY CARD" );
+        tabText.setText( "Contribute" );
         tabIcon.setImageResource( R.drawable.my_card_tab_icon_white);
         mycardTab.setIndicator( tabWithMyCardIconView );
 
@@ -581,7 +605,7 @@ public class MainActivity extends AppCompatActivity {
 
                 spEditor.apply();
 
-                // Update profile just incase
+                // Update profile just in case
                 updateProfileBasedOnNavDrawer();
 
                 // Clear Received Cards and Tab

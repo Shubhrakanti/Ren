@@ -3,6 +3,7 @@ package com.ren;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.Button;
  * Creates a button that has a sole purpose of showing a help menu.
  * Created by Alvin on 7/21/2016.
  */
-public class HelpDialogButtonView extends Button implements View.OnClickListener {
+public class HelpDialogButtonView extends AppCompatButton implements View.OnClickListener {
     private final String TAG = "HelpDialogButtonView";
     AlertDialog helpAlertDialog;
     String dialogTitleStr, dialogMsgStr;

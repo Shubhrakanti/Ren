@@ -13,7 +13,8 @@
         android:layout_height="150dp"
         android:padding="20dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        tools:src="@drawable/usericon"/>
 
     <TextView
         android:id="@+id/my_detail_name"
@@ -25,15 +26,17 @@
         android:textColor="@color/colorPrimaryText"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:layout_alignParentLeft="false" />
+        android:layout_alignParentLeft="false"
+        tools:text="Shubhrakanti Ganguly"/>
 
-    <ImageView
-        android:id="@+id/my_detail_gender"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_toEndOf="@id/detail_name"
-        android:layout_toRightOf="@+id/my_detail_name"
-        android:padding="2dp" />
+    <!--<ImageView-->
+        <!--android:id="@+id/my_detail_gender"-->
+        <!--android:layout_width="25dp"-->
+        <!--android:layout_height="25dp"-->
+        <!--android:layout_toEndOf="@id/detail_name"-->
+        <!--android:layout_toRightOf="@+id/my_detail_name"-->
+        <!--android:padding="2dp"-->
+        <!--tools:src="@drawable/male"/>-->
 
     <TextView
         android:id="@+id/my_detail_phone"
@@ -47,7 +50,8 @@
         android:textColor="@color/colorText"
         android:textSize="13sp"
         android:layout_below="@+id/my_detail_name"
-        android:layout_alignLeft="@+id/my_detail_name" />
+        android:layout_alignLeft="@+id/my_detail_name"
+        tools:text="4088939416"/>
 
     <TextView
         android:id="@+id/my_detail_email"
@@ -61,7 +65,8 @@
         android:autoLink="email"
         android:padding="2dp"
         android:textColor="@color/colorText"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        tools:text="boboshubithergreat"/>
 
     <!--<TextView-->
         <!--android:id="@+id/my_detail_website"-->
@@ -90,7 +95,8 @@
         android:background="@null"
         android:scaleType="centerInside"
         android:src="@drawable/facebook_color"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <ImageButton
         android:id="@+id/my_detail_instagram"
@@ -103,7 +109,8 @@
         android:background="@null"
         android:scaleType="centerInside"
         android:src="@drawable/instagram_color"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <!--<ImageButton-->
         <!--android:id="@+id/my_detail_wechat"-->
@@ -134,9 +141,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/detail_aboutme"
-        android:layout_alignStart="@id/detail_aboutme"
-        android:layout_below="@id/my_detail_aboutme"
+        android:layout_below="@+id/my_detail_aboutme"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginBottom="100dp">
 
         <TextView
@@ -146,7 +153,8 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="@color/colorText"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="hehef"/>
     </ScrollView>
 
 

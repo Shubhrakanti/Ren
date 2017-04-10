@@ -36,15 +36,15 @@ public class MyCardFragment extends Fragment {
             im.setImageBitmap(myCard.decodeBase64());
         }
 
-        im = (ImageView) myCardView.findViewById(R.id.my_detail_gender);
-        if (myCard.getmGender().equals("UNKNOWN")) {
-            im.setImageResource(0);
-        } else if (myCard.getmGender().equals("MALE")) {
-            im.setImageResource(R.drawable.male);
-        } else if (myCard.getmGender().equals("FEMALE")) {
-            im.setImageResource(R.drawable.female);
-            // Log.e("Gender", "Set Female Icon");
-        }
+//        im = (ImageView) myCardView.findViewById(R.id.my_detail_gender);
+//        if (myCard.getmGender().equals("UNKNOWN")) {
+//            im.setImageResource(0);
+//        } else if (myCard.getmGender().equals("MALE")) {
+//            im.setImageResource(R.drawable.male);
+//        } else if (myCard.getmGender().equals("FEMALE")) {
+//            im.setImageResource(R.drawable.female);
+//            // Log.e("Gender", "Set Female Icon");
+//        }
 
         TextView tv = (TextView) myCardView.findViewById(R.id.my_detail_name);
         tv.setText(myCard.getmName());

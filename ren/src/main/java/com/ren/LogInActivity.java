@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 public class LogInActivity extends AppCompatActivity {
 
-    private boolean isLoggingIn = false;
+    private static boolean isLoggingIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +80,11 @@ public class LogInActivity extends AppCompatActivity {
         });
     }
 
+    public static void setIsLoggingIn(Boolean b)
+    {
+        isLoggingIn = b;
+    }
+
     private void registerNewUser(String uName, String password) {
         BackgroundConn bckConn = new BackgroundConn(this);
         // Register process needs modification
@@ -94,7 +99,7 @@ public class LogInActivity extends AppCompatActivity {
             BackgroundConn bckConn = new BackgroundConn(this);
 //        Log.e("LoginActivity", "Sending background login attempt");
             bckConn.execute("login", uName, password);
-            isLoggingIn = true;
+            setIsLoggingIn(true);
         }
 
     }
@@ -129,7 +134,7 @@ public class LogInActivity extends AppCompatActivity {
                 ((MyPagerAdapter) ContactsFragment.mTabs.get().getViewPager().getAdapter()).refreshTabs();
             }
 
-            isLoggingIn = false;
+            setIsLoggingIn(false);
             super.onBackPressed();
         }
     }

@@ -8,7 +8,7 @@ import android.util.Log;
 // Insert child to ViewPager
 public class MyPagerAdapter extends FragmentPagerAdapter {
     private final String tabText[];
-    private static int NUM_PAGER_ITEMS = 2;
+    private static int NUM_PAGER_ITEMS = 3;
 
     public MyPagerAdapter(android.support.v4.app.FragmentManager fm, Context c) {
         super(fm);

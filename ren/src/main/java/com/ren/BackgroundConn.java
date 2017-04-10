@@ -61,14 +61,14 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 //        String save_user_url = "http://hero.x10host.com/save_user.php";
 //        String remove_user_url = "http://hero.x10host.com/remove_user.php";
 
-        String login_url = "http://senteapps.x10host.com/login.php";
-        String register_url = "http://senteapps.x10host.com/register.php";
-        String updateGPS_and_connect_url = "http://senteapps.x10host.com/updateAndConnect.php";
-        String updateGPS_url = "http://senteapps.x10host.com/updateGPS.php";
-        String profile_update_url = "http://senteapps.x10host.com/profile_update.php";
-        String obtain_saved_user_url = "http://senteapps.x10host.com/saved_user_list.php";
-        String save_user_url = "http://senteapps.x10host.com/save_user.php";
-        String remove_user_url = "http://senteapps.x10host.com/remove_user.php";
+        String login_url = "http://shubhrakantiganguly.x10host.com/login.php";
+        String register_url = "http://shubhrakantiganguly.x10host.com/register.php";
+        String updateGPS_and_connect_url = "http://shubhrakantiganguly.x10host.com/updateAndConnect.php";
+        String updateGPS_url = "http://shubhrakantiganguly.x10host.com/updateGPS.php";
+        String profile_update_url = "http://shubhrakantiganguly.x10host.com/profile_update.php";
+        String obtain_saved_user_url = "http://shubhrakantiganguly.x10host.com/saved_user_list.php";
+        String save_user_url = "http://shubhrakantiganguly.x10host.com/save_user.php";
+        String remove_user_url = "http://shubhrakantiganguly.x10host.com/remove_user.php";
 
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
@@ -110,6 +110,8 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                 break;
             case "register":
                 try {
+
+                    Log.d("Register", "Register");
                     String username = params[1];
                     String password = params[2];
 
@@ -138,7 +140,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     bufferedReader.close();
                     inputStream.close();
                     httpURLConnection.disconnect();
-                    //Log.d("Sente", "result is " + result);
+                    Log.d("Sente", "result is " + result);
                     //USERNAME = username;
                     return result;
                 } catch (IOException e) {
@@ -425,6 +427,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
             }
             // Auto populate
         } else if (result.contains("login failed")) {
+            LogInActivity.setIsLoggingIn(false);
             Toast.makeText(context, context.getString(R.string.log_in_fail), Toast.LENGTH_SHORT).show();
         } else if (result.contains("Login account created.")) {
             //Log.e(TAG, "Account created.");
