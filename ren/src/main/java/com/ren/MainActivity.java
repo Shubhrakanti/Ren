@@ -40,7 +40,6 @@ import com.facebook.login.widget.LoginButton;
 import com.google.gson.Gson;
 import com.kylewbanks.android.iconedittext.IconEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class MainActivity extends AppCompatActivity {
     // Debug purposes
@@ -519,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
 
         bottomFragmentTabHost.addTab( homeTab, HomeFragment.class, null );
         bottomFragmentTabHost.addTab( contactTab, ContactsFragment.class, null );
-        bottomFragmentTabHost.addTab( mycardTab, MyCardFragment.class, null );
+        bottomFragmentTabHost.addTab( mycardTab, ContributeFragment.class, null );
 
         // Navigation
         // Pass toolbar to navigation drawer

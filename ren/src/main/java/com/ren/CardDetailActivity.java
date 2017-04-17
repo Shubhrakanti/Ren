@@ -84,7 +84,7 @@ public class CardDetailActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     final String url = getFacebookPageUrl() + cardClicked.getmFacebook();
 
-                    if( MainActivity.DEBUG ) { Log.e("MyCardFragment", "Fb ID: " + cardClicked.getmFacebook()); }
+                    if( MainActivity.DEBUG ) { Log.e("ContributeFragment", "Fb ID: " + cardClicked.getmFacebook()); }
 
                     Intent facebookIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(facebookIntent);

@@ -401,8 +401,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         //String TAG = "Connection";
         if (result == null)
             return;
-
-        if(MainActivity.DEBUG) { Log.e(TAG, "Post Result: " + result ); }
+        Log.e(TAG, "Post Result: " + result );
         // If Json object call method to handle json else handle string
         try {
             JSONObject jsonObj = new JSONObject( result );
