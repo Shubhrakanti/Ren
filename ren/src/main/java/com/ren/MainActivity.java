@@ -132,12 +132,12 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        recoverNavigationDrawer();
+//        recoverNavigationDrawer();
         //SyncService.myCard = getMyCard();
     }
 
     protected void onPause() {
-        saveNavigationDrawer();
+//        saveNavigationDrawer();
         super.onPause();
     }
 

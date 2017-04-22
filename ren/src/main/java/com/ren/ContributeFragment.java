@@ -69,36 +69,13 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
         newPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simplePost();
+                openBackCamera();
             }
         });
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
         return layout;
-    }
-
-    public void simplePost (){
-        ContentValues values = new ContentValues();
-        values.put(PicturePostEntry.COLUMN_POST_USERNAME, "Sample Username");
-        values.put(PicturePostEntry.COLUMN_POST_CAPTION, "Sample shit");
-        values.put(PicturePostEntry.COLUMN_POST_COMMENTS, 15);
-        values.put(PicturePostEntry.COLUMN_POST_LIKES, 20);
-        values.put(PicturePostEntry.COLUMN_POST_GPS, "0,0");
-        values.put(PicturePostEntry.COLUMN_POST_TIME, "sample time");
-
-        //temporary profile pic
-        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.prof_pic_1);
-        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String image= Base64.encodeToString(b, Base64.DEFAULT);
-
-        values.put(PicturePostEntry.COLUMN_POST_PROF_PIC, image);
-        values.put(PicturePostEntry.COLUMN_POST_IMAGE, image);
-
-        getActivity().getContentResolver().insert(PicturePostEntry.CONTENT_URI, values);
-
     }
 
     public void openBackCamera() {
@@ -140,9 +117,9 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
         final Bitmap bitmap;
         try
         {
-            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, mImageUri);
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Enter Caption");
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, mImageUri);
             final EditText input = new EditText(getContext());
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             builder.setView(input);
@@ -157,21 +134,11 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
                     values.put(PicturePostEntry.COLUMN_POST_LIKES, "20");
                     values.put(PicturePostEntry.COLUMN_POST_GPS, "0,0");
                     values.put(PicturePostEntry.COLUMN_POST_TIME, "sample time");
+                    values.put(PicturePostEntry.COLUMN_POST_IMAGE, mImageUri.toString());
 
-                    //temporary profile pic
-                    Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.prof_pic_1);
-                    ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-                    bm.compress(Bitmap.CompressFormat.PNG,100, baos);
-                    byte [] b=baos.toByteArray();
-                    String image= Base64.encodeToString(b, Base64.DEFAULT);
-
-                    values.put(PicturePostEntry.COLUMN_POST_PROF_PIC, image);
-
-                    //put in the photo we just took
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-                    byte [] a=baos.toByteArray();
-                    String mainPost= Base64.encodeToString(a, Base64.DEFAULT);
-                    values.put(PicturePostEntry.COLUMN_POST_IMAGE, mainPost);
+                    BackgroundConn bckConn = new BackgroundConn(getContext());
+                    String bitmapString = Card.encodeTobase64(bitmap);
+                    bckConn.execute("shu", "sample username", "0,0", input.getText().toString(), "sample time", bitmapString);
 
                     getActivity().getContentResolver().insert(PicturePostEntry.CONTENT_URI, values);
                 }
@@ -203,7 +170,6 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
                 PicturePostEntry.COLUMN_POST_COMMENTS,
                 PicturePostEntry.COLUMN_POST_TIME,
                 PicturePostEntry.COLUMN_POST_GPS,
-                PicturePostEntry.COLUMN_POST_PROF_PIC,
                 PicturePostEntry.COLUMN_POST_IMAGE
         };
 
@@ -218,16 +184,10 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        int username_id = cursor.getColumnIndex(PicturePostEntry.COLUMN_POST_USERNAME);
-        int caption_id = cursor.getColumnIndex(PicturePostEntry.COLUMN_POST_CAPTION);
-        int comments_id = cursor.getColumnIndex(PicturePostEntry.COLUMN_POST_COMMENTS);
-        int likes_id = cursor.getColumnIndex(PicturePostEntry.COLUMN_POST_LIKES);
-        int profPic_id = cursor.getColumnIndex(PicturePostEntry.COLUMN_POST_PROF_PIC);
-        int img_id = cursor.getColumnIndex(PicturePostEntry.COLUMN_POST_IMAGE);
-        cursor.moveToNext();
-        Log.d(TAG, cursor.getString(username_id));
+        if(cursor != null){
+            picturePostCursorAdapter.swapCursor(cursor);
+        }
 
-        picturePostCursorAdapter.swapCursor(cursor);
     }
 
     @Override

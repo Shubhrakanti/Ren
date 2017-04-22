@@ -36,7 +36,6 @@ public class PicturePostContract {
         public final static String COLUMN_POST_GPS = "gps";
         public final static String COLUMN_POST_TIME = "time";
         public final static String COLUMN_POST_IMAGE = "img";
-        public final static String COLUMN_POST_PROF_PIC = "profpic";
 
     }
 }

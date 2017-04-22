@@ -30,7 +30,6 @@ public class PicturePostDbHelper extends SQLiteOpenHelper {
                 + PicturePostEntry.COLUMN_POST_COMMENTS+ " INTEGER, "
                 + PicturePostEntry.COLUMN_POST_TIME+ " TEXT, "
                 + PicturePostEntry.COLUMN_POST_GPS+ " TEXT,"
-                + PicturePostEntry.COLUMN_POST_PROF_PIC+ " TEXT,"
                 + PicturePostEntry.COLUMN_POST_IMAGE + " TEXT);";
 
         db.execSQL(SQL_CREATE_POSTS_TABLE);
