@@ -1,14 +1,23 @@
 package com.ren;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.ren.PostData.PicturePostContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +25,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,7 +52,8 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
 
     // Strings used to identify json object
     private final String    SAVED_USERS_JSON_STR = "saved users",
-                            NEARBY_USERS_JSON_STR = "nearby users";
+                            NEARBY_USERS_JSON_STR = "nearby users",
+                            POSTS_USERS_JSON_STR = "posts";
 
     BackgroundConn(Context ctx) {
         context = ctx;
@@ -70,6 +82,7 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
         String save_user_url = "http://shubhrakantiganguly.x10host.com/save_user.php";
         String remove_user_url = "http://shubhrakantiganguly.x10host.com/remove_user.php";
         String add_post_url = "http://shubhrakantiganguly.x10host.com/upload_image.php";
+        String god_mode_url = "http://shubhrakantiganguly.x10host.com/God_Mode.php";
 
         //above string is ur local wamp server address. To access local server from other devices u have to make changes in WAMP
         //apache httpd.conf file.
@@ -156,6 +169,9 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     String caption = params[3];
                     String time = params[4];
                     String photo = params[5];
+
+                    Log.d(TAG , username+ " "+ gps+" "+caption+" "+photo);
+
                     URL url = new URL(add_post_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setRequestMethod("POST");
@@ -356,7 +372,36 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                     e.printStackTrace();
                 }
                 break;
+            case "god_mode":
+                try {
+                    URL url = new URL(god_mode_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setRequestMethod("GET");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
 
+                    OutputStream httpOutputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter( new OutputStreamWriter(httpOutputStream, "UTF-8"));
+                    writer.flush();
+                    writer.close();
+                    httpOutputStream.close();
+
+                    InputStream httpInputStream = httpURLConnection.getInputStream();
+                    BufferedReader reader = new BufferedReader(( new InputStreamReader(httpInputStream, "UTF-8")));
+                    String result = "";
+                    String line;
+                    while((line = reader.readLine()) != null) {
+                        result += line;
+                    }
+                    reader.close();
+                    httpInputStream.close();
+
+                    httpURLConnection.disconnect();
+                    return result;
+                } catch(IOException e ) {
+                    e.printStackTrace();
+                }
+                break;
             case SAVE_USER_STR:
                 try {
                     String username = params[1];
@@ -443,11 +488,13 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
             return;
         Log.e(TAG, "Post Result: " + result );
         // If Json object call method to handle json else handle string
+
         try {
             JSONObject jsonObj = new JSONObject( result );
             jsonObjectRouter(jsonObj);
             return;
         } catch( JSONException e ) { }
+
 
         if (result.contains("login success")) {
 
@@ -469,30 +516,27 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
             LogInActivity.setIsLoggingIn(false);
             Toast.makeText(context, context.getString(R.string.log_in_fail), Toast.LENGTH_SHORT).show();
         } else if (result.contains("Login account created.")) {
-            //Log.e(TAG, "Account created.");
+            Log.e(TAG, "Account created.");
             Toast.makeText(context, context.getString(R.string.new_account_created), Toast.LENGTH_SHORT).show();
         } else if (result.contains("Username already in use")) {
             Toast.makeText(context, context.getString(R.string.usr_name_in_use), Toast.LENGTH_SHORT).show();
         } else if (result.contains("gps updated")) {
-//            Log.e("ServerResponse", "GPS updated.");
+            Log.e("ServerResponse", "GPS updated.");
             //Log.e(TAG, "Parse cards here:");
             //Log.e(TAG, result);
             //update list of cards
         } else if (result.contains("profile updated")) {
-//            Log.e("BCK", "profile updated"); // The echo is literally "profile updated"
+            Log.e("BCK", "profile updated"); // The echo is literally "profile updated"
 
         } else if (result.contains("profile not updated")) {
-//            Log.e("BCK", "Profile not updated");
+            Log.e("BCK", "Profile not updated");
             //Log.e(TAG, "profile not updated");
         } else if( result.contains("user saved" ) ) {
-//            Log.e( "BackgroundConn", "user saved");
+            Log.e( "BackgroundConn", "user saved");
         } else if( result.contains("user removed" ) ) {
-//            Log.e( "BackgroundConn", "user removed" );
-        } else if( result.contains("problem uploading" ) ){
-            Log.d(TAG, "problem uploading");
+            Log.e( "BackgroundConn", "user removed" );
         }
     }
-
 
     /**
      * Determine which method to call based on json object's "title" key
@@ -516,7 +560,93 @@ public class BackgroundConn extends AsyncTask<String, Void, String> {
                 if(MainActivity.DEBUG) { Log.e(TAG, "JsonRouterNearby"); }
                 getAndSaveNearbyUsersFromJson( jsonObj );
                 break;
+
+            case POSTS_USERS_JSON_STR:
+                updatePosts(jsonObj);
+
         }
+    }
+
+    /**
+     * Obtains posts from json object and stores it into posts.db so that it can be fetched. Activated by button, not auto refresh.
+     */
+
+    private void updatePosts(JSONObject jsonObject){
+        try {
+            JSONArray postArray = jsonObject.getJSONArray("post_list");
+            for(int i = 0; i < postArray.length(); i++){
+                JSONObject post = postArray.getJSONObject(i);
+                String username = post.getString("username");
+                String imageBitmapString = post.getString("Image");
+                String time = post.getString("Time");
+                String caption = post.getString("Caption");
+
+                Bitmap imageBitmap;
+                try {
+                    byte [] encodeByte=Base64.decode(imageBitmapString,Base64.DEFAULT);
+                    imageBitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                } catch(Exception e) {
+                    e.getMessage();
+                    Log.d(TAG,"could not get bit map from #" + i + " image");
+                    return;
+                }
+
+                File photo;
+                try
+                {
+                    photo = this.createTemporaryFile("picture", ".jpg");
+
+                    photo.delete();
+                }
+                catch(Exception e)
+                {
+                    Log.d(TAG, "Could not store photo" +i+" to local sqlite");
+                    return;
+                }
+
+                FileOutputStream out = null;
+                try {
+                    out = new FileOutputStream(photo);
+                    imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        if (out != null) {
+                            out.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                Uri mImageUri = Uri.fromFile(photo);
+
+                ContentValues values = new ContentValues();
+                values.put(PicturePostContract.PicturePostEntry.COLUMN_POST_USERNAME, username);
+                values.put(PicturePostContract.PicturePostEntry.COLUMN_POST_CAPTION, caption);
+                values.put(PicturePostContract.PicturePostEntry.COLUMN_POST_COMMENTS, "15");
+                values.put(PicturePostContract.PicturePostEntry.COLUMN_POST_LIKES, "20");
+                values.put(PicturePostContract.PicturePostEntry.COLUMN_POST_GPS, "0,0");
+                values.put(PicturePostContract.PicturePostEntry.COLUMN_POST_TIME, time);
+                values.put(PicturePostContract.PicturePostEntry.COLUMN_POST_IMAGE, mImageUri.toString());
+
+                context.getContentResolver().insert(PicturePostContract.PicturePostEntry.CONTENT_URI, values);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private File createTemporaryFile(String part, String ext) throws Exception
+    {
+        File tempDir = Environment.getExternalStorageDirectory();
+        tempDir=new File(tempDir.getAbsolutePath()+"/.temp/");
+        if(!tempDir.exists())
+        {
+            tempDir.mkdirs();
+        }
+        return File.createTempFile(part, ext, tempDir);
     }
 
     /**

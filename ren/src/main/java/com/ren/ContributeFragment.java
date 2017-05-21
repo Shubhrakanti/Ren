@@ -64,6 +64,8 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
         picturePostCursorAdapter = new PicturePostCursorAdapter(getContext(),null);
         recList.setAdapter(picturePostCursorAdapter);
 
+        final BackgroundConn bckConn = new BackgroundConn(getContext());
+        bckConn.execute("god_mode");
 
         newPost = (Button) layout.findViewById(R.id.newPost);
         newPost.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +77,16 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
+        //for testing refresh "god mode"
+        Button test = (Button) layout.findViewById(R.id.refresh);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BackgroundConn bgn = new BackgroundConn(getContext());
+                bgn.execute("god_mode");
+            }
+        });
+
         return layout;
     }
 
@@ -83,7 +95,7 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
         File photo;
         try
         {
-            photo = this.createTemporaryFile("picture", ".jpg");
+            photo = this.createTemporaryFile("picture", ".png");
             photo.delete();
         }
         catch(Exception e)
@@ -113,7 +125,7 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG,"Starting Result processing");
         getActivity().getContentResolver().notifyChange(mImageUri, null);
-        ContentResolver cr = getActivity().getContentResolver();
+        final ContentResolver cr = getActivity().getContentResolver();
         final Bitmap bitmap;
         try
         {
@@ -138,9 +150,10 @@ public class ContributeFragment extends Fragment implements LoaderManager.Loader
 
                     BackgroundConn bckConn = new BackgroundConn(getContext());
                     String bitmapString = Card.encodeTobase64(bitmap);
-                    bckConn.execute("shu", "sample username", "0,0", input.getText().toString(), "sample time", bitmapString);
+                    bckConn.execute("add_post", "shu", "0,0", input.getText().toString(), "sample time", bitmapString);
 
-                    getActivity().getContentResolver().insert(PicturePostEntry.CONTENT_URI, values);
+
+                    cr.insert(PicturePostEntry.CONTENT_URI, values);
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
